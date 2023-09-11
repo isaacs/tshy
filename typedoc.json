@@ -1,0 +1,7 @@
+{
+  "tsconfig": "./tsconfig/esm.json",
+  "entryPoints": ["./src/**/*.+(ts|tsx|mts|cts)"],
+  "navigationLinks": {
+    "isaacs projects": "https://isaacs.github.io/"
+  }
+}
