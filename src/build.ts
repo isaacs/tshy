@@ -52,7 +52,7 @@ if (dialects.includes('commonjs')) {
     const stemTo = resolve(
       '.tshy-build-tmp/commonjs',
       relative(resolve('src'), resolve(t))
-    ).replace(/\.ts$/, '')
+    ).replace(/\.tsx?$/, '')
     renameSync(`${stemFrom}.cjs`, `${stemTo}.js`)
     renameSync(`${stemFrom}.d.cts`, `${stemTo}.d.ts`)
   }
