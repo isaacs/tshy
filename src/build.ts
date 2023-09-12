@@ -42,7 +42,7 @@ if (dialects.includes('commonjs')) {
   setFolderDialect('src')
   if (res.status || res.signal) buildFail(res)
   setFolderDialect('.tshy-build-tmp/commonjs', 'commonjs')
-  console.error(chalk.cyan.bold('built commonjs'), res)
+  console.error(chalk.cyan.bold('built commonjs'))
   // apply polyfills
   for (const [f, t] of polyfills.entries()) {
     const stemFrom = resolve(

@@ -1,3 +1,5 @@
 /.tshy*
 /node_modules
 /dist
+/docs
+/.tap

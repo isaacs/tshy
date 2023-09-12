@@ -1,0 +1,13 @@
+.*
+/package*.json
+/node_modules
+/example
+/.github
+/dist
+/tap-snapshots
+/.nyc_output
+/coverage
+/benchmark
+/.tap
+/docs
+/LICENSE.md

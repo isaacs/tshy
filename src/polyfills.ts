@@ -1,6 +1,6 @@
 // the modules like -cjs.cts that override a module at .ts
-import sources from './sources.js'
 import chalk from 'chalk'
+import sources from './sources.js'
 
 const getPolyfills = (sources: Set<string>): Map<string, string> =>
   new Map(
@@ -8,7 +8,8 @@ const getPolyfills = (sources: Set<string>): Map<string, string> =>
       .filter(
         f =>
           f.endsWith('-cjs.cts') &&
-          sources.has(f.replace(/-cjs\.cts$/, '.ts'))
+          (sources.has(f.replace(/-cjs\.cts$/, '.ts')) ||
+            sources.has(f.replace(/-cjs\.cts$/, '.tsx')))
       )
       .map(f => [f, f.replace(/-cjs\.cts$/, '.ts')])
   )

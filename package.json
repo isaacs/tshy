@@ -6,6 +6,9 @@
   "license": "BlueOak-1.0.0",
   "type": "module",
   "bin": "./dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "chalk": "^5.3.0",
     "foreground-child": "^3.1.1",
@@ -20,7 +23,7 @@
     "prepare": "tsc -p tsconfig/esm.json && bash scripts/fixup.sh",
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
-    "format": "prettier --write . --loglevel warn --ignore-path ../../.prettierignore --cache",
+    "format": "prettier --write . --ignore-path ./.prettierignore --cache",
     "typedoc": "typedoc"
   },
   "engines": {
@@ -37,6 +40,7 @@
   ],
   "devDependencies": {
     "@types/node": "^20.6.0",
+    "prettier": "^2.8.8",
     "typedoc": "^0.25.1"
   },
   "prettier": {

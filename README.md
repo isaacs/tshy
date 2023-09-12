@@ -18,9 +18,7 @@ Put this in your package.json to use it with the default configs:
 
 ```json
 {
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "prepare": "tshy"
   }
@@ -107,10 +105,7 @@ the `dialects` config to an array of strings:
 ```json
 {
   "tshy": {
-    "dialects": [
-      "esm",
-      "commonjs"
-    ]
+    "dialects": ["esm", "commonjs"]
   }
 }
 ```
@@ -206,15 +201,15 @@ complicated. A future version may support this.
 Put whatever configuration you want in `tsconfig.json`, with the
 following caveats:
 
-* `include` - will be overridden based on build, best omitted
-* `exclude` - will be overridden based on build, best omitted
-* compilerOptions:
-    * `outDir` - will be overridden based on build, best omitted
-    * `rootDir` - will be set to `./src` in the build, can only
-      cause annoying errors otherwise.
-    * `target` - will be set to `es2022`
-    * `module` - will be set to `NodeNext`
-    * `moduleResolution` - will be set to `NodeNext`
+- `include` - will be overridden based on build, best omitted
+- `exclude` - will be overridden based on build, best omitted
+- compilerOptions:
+  - `outDir` - will be overridden based on build, best omitted
+  - `rootDir` - will be set to `./src` in the build, can only
+    cause annoying errors otherwise.
+  - `target` - will be set to `es2022`
+  - `module` - will be set to `NodeNext`
+  - `moduleResolution` - will be set to `NodeNext`
 
 If you don't have a `tsconfig.json` file, then one will be
 provided for you.

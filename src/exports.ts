@@ -37,7 +37,7 @@ const getReqTarget = (
       ? `./dist/commonjs/${relative(
           resolve('./src'),
           resolve(polyfills.get(req) || req)
-        ).replace(/\.(m?)tsx?$/, '.$1js')}`
+        ).replace(/\.(c?)tsx?$/, '.$1js')}`
       : undefined
   }
   if (s && typeof s === 'object') {
