@@ -5,7 +5,9 @@ modules that Just Work in ESM and CommonJS, in easy mode.
 
 This tool manages the `exports` in your package.json file, and
 builds your TypeScript program using `tsc` 5.2, emitting both ESM
-and CommonJS variants.
+and CommonJS variants, [providing the full strength of
+TypeScript’s checking for both output
+formats](https://twitter.com/atcb/status/1702069237710479608).
 
 ## USAGE
 
@@ -98,12 +100,10 @@ just be passed through as-is.
         "types": "./lib/thing.d.ts"
       },
       "./arraystyle": [
-        {
-          "import": "./no-op.js
-        },
-        { "types": "./blah.d.ts" },
+        { "import": "./no-op.js" },
         { "browser": "./browser-thing.js" },
-        { "require": "./using-require.js", "types": "./using-require.d.ts" },
+        { "require": [{ "types": "./using-require.d.ts" }, "./using-require.js"],
+        { "types": "./blah.d.ts" },
         "./etc.js"
       ]
     }
@@ -116,10 +116,10 @@ just be passed through as-is.
 On failure, all logs will be printed.
 
 To print error logs and a `success!` message at the end, set
-`tsHY_VERBOSE=1` in the environment.
+`TSHY_VERBOSE=1` in the environment.
 
 To print debugging and other extra information, set
-`tsHY_VERBOSE=2` in the environment.
+`TSHY_VERBOSE=2` in the environment.
 
 ## Selecting Dialects
 
@@ -151,7 +151,7 @@ To do this, create a polyfill file with the CommonJS code in
 ```js
 // src/source-dir-cjs.cts
 //     ^^^^^^^^^^--------- matching name
-//               ^^^^----- "-cts" tag
+//               ^^^^----- "-cjs" tag
 //                   ^^^^- ".cts" filename suffix
 // this one has a -cjs.cts suffix, so it will override the
 // module at src/source-dir.ts in the CJS build,
@@ -163,9 +163,9 @@ export const sourceDir = pathToFileURL(__dirname)
 
 Then put the "real" ESM code in `<name>.ts` (not `.mts`!)
 
-You will generally probably have to `//@ts-ignore` a bunch of
-stuff to get the CommonJS build to ignore it, so it's best to
-keep the polyfill surface as small as possible.
+You will generally have to `//@ts-ignore` a bunch of stuff to get
+the CommonJS build to ignore it, so it's best to keep the
+polyfill surface as small as possible.
 
 ```js
 // src/source-dir.ts
@@ -244,7 +244,7 @@ If you don't have a `tsconfig.json` file, then one will be
 provided for you.
 
 Then the `tsconfig.json` file will be used as the default project
-for code hints in VSCode/nvim, your tests, etc.
+for code hints in VSCode, neovim, tests, etc.
 
 ## `src/package.json`
 
