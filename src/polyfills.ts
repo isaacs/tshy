@@ -1,6 +1,7 @@
 // the modules like -cjs.cts that override a module at .ts
 import chalk from 'chalk'
 import sources from './sources.js'
+import * as console from './console.js'
 
 const target = (f: string, sources: Set<string>) => {
   const ts = f.replace(/\-cjs\.cts$/, '.ts')
@@ -18,7 +19,7 @@ const getPolyfills = (sources: Set<string>): Map<string, string> =>
 
 const polyfills = getPolyfills(sources)
 if (polyfills.size) {
-  console.error(chalk.cyan.dim('polyfills detected'), polyfills)
+  console.debug(chalk.cyan.dim('polyfills detected'), polyfills)
 }
 
 export default getPolyfills(sources)

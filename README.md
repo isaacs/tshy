@@ -97,6 +97,16 @@ can be either a string, or a `{ import, require, types }` object:
 }
 ```
 
+## Making Noise
+
+On failure, all logs will be printed.
+
+To print error logs and a `success!` message at the end, set
+`TSHY_VERBOSE=1` in the environment.
+
+To print debugging and other extra information, set
+`TSHY_VERBOSE=2` in the environment.
+
 ## Selecting Dialects
 
 You can tell tshy which dialect you're building for by setting

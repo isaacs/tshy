@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import { existsSync, writeFileSync } from 'fs'
 import { mkdirpSync } from 'mkdirp'
+import * as console from './console.js'
 
 // the commonjs build needs to exclude anything that will be polyfilled
 import polyfills from './polyfills.js'
@@ -60,9 +61,11 @@ const writeConfig = (name: string, data: Record<string, any>) =>
     JSON.stringify(data, null, 2) + '\n'
   )
 
-console.error(chalk.cyan.dim('writing tsconfig files...'))
-if (!existsSync('tsconfig.json'))
+console.debug(chalk.cyan.dim('writing tsconfig files...'))
+if (!existsSync('tsconfig.json')) {
+  console.debug('using existing tsconfig.json')
   writeConfig('../tsconfig', recommended)
+}
 writeConfig('build', build)
 writeConfig('commonjs', commonjs)
 writeConfig('esm', esm)

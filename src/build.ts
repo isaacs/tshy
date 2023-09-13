@@ -5,6 +5,7 @@ import { relative, resolve } from 'node:path/posix'
 import { rimrafSync } from 'rimraf'
 import { syncContentSync } from 'sync-content'
 import bins from './bins.js'
+import * as console from './console.js'
 import dialects from './dialects.js'
 import { fail } from './fail.js'
 import polyfills from './polyfills.js'
@@ -23,6 +24,7 @@ rimrafSync('.tshy-build-tmp')
 
 if (dialects.includes('esm')) {
   setFolderDialect('src', 'esm')
+  console.debug(chalk.cyan.dim('building esm'))
   const res = spawnSync('tsc -p .tshy/esm.json', {
     shell: true,
     stdio: 'inherit',
@@ -35,6 +37,7 @@ if (dialects.includes('esm')) {
 
 if (dialects.includes('commonjs')) {
   setFolderDialect('src', 'commonjs')
+  console.debug(chalk.cyan.dim('building commonjs'))
   const res = spawnSync('tsc -p .tshy/commonjs.json', {
     shell: true,
     stdio: 'inherit',
@@ -58,7 +61,11 @@ if (dialects.includes('commonjs')) {
   }
 }
 
+console.debug(chalk.cyan.dim('moving to ./dist'))
 syncContentSync('.tshy-build-tmp', 'dist')
+console.debug(chalk.cyan.dim('removing build temp dir'))
 rimrafSync('.tshy-build-tmp')
+console.debug(chalk.cyan.dim('chmod bins'))
 bins()
+console.debug(chalk.cyan.dim('write package.json'))
 writePackage()
