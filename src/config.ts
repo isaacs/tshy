@@ -1,7 +1,7 @@
 // get the config and package and stuff
 
 import { fail } from './fail.js'
-import { Dialect, Package, TshyConfig, TshyExport } from './types.js'
+import { Dialect, Export, Package, TshyConfig } from './types.js'
 
 const validConfig = (e: any): e is TshyConfig =>
   !!e &&
@@ -17,6 +17,15 @@ const validDialects = (
 ): d is Exclude<TshyConfig['dialects'], undefined> =>
   !!d && Array.isArray(d) && !d.some(d => !isDialect(d))
 
+const validExternalExport = (exp: any): exp is Export => {
+  const i = resolveExport(exp, 'import')
+  const r = resolveExport(exp, 'require')
+  if (!i && !r) return false
+  if (i && join(i).startsWith('src/')) return false
+  if (r && join(r).startsWith('src/')) return false
+  return true
+}
+
 const validExports = (
   e: any
 ): e is Exclude<TshyConfig['exports'], undefined> => {
@@ -29,10 +38,13 @@ const validExports = (
       )
       process.exit(1)
     }
+
+    // just a module. either a built export, or a simple unbuilt export
     if (typeof exp === 'string') {
       e[sub] = addDot(exp)
       continue
     }
+
     if (typeof exp !== 'object' || !exp || Array.isArray(exp)) {
       fail(
         `tshy.exports ${sub} value must be string or import/require object, ` +
@@ -40,41 +52,24 @@ const validExports = (
       )
       process.exit(1)
     }
-    const { import: i, require: r } = exp as Exclude<
-      TshyExport,
-      string
-    >
-    if (!i && !e) {
+
+    // can be:
+    // "./sub": "./unbuilt.js"
+    // "./sub": { require: "./unbuilt.js", types: "./unbuilt.d.ts" }
+    // "./sub": {require:"./u.cjs",import:"./u.cjs",types:"./u.dts"}
+    // "./sub": {import:{types:"u.d.ts",default:"u.js"},require:{types:"u.d.cts", default:"u.cjs"}}
+    // Just verify that import and require resolutions are not in src
+
+    if (!validExternalExport(exp)) {
       fail(
-        `tshy.exports ${sub} needs require or import, ` +
+        `tshy.exports ${sub} unbuilt exports must not be in ./src, ` +
+          `and exports in src must be string values. ` +
           `got: ${JSON.stringify(exp)}`
       )
       process.exit(1)
     }
-    if (
-      (i !== undefined && typeof i !== 'string') ||
-      (r !== undefined && typeof r !== 'string')
-    ) {
-      fail(
-        `tshy.exports ${sub} import/require must be strings, ` +
-          `got: ${JSON.stringify(exp)}`
-      )
-      process.exit(1)
-    }
-    if (
-      (i !== undefined && join(i).startsWith('src/')) ||
-      (r !== undefined && join(r).startsWith('src/'))
-    ) {
-      fail(
-        `tshy.exports ${sub} in src/ must be string paths, ` +
-          `got: ${JSON.stringify(exp)}`
-      )
-      process.exit(1)
-    }
-    e[sub] = {}
-    if (e[sub].types) e[sub].types = addDot(e[sub].types)
-    if (e[sub].import) e[sub].types = addDot(e[sub].import)
-    if (e[sub].require) e[sub].types = addDot(e[sub].require)
+
+    e[sub] = exp
   }
   if (e.dialects) {
     if (!validDialects(e.dialects)) {
@@ -112,6 +107,7 @@ const getConfig = (
 import { join } from 'path/posix'
 import pkg from './package.js'
 import sources from './sources.js'
+import { resolveExport } from './resolve-export.js'
 
 const config: TshyConfig = getConfig(pkg, sources)
 export default config

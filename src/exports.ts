@@ -1,7 +1,10 @@
 import { relative, resolve } from 'node:path/posix'
 import config from './config.js'
 import dialects from './dialects.js'
+import { fail } from './fail.js'
+import pkg from './package.js'
 import polyfills from './polyfills.js'
+import { resolveExport } from './resolve-export.js'
 import { Export, TshyConfig, TshyExport } from './types.js'
 
 const getImpTarget = (
@@ -20,7 +23,7 @@ const getImpTarget = (
       : undefined
   }
   if (s && typeof s === 'object') {
-    return getImpTarget(s.import)
+    return resolveExport(s, 'import')
   }
 }
 
@@ -41,7 +44,7 @@ const getReqTarget = (
       : undefined
   }
   if (s && typeof s === 'object') {
-    return getReqTarget(s.require, polyfills)
+    return getReqTarget(resolveExport(s, 'require'), polyfills)
   }
 }
 
@@ -58,30 +61,14 @@ const getExports = (
     const impTarget = getImpTarget(s)
     const reqTarget = getReqTarget(s, polyfills)
 
-    // only possible for exports outside of ./src
-    const types = typeof s !== 'string' && s.types
-
+    // external export, not built by us
     if (typeof s !== 'string' || !s.startsWith('./src/')) {
-      if (impTarget === reqTarget) {
-        if (impTarget === undefined) continue
-        if (types) {
-          e[sub] = {
-            import: impTarget,
-            require: reqTarget,
-            types,
-          }
-        } else if (impTarget !== undefined) e[sub] = impTarget
-        continue
-      }
-      if (types) {
-        e[sub] = {
-          types,
-          import: impTarget,
-          require: reqTarget,
-        }
-        continue
-      }
+      // already been validated, just accept as-is
+      e[sub] = s as Export
+      continue
     }
+
+    if (!impTarget && !reqTarget) continue
 
     const exp: Export = (e[sub] = {})
     if (impTarget) {
@@ -100,6 +87,8 @@ const getExports = (
   return e
 }
 
-import { fail } from './fail.js'
-import pkg from './package.js'
+// These are all defined by exports, so it's just confusing otherwise
+delete pkg.module
+delete pkg.main
+delete pkg.types
 export default pkg.exports = getExports(config, polyfills)

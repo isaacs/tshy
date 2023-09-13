@@ -7,19 +7,20 @@ import polyfills from './polyfills.js'
 
 const recommended: Record<string, any> = {
   compilerOptions: {
-    jsx: 'react',
     declaration: true,
     declarationMap: true,
-    inlineSources: true,
     esModuleInterop: true,
     forceConsistentCasingInFileNames: true,
+    inlineSources: true,
+    jsx: 'react',
+    module: 'nodenext',
     moduleResolution: 'nodenext',
+    noUncheckedIndexedAccess: true,
     resolveJsonModule: true,
     skipLibCheck: true,
     sourceMap: true,
     strict: true,
     target: 'es2022',
-    module: 'nodenext',
   },
 }
 
@@ -36,7 +37,9 @@ const build: Record<string, any> = {
 const commonjs: Record<string, any> = {
   extends: './build.json',
   include: ['../src/**/*.ts', '../src/**/*.cts', '../src/**/*.tsx'],
-  exclude: [...polyfills.values()].map(f => `.${f}`),
+  exclude: ['../src/**/*.mts', ...polyfills.values()].map(
+    f => `.${f}`
+  ),
   compilerOptions: {
     outDir: '../.tshy-build-tmp/commonjs',
   },
@@ -44,7 +47,7 @@ const commonjs: Record<string, any> = {
 
 const esm: Record<string, any> = {
   extends: './build.json',
-  include: ['../src/**/*.ts', '../src/**/*.cts', '../src/**/*.tsx'],
+  include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
   compilerOptions: {
     outDir: '../.tshy-build-tmp/esm',
   },

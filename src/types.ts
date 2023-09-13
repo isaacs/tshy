@@ -5,12 +5,22 @@ export type TshyConfig = {
 
 export type Dialect = 'commonjs' | 'esm'
 
+export type ExportDetail = {
+  default: string
+  [k: string]: string
+}
+
 export type TshyExport =
   | string
   | ({ types?: string; import?: string; require?: string } & (
       | { import: string }
       | { require: string }
     ))
+  | ({
+      types?: string
+      import?: ExportDetail
+      require?: ExportDetail
+    } & ({ import: ExportDetail } | { require: ExportDetail }))
 
 export type Package = {
   name: string
@@ -26,7 +36,12 @@ export type Package = {
 // but we're only writing our flavor, so it's fine.
 export type Export =
   | string
-  | { import?: string; require?: string; types?: string }
+  | {
+      import?: Export
+      require?: Export
+      types?: Export
+      default?: Export
+    }
   | {
       import?:
         | string
