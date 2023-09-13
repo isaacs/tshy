@@ -39,8 +39,8 @@ points.
 Mostly, this just uses opinionated convention, and so there is
 very little to configure.
 
-Source must be in `./src`. Builds are in `./dist/cjs` for
-CommonJS and `./dist/mjs` for ESM.
+Source must be in `./src`. Builds are in `./dist/commonjs` for
+CommonJS and `./dist/esm` for ESM.
 
 There is very little configuration for this. The only thing to
 decide is the exported paths. If you have a `./index.ts` file,
@@ -70,12 +70,12 @@ appropriate build target locations, like:
   "exports": {
     "./foo": {
       "import": {
-        "types": "./dist/mjs/foo.d.ts",
-        "default": "./dist/mjs/foo.js"
+        "types": "./dist/esm/foo.d.ts",
+        "default": "./dist/esm/foo.js"
       },
       "require": {
-        "types": "./dist/cjs/foo.d.ts",
-        "default": "./dist/cjs/foo.js"
+        "types": "./dist/commonjs/foo.d.ts",
+        "default": "./dist/commonjs/foo.js"
       }
     }
   }
@@ -183,7 +183,7 @@ Files named `*.mts` will be excluded from the CommonJS build.
 
 Files named `*.cts` will be excluded from the ESM build.
 
-If you need to do something one way for CJS and another way for
+If you need to do something one way for CommonJS and another way for
 esm, use the "Dialect Switching" trick, with the ESM code living
 in `src/<whatever>.ts` and the CommonJS polyfill living in
 `src/<whatever>-cjs.cts`.
@@ -219,7 +219,7 @@ If you don't provide that config, then the default is:
 Using the `imports` field in `package.json` is not currently
 supported, because this looks at the nearest `package.json` to
 get local imports, and the package.json files placed in
-`dist/{cjs,mjs}` can't have local imports outside of their
+`dist/{commonjs,esm}` can't have local imports outside of their
 folders.
 
 There's a way it could theoretically be done, but it's a bit
