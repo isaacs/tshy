@@ -1,10 +1,11 @@
 # tshy - TypeScript HYbridizer
 
-Hybrid (CommonJS/ESM) TypeScript node package builder.
+Hybrid (CommonJS/ESM) TypeScript node package builder. Write
+modules that Just Work in ESM and CommonJS, in easy mode.
 
 This tool manages the `exports` in your package.json file, and
-builds your TypeScript program using `tsc` 5.2 in both ESM and
-CJS modes.
+builds your TypeScript program using `tsc` 5.2, emitting both ESM
+and CommonJS variants.
 
 ## USAGE
 
@@ -35,8 +36,8 @@ points.
 
 ## Configuration
 
-Mostly, this is opinionated convention, and so there is very
-little to configure.
+Mostly, this just uses opinionated convention, and so there is
+very little to configure.
 
 Source must be in `./src`. Builds are in `./dist/cjs` for
 CommonJS and `./dist/mjs` for ESM.
@@ -82,16 +83,29 @@ appropriate build target locations, like:
 ```
 
 Any exports that are not within `./src` will not be built, and
-can be either a string, or a `{ import, require, types }` object:
+can be anything supported by package.json `exports`, as they will
+just be passed through as-is.
 
 ```json
 {
-  "exports": {
-    "./package.json": "./package.json"
-    "./thing": {
-      "import": "./lib/thing.mjs",
-      "require": "./lib/thing.cjs",
-      "types": "./lib/thing.d.ts"
+  "tshy": {
+    "exports": {
+      ".": "./src/my-built-module.ts",
+      "./package.json": "./package.json"
+      "./thing": {
+        "import": "./lib/thing.mjs",
+        "require": "./lib/thing.cjs",
+        "types": "./lib/thing.d.ts"
+      },
+      "./arraystyle": [
+        {
+          "import": "./no-op.js
+        },
+        { "types": "./blah.d.ts" },
+        { "browser": "./browser-thing.js" },
+        { "require": "./using-require.js", "types": "./using-require.d.ts" },
+        "./etc.js"
+      ]
     }
   }
 }
@@ -102,10 +116,10 @@ can be either a string, or a `{ import, require, types }` object:
 On failure, all logs will be printed.
 
 To print error logs and a `success!` message at the end, set
-`TSHY_VERBOSE=1` in the environment.
+`tsHY_VERBOSE=1` in the environment.
 
 To print debugging and other extra information, set
-`TSHY_VERBOSE=2` in the environment.
+`tsHY_VERBOSE=2` in the environment.
 
 ## Selecting Dialects
 
@@ -149,23 +163,28 @@ export const sourceDir = pathToFileURL(__dirname)
 
 Then put the "real" ESM code in `<name>.ts` (not `.mts`!)
 
+You will generally probably have to `//@ts-ignore` a bunch of
+stuff to get the CommonJS build to ignore it, so it's best to
+keep the polyfill surface as small as possible.
+
 ```js
 // src/source-dir.ts
 // This is the ESM version of the module
+//@ts-ignore
 export const sourceDir = new URL('.', import.meta.url)
 ```
 
 Then in your code, you can just `import { sourceDir } from
-'./source-dir.js'` and it'll work in both dialects.
+'./source-dir.js'` and it'll work in both builds.
 
-## `.cts` and `.mts` files
+## Excluding from a build using `.cts` and `.mts` files
 
 Files named `*.mts` will be excluded from the CommonJS build.
 
 Files named `*.cts` will be excluded from the ESM build.
 
 If you need to do something one way for CJS and another way for
-ESM, use the "Dialect Switching" trick, with the ESM code living
+esm, use the "Dialect Switching" trick, with the ESM code living
 in `src/<whatever>.ts` and the CommonJS polyfill living in
 `src/<whatever>-cjs.cts`.
 
@@ -230,7 +249,7 @@ for code hints in VSCode/nvim, your tests, etc.
 ## `src/package.json`
 
 As of TypeScript 5.2, the only way to emit JavaScript to ESM or
-CJS, and also import packages using node-style `"exports"`-aware
+cjs, and also import packages using node-style `"exports"`-aware
 module resolution, is to set the `type` field in the
 `package.json` file closest to the TypeScript source code.
 

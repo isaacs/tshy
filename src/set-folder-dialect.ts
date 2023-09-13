@@ -15,6 +15,7 @@ const writeDialectPJ = (f: string, mode?: Dialect) =>
     : rimrafSync(f)
 
 export default (where: string, mode?: Dialect) => {
-  if (mode) console.debug(chalk.cyan.dim('set dialect'), {where, mode})
+  if (mode)
+    console.debug(chalk.cyan.dim('set dialect'), { where, mode })
   writeDialectPJ(`${where}/package.json`, mode)
 }
