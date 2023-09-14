@@ -7,7 +7,7 @@ import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
 import { Export, TshyConfig, TshyExport } from './types.js'
 
-const getImpTarget = (
+export const getImpTarget = (
   s: string | TshyExport | undefined
 ): string | undefined => {
   if (s === undefined) return undefined
@@ -27,7 +27,7 @@ const getImpTarget = (
   }
 }
 
-const getReqTarget = (
+export const getReqTarget = (
   s: string | TshyExport | undefined,
   polyfills: Map<string, string>
 ): string | undefined => {
@@ -48,14 +48,17 @@ const getReqTarget = (
   }
 }
 
-const getExports = (
+export const getExports = (
   c: TshyConfig,
   polyfills: Map<string, string>
 ): Record<string, Export> => {
+  // by this time it always exports, will get the default if missing
+  /* c8 ignore start */
   if (!c.exports) {
     fail('no exports on tshy config (is there code in ./src?)')
     process.exit(1)
   }
+  /* c8 ignore stop */
   const e: Record<string, Export> = {}
   for (const [sub, s] of Object.entries(c.exports)) {
     const impTarget = getImpTarget(s)
@@ -68,7 +71,10 @@ const getExports = (
       continue
     }
 
+    // should be impossible
+    /* c8 ignore start */
     if (!impTarget && !reqTarget) continue
+    /* c8 ignore stop */
 
     const exp: Export = (e[sub] = {})
     if (impTarget) {

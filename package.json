@@ -24,7 +24,12 @@
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
     "format": "prettier --write . --ignore-path ./.prettierignore --cache",
-    "typedoc": "typedoc"
+    "typedoc": "typedoc",
+    "test": "tap",
+    "snap": "tap"
+  },
+  "tap": {
+    "coverage-map": "map.js"
   },
   "engines": {
     "node": "16 >=16.17 || 18 >=18.16.0 || >=20.6.1"
@@ -41,6 +46,7 @@
   "devDependencies": {
     "@types/node": "^20.6.0",
     "prettier": "^2.8.8",
+    "tap": "^18.0.0-26",
     "typedoc": "^0.25.1"
   },
   "prettier": {

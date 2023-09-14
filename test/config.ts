@@ -1,0 +1,77 @@
+import t from 'tap'
+import { Package, TshyConfig } from '../src/types.js'
+
+const cases: [
+  config: undefined | TshyConfig,
+  sources: string[],
+  ok: boolean,
+  expect: TshyConfig
+][] = [
+  [
+    undefined,
+    [],
+    true,
+    { exports: { './package.json': './package.json' } },
+  ],
+  [
+    undefined,
+    ['./src/index.ts'],
+    true,
+    {
+      exports: {
+        './package.json': './package.json',
+        '.': './src/index.ts',
+      },
+    },
+  ],
+  //@ts-expect-error
+  [{ dialects: 'yolo' }, [], false, {}],
+  [
+    { exports: { './blah': { require: './src/notallowed' } } },
+    [],
+    false,
+    {},
+  ],
+  [
+    { exports: { '.': './src/main.ts' } },
+    ['./src/main.ts'],
+    true,
+    {
+      exports: { '.': './src/main.ts' },
+    },
+  ],
+]
+
+t.plan(cases.length)
+
+for (const [config, sources, ok, expect] of cases) {
+  t.test(JSON.stringify({ config, sources, ok }), async t => {
+    const exits = t.capture(process, 'exit', () => {
+      throw 'exit'
+    }).args
+
+    const pkg: Package = {
+      name: 'x',
+      version: '1.2.3',
+      tshy: config,
+    }
+    let failMsg: undefined | string = undefined
+    const result = (await t
+      .mockImport('../dist/esm/config.js', {
+        '../dist/esm/package.js': { default: pkg },
+        '../dist/esm/fail.js': { fail: (m: string) => (failMsg = m) },
+        '../dist/esm/sources.js': { default: sources },
+      })
+      .catch(er => {
+        if (ok) t.equal(er, undefined, 'did not expect exit')
+      })) as typeof import('../dist/esm/config.js')
+    if (!ok) {
+      t.matchSnapshot(failMsg)
+      t.strictSame(exits(), [[1]])
+    } else {
+      t.strictSame(result.default, expect)
+      t.equal(failMsg, undefined)
+      t.strictSame(exits(), [])
+    }
+  })
+}

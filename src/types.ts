@@ -27,7 +27,7 @@ export type Package = {
   version: string
   type?: 'module'
   bin?: string | Record<string, string>
-  exports: Record<string, Export>
+  exports?: Record<string, Export>
   tshy?: TshyConfig
   [k: string]: any
 }
