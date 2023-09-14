@@ -1,15 +1,15 @@
 import { relative, resolve } from 'node:path/posix'
 import config from './config.js'
 import dialects from './dialects.js'
-import { fail } from './fail.js'
+import fail from './fail.js'
 import pkg from './package.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
 import { Export, TshyConfig, TshyExport } from './types.js'
 
 export const getImpTarget = (
-  s: string | TshyExport | undefined
-): string | undefined => {
+  s: string | TshyExport | undefined | null
+): string | undefined | null => {
   if (s === undefined) return undefined
   if (typeof s === 'string') {
     const imp = s.endsWith('.cts') ? undefined : s
@@ -22,15 +22,13 @@ export const getImpTarget = (
         ).replace(/\.(m?)tsx?$/, '.$1js')}`
       : undefined
   }
-  if (s && typeof s === 'object') {
-    return resolveExport(s, 'import')
-  }
+  return resolveExport(s, 'import')
 }
 
 export const getReqTarget = (
-  s: string | TshyExport | undefined,
+  s: string | TshyExport | undefined | null,
   polyfills: Map<string, string>
-): string | undefined => {
+): string | null | undefined => {
   if (s === undefined) return undefined
   if (typeof s === 'string') {
     const req = s.endsWith('.mts') ? undefined : s
@@ -43,9 +41,7 @@ export const getReqTarget = (
         ).replace(/\.(c?)tsx?$/, '.$1js')}`
       : undefined
   }
-  if (s && typeof s === 'object') {
-    return getReqTarget(resolveExport(s, 'require'), polyfills)
-  }
+  return getReqTarget(resolveExport(s, 'require'), polyfills)
 }
 
 export const getExports = (
@@ -61,15 +57,15 @@ export const getExports = (
   /* c8 ignore stop */
   const e: Record<string, Export> = {}
   for (const [sub, s] of Object.entries(c.exports)) {
-    const impTarget = getImpTarget(s)
-    const reqTarget = getReqTarget(s, polyfills)
-
     // external export, not built by us
     if (typeof s !== 'string' || !s.startsWith('./src/')) {
       // already been validated, just accept as-is
       e[sub] = s as Export
       continue
     }
+
+    const impTarget = getImpTarget(s)
+    const reqTarget = getReqTarget(s, polyfills)
 
     // should be impossible
     /* c8 ignore start */

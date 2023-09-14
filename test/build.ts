@@ -1,5 +1,5 @@
 import t from 'tap'
-import {Package} from '../src/types.js'
+import { Package } from '../src/types.js'
 
 const pkg = {} as unknown as Package
 
@@ -29,28 +29,44 @@ const mocks = {
 }
 
 t.test('default settings', async t => {
-  await t.mockImport('../dist/esm/build.js', mocks)
+  const { default: build } = await t.mockImport(
+    '../dist/esm/build.js',
+    mocks
+  )
+  build()
   t.equal(builtESM, true)
   t.equal(builtCommonJS, true)
 })
 
 t.test('build commonjs only', async t => {
   pkg.tshy = { dialects: ['commonjs'] }
-  await t.mockImport('../dist/esm/build.js', mocks)
+  const { default: build } = await t.mockImport(
+    '../dist/esm/build.js',
+    mocks
+  )
+  build()
   t.equal(builtESM, false)
   t.equal(builtCommonJS, true)
 })
 
 t.test('build esm only', async t => {
   pkg.tshy = { dialects: ['esm'] }
-  await t.mockImport('../dist/esm/build.js', mocks)
+  const { default: build } = await t.mockImport(
+    '../dist/esm/build.js',
+    mocks
+  )
+  build()
   t.equal(builtESM, true)
   t.equal(builtCommonJS, false)
 })
 
 t.test('build both', async t => {
   pkg.tshy = { dialects: ['esm', 'commonjs'] }
-  await t.mockImport('../dist/esm/build.js', mocks)
+  const { default: build } = await t.mockImport(
+    '../dist/esm/build.js',
+    mocks
+  )
+  build()
   t.equal(builtESM, true)
   t.equal(builtCommonJS, true)
 })

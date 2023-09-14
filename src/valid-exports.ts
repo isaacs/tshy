@@ -1,19 +1,18 @@
 import addDot from './add-dot.js'
-import { fail } from './fail.js'
+import fail from './fail.js'
 import { TshyConfig } from './types.js'
 import validExternalExport from './valid-external-export.js'
 
 export default (
   e: any
 ): e is Exclude<TshyConfig['exports'], undefined> => {
-  if (!e) return false
-  if (typeof e !== 'object') return false
+  if (!e || typeof e !== 'object' || Array.isArray(e)) return false
   for (const [sub, exp] of Object.entries(e)) {
     if (sub !== '.' && !sub.startsWith('./')) {
       fail(
         `tshy.exports key must be "." or start with "./", got: ${sub}`
       )
-      process.exit(1)
+      return process.exit(1)
     }
 
     // just a module. either a built export, or a simple unbuilt export
@@ -22,12 +21,12 @@ export default (
       continue
     }
 
-    if (typeof exp !== 'object' || !exp || Array.isArray(exp)) {
+    if (typeof exp !== 'object') {
       fail(
-        `tshy.exports ${sub} value must be string or import/require object, ` +
+        `tshy.exports ${sub} value must be valid package.json exports value, ` +
           `got: ${JSON.stringify(exp)}`
       )
-      process.exit(1)
+      return process.exit(1)
     }
 
     // can be any valid external export, but the resolution of
@@ -38,7 +37,7 @@ export default (
           `and exports in src must be string values. ` +
           `got: ${JSON.stringify(exp)}`
       )
-      process.exit(1)
+      return process.exit(1)
     }
 
     e[sub] = exp

@@ -1,4 +1,4 @@
-import { fail } from './fail.js'
+import fail from './fail.js'
 import { Dialect, TshyConfig } from './types.js'
 
 const isDialect = (d: any): d is Dialect =>
@@ -7,12 +7,18 @@ const isDialect = (d: any): d is Dialect =>
 export default (
   d: any
 ): d is Exclude<TshyConfig['dialects'], undefined> => {
-  if (!d || !Array.isArray(d) || !d.length || d.some(d => !isDialect(d))) {
-    fail(
-      `tshy.dialects must be an array including "esm" and/or "commonjs", ` +
-        `got: ${JSON.stringify(d)}`
-    )
-    process.exit(1)
+  if (
+    !!d &&
+    Array.isArray(d) &&
+    d.length &&
+    !d.some(d => !isDialect(d))
+  ) {
+    return true
   }
-  return true
+
+  fail(
+    `tshy.dialects must be an array including "esm" and/or "commonjs", ` +
+      `got: ${JSON.stringify(d)}`
+  )
+  return process.exit(1)
 }

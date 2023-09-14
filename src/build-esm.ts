@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process'
 import buildFail from './build-fail.js'
 import * as console from './console.js'
 import setFolderDialect from './set-folder-dialect.js'
+import './tsconfig.js'
 
 export const buildESM = () => {
   console.debug(chalk.cyan.dim('building esm'))
@@ -12,7 +13,7 @@ export const buildESM = () => {
     stdio: 'inherit',
   })
   setFolderDialect('src')
-  if (res.status || res.signal) buildFail(res)
+  if (res.status || res.signal) return buildFail(res)
   setFolderDialect('.tshy-build-tmp/esm', 'esm')
   console.error(chalk.cyan.bold('built esm'))
 }

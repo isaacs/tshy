@@ -16,7 +16,7 @@ export const buildCommonJS = () => {
     stdio: 'inherit',
   })
   setFolderDialect('src')
-  if (res.status || res.signal) buildFail(res)
+  if (res.status || res.signal) return buildFail(res)
   setFolderDialect('.tshy-build-tmp/commonjs', 'commonjs')
   console.error(chalk.cyan.bold('built commonjs'))
   // apply polyfills

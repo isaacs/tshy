@@ -59,7 +59,7 @@ for (const [config, sources, ok, expect] of cases) {
     const result = (await t
       .mockImport('../dist/esm/config.js', {
         '../dist/esm/package.js': { default: pkg },
-        '../dist/esm/fail.js': { fail: (m: string) => (failMsg = m) },
+        '../dist/esm/fail.js': { default: (m: string) => (failMsg = m) },
         '../dist/esm/sources.js': { default: sources },
       })
       .catch(er => {
