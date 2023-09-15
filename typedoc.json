@@ -2,6 +2,7 @@
   "tsconfig": "./tsconfig/esm.json",
   "entryPoints": ["./src/**/*.+(ts|tsx|mts|cts)"],
   "navigationLinks": {
+    "GitHub": "https://github.com/isaacs/tshy",
     "isaacs projects": "https://isaacs.github.io/"
   }
 }
