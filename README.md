@@ -102,7 +102,7 @@ just be passed through as-is.
       "./arraystyle": [
         { "import": "./no-op.js" },
         { "browser": "./browser-thing.js" },
-        { "require": [{ "types": "./using-require.d.ts" }, "./using-require.js"],
+        { "require": [{ "types": "./using-require.d.ts" }, "./using-require.js"]},
         { "types": "./blah.d.ts" },
         "./etc.js"
       ]
