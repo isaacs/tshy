@@ -13,6 +13,7 @@
     "chalk": "^5.3.0",
     "foreground-child": "^3.1.1",
     "mkdirp": "^3.0.1",
+    "resolve-import": "^1.4.1",
     "rimraf": "^5.0.1",
     "sync-content": "^1.0.2",
     "typescript": "5.2"
@@ -20,7 +21,7 @@
   "scripts": {
     "postversion": "npm publish",
     "prepublishOnly": "git push origin --follow-tags",
-    "prepare": "tsc -p tsconfig/esm.json && bash scripts/fixup.sh",
+    "prepare": "tsc -p .tshy/esm.json && bash scripts/fixup.sh",
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
     "format": "prettier --write . --ignore-path ./.prettierignore --cache",

@@ -8,6 +8,13 @@ const { default: buildFail } = (await t.mockImport(
   '../dist/esm/build-fail.js',
   {
     '../dist/esm/tsconfig.js': {},
+    '../dist/esm/package.js': { default: { name: 'package' } },
+    '../dist/esm/imports.js': {
+      unlink: (...a: any[]) => calls.push(['unlinkImports', a]),
+    },
+    '../dist/esm/self-dep.js': {
+      unlink: (...a: any[]) => calls.push(['unlinkSelfDep', a]),
+    },
     '../dist/esm/set-folder-dialect.js': {
       default: (...a: any[]) => calls.push(['setFolderDialect', a]),
     },

@@ -14,6 +14,24 @@ Array [
     ],
   ],
   Array [
+    "unlinkImports",
+    Array [
+      Object {
+        "name": "package",
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "unlinkSelfDep",
+    Array [
+      Object {
+        "name": "package",
+      },
+      "src",
+    ],
+  ],
+  Array [
     "fail",
     Array [
       "build failed",

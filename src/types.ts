@@ -29,6 +29,7 @@ export type Package = {
   bin?: string | Record<string, string>
   exports?: Record<string, Export>
   tshy?: TshyConfig
+  imports?: Record<string, any>
   [k: string]: any
 }
 

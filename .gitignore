@@ -1,4 +1,4 @@
-/.tshy*
+/.tshy-build-tmp
 /node_modules
 /dist
 /docs

@@ -1,21 +1,23 @@
+import chalk from 'chalk'
 import { writeFileSync } from 'fs'
 import { rimrafSync } from 'rimraf'
-import { Dialect } from './types.js'
 import * as console from './console.js'
-import chalk from 'chalk'
+import pkg from './package.js'
+import { Dialect } from './types.js'
 
-const writeDialectPJ = (f: string, mode?: Dialect) =>
-  mode
-    ? writeFileSync(
-        f,
-        JSON.stringify({
-          type: mode === 'commonjs' ? 'commonjs' : 'module',
-        })
-      )
-    : rimrafSync(f)
+const writeDialectPJ = (d: string, mode?: Dialect) => {
+  if (!mode) {
+    return rimrafSync(`${d}/package.json`)
+  }
+  const v: { type: string; imports?: Record<string, any> } = {
+    type: mode === 'commonjs' ? 'commonjs' : 'module',
+    imports: pkg.imports,
+  }
+  writeFileSync(`${d}/package.json`, JSON.stringify(v))
+}
 
 export default (where: string, mode?: Dialect) => {
   if (mode)
     console.debug(chalk.cyan.dim('set dialect'), { where, mode })
-  writeDialectPJ(`${where}/package.json`, mode)
+  writeDialectPJ(where, mode)
 }

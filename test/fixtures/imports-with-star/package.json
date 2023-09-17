@@ -1,0 +1,125 @@
+{
+  "name": "@my/package",
+  "type": "module",
+  "imports": {
+    "#xp": "xyz/package.json",
+    "#ri": "resolve-import",
+    "#ri/*": "resolve-import/*",
+    "#m/*": "./lib/*.mjs",
+    "#c/*": "./lib/*.cjs",
+    "#fs": "node:fs",
+    "#root": "./root.mjs",
+    "#foo": {
+      "node": {
+        "import": [
+          {
+            "types": "./lib/foo.d.mts"
+          },
+          "./lib/foo-node.mjs"
+        ],
+        "require": [
+          {
+            "types": "./lib/foo.d.cts"
+          },
+          "./lib/foo-node.cjs"
+        ]
+      },
+      "require": [
+        {
+          "types": "./lib/foo.d.cts"
+        },
+        "./lib/foo-require.cjs"
+      ],
+      "import": [
+        {
+          "types": "./lib/foo.d.mts"
+        },
+        "./lib/foo-import.mjs"
+      ],
+      "types": "./lib/foo-global.d.ts",
+      "default": "./lib/foo-browser.js"
+    }
+  },
+  "tshy": {
+    "exports": {
+      "./foo": {
+        "node": {
+          "import": [
+            {
+              "types": "./lib/foo.d.mts"
+            },
+            "./lib/foo-node.mjs"
+          ],
+          "require": [
+            {
+              "types": "./lib/foo.d.cts"
+            },
+            "./lib/foo-node.cjs"
+          ]
+        },
+        "require": [
+          {
+            "types": "./lib/foo.d.cts"
+          },
+          "./lib/foo-require.cjs"
+        ],
+        "import": [
+          {
+            "types": "./lib/foo.d.mts"
+          },
+          "./lib/foo-import.mjs"
+        ],
+        "types": "./lib/foo-global.d.ts",
+        "default": "./lib/foo-browser.js"
+      },
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  },
+  "exports": {
+    "./foo": {
+      "node": {
+        "import": [
+          {
+            "types": "./lib/foo.d.mts"
+          },
+          "./lib/foo-node.mjs"
+        ],
+        "require": [
+          {
+            "types": "./lib/foo.d.cts"
+          },
+          "./lib/foo-node.cjs"
+        ]
+      },
+      "require": [
+        {
+          "types": "./lib/foo.d.cts"
+        },
+        "./lib/foo-require.cjs"
+      ],
+      "import": [
+        {
+          "types": "./lib/foo.d.mts"
+        },
+        "./lib/foo-import.mjs"
+      ],
+      "types": "./lib/foo-global.d.ts",
+      "default": "./lib/foo-browser.js"
+    },
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "preinstall": "node -e \"import(process.argv[1]).catch(()=>{})\" dist/.tshy-link-imports.mjs"
+  }
+}

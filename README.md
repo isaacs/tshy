@@ -214,17 +214,6 @@ If you don't provide that config, then the default is:
 }
 ```
 
-## Package `#imports`
-
-Using the `imports` field in `package.json` is not currently
-supported, because this looks at the nearest `package.json` to
-get local imports, and the package.json files placed in
-`dist/{commonjs,esm}` can't have local imports outside of their
-folders.
-
-There's a way it could theoretically be done, but it's a bit
-complicated. A future version may support this.
-
 ## TSConfigs
 
 Put whatever configuration you want in `tsconfig.json`, with the
@@ -257,3 +246,124 @@ During the build, `tshy` will create a file at `src/package.json`
 for this purpose, and then delete it afterwards. If that file
 exists and _wasn't_ put there by `tshy`, then it will be
 destroyed.
+
+## Package `#imports`
+
+If you use `"imports"` in your package.json, then tshy will set
+`scripts.preinstall` to set up some symbolic links to make it
+work. This just means you can't use `scripts.preinstall` for
+anything else if you use `"imports"`.
+
+<details>
+<summary>tl;dr explanation</summary>
+
+The `"imports"` field in package.json allows you to set local
+package imports, which have the same kind of conditional import
+logic as `"exports"`. This is especially useful when you have a
+vendored dependency with `require` and `import` variants, modules
+that have to be bundled in different ways for different
+environments, or different dependencies for different
+environments.
+
+These package imports are _always_ resolved against the nearest
+`package.json` file, and tshy uses generated package.json files
+to set the module dialect to `"type":"module"` in `dist/esm` and
+`"type":"commonjs"` in `dist/commonjs`, and it swaps the
+`src/package.json` file between this during the `tsc` builds.
+
+Furthermore, local package imports may not be relative files
+outside the package folder. They may only be local files within
+the local package, or dependencies resolved in `node_modules`.
+
+To support this, tshy copies the `imports` field from the
+project's package.json into these dialect-setting generated
+package.json files, and creates symlinks into the appropriate
+places so that they resolve to the same files on disk.
+
+Because symlinks may not be included in npm packages (and even if
+they are included, they won't be unpacked at install time), the
+symlinks it places in `./dist` wouldn't do much good. In order to
+work around _this_ restriction, tshy creates a node program at
+`dist/.tshy-link-imports.mjs`, which generates the symlinks at
+install time via the `preinstall` script.
+
+</details>
+
+## Local Package `exports`
+
+In order to facilitate local package exports, tshy will create a
+symlink to the current package temporarily in
+`./src/node_modules` and permanently in `./dist/node_modules`.
+
+If you rely on this feature, you may need to add a `paths`
+section to your `tsconfig.json` so that you don't get nagged
+constantly by your editor about missing type references.
+
+<details>
+<summary>tl;dr explanation</summary>
+
+Similar to local module imports, Node supports importing the
+`exports` of the current package as if it was a dependency of
+itself. The generated `package.json` files mess with this similar
+to `imports`, but it's much easier to work around.
+
+For example, if you had this in your package.json:
+
+```json
+{
+  "name": "@my/package",
+  "exports": {
+    "./foo": {
+      "import": "./lib/foo.mjs",
+      "require": "./lib/foo.cjs"
+    }
+  }
+}
+```
+
+Then any module in the package could do
+`import('@my/package/foo')` or `require('@my/package/foo')` to
+pull in the appropriate file.
+
+In order to make this wort, tshy links the current project
+directory into `./src/node_modules/<pkgname>` during the builds,
+and removes the link afterwards, so that TypeScript knows what
+those things refer to.
+
+The link is also created in the `dist` folder, but it's only
+relevant if your tests load the code from `./dist` rather than
+from `./src`. In the install, there's no need to re-create this
+link, because the package will be in a `node_modules` folder
+already.
+
+If you use this feature, you can put something like this in your
+`tsconfig.json` file so that your editor knows what those things
+refer to:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@my/package/foo": ["./src/foo.js"],
+      "@my/package/bar": ["./src/bar.js"]
+    }
+  }
+}
+```
+
+Note the `.js` extension, rather than `.ts`. Add this for each
+submodule path that you use in this way, or use a wildcard if you
+prefer, though this might result in failing to catch errors if
+you use a submodule identifier that isn't actually exported:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "@my/package/*": ["./src/*.js"]
+    }
+  }
+}
+```
+
+</details>

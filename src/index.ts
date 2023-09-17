@@ -12,6 +12,6 @@ console.debug(chalk.yellow.bold('building'), process.cwd())
 console.debug(chalk.cyan.dim('tshy config'), tshy)
 console.debug(chalk.cyan.dim('exports'), exp)
 
-build()
+await build()
 
 console.log(chalk.bold.green('success!'))
