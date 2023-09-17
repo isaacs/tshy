@@ -1,5 +1,5 @@
 {
-  "tsconfig": "./tsconfig/esm.json",
+  "tsconfig": "./.tshy/esm.json",
   "entryPoints": ["./src/**/*.+(ts|tsx|mts|cts)"],
   "navigationLinks": {
     "GitHub": "https://github.com/isaacs/tshy",
