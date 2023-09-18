@@ -1,4 +1,4 @@
-import { posix as path } from 'node:path'
+import { posix as path, resolve } from 'node:path'
 import t from 'tap'
 import { Package } from '../src/types.js'
 
@@ -12,8 +12,10 @@ const mkdirpCalls = t.capture(
   mkdirp.mkdirpSync
 ).args
 
+import * as FS from 'node:fs'
 const fs = {
   symlinkSync: () => {},
+  readlinkSync: FS.readlinkSync,
 }
 const symlinkCalls = t.capture(fs, 'symlinkSync', fs.symlinkSync).args
 
@@ -57,4 +59,68 @@ t.test('made dir, clean up', t => {
   t.matchSnapshot(rimrafCalls(), 'rimrafs')
   t.matchSnapshot(mkdirpCalls(), 'mkdirps')
   t.end()
+})
+
+t.test('already in node_modules, do not create link', t => {
+  const readlinkCalls = t.capture(
+    fs,
+    'readlinkSync',
+    fs.readlinkSync
+  ).args
+
+  const dir = t.testdir({
+    node_modules: {
+      installed: { src: {} },
+      linked: t.fixture('symlink', '../packages/linked'),
+      '@scope': {
+        linked: t.fixture('symlink', '../../packages/scopelinked'),
+        installed: { src: {} },
+      },
+    },
+    packages: {
+      linked: { src: {} },
+      scopelinked: { src: {} },
+    },
+  })
+
+  const cases: [string, string][] = [
+    ['installed', 'node_modules/installed'],
+    ['@scope/installed', 'node_modules/@scope/installed'],
+    ['linked', 'node_modules/linked'],
+    ['@scope/linked', 'node_modules/@scope/linked'],
+    ['linked', 'packages/linked'],
+    ['@scope/linked', 'packages/scopelinked'],
+  ]
+
+  t.plan(cases.length)
+
+  const cwd = process.cwd()
+  t.afterEach(() => process.chdir(cwd))
+  for (const [name, d] of cases) {
+    t.test(d, async t => {
+      // need a separate import for each test, because this gets cached
+      // to save extra readlink and walkUp calls.
+      const { link, unlink } = (await t.mockImport(
+        '../dist/esm/self-dep.js',
+        { mkdirp, fs, rimraf }
+      )) as typeof import('../dist/esm/self-dep.js')
+      process.chdir(resolve(dir, d))
+      link({ name } as unknown as Package, 'src')
+      unlink({ name } as unknown as Package, 'src')
+      const rl = readlinkCalls()
+      if (name.endsWith('linked')) {
+        t.strictSame(
+          rl.pop(),
+          [resolve(dir, 'node_modules', name)],
+          'found link'
+        )
+      } else {
+        t.strictSame(rl, [], 'did not need to check for links')
+      }
+      t.strictSame(symlinkCalls(), [])
+      t.strictSame(mkdirpCalls(), [])
+      t.strictSame(rimrafCalls(), [])
+      t.end()
+    })
+  }
 })
