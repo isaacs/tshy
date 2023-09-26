@@ -40,17 +40,34 @@ const linkedAlready = (pkg: Package) => {
 }
 
 export const link = (pkg: Package, where: string) => {
-  if (!pkg.name || linkedAlready(pkg)) return
+  if (
+    !pkg.name ||
+    pkg?.tshy?.selfLink === false ||
+    linkedAlready(pkg)
+  ) {
+    return
+  }
   const dest = resolve(where, 'node_modules', pkg.name)
   const dir = dirname(dest)
   const src = relative(dir, process.cwd())
   const made = mkdirpSync(dir)
   if (made) dirsMade.set(dest, made)
-  symlinkSync(src, dest)
+  try {
+    symlinkSync(src, dest)
+  } catch {
+    rimrafSync(dest)
+    symlinkSync(src, dest)
+  }
 }
 
 export const unlink = (pkg: Package, where: string) => {
-  if (!pkg.name || linkedAlready(pkg)) return
+  if (
+    !pkg.name ||
+    pkg?.tshy?.selfLink === false ||
+    linkedAlready(pkg)
+  ) {
+    return
+  }
   const dest = resolve(where, 'node_modules', pkg.name)
   rimrafSync(dest)
   const made = dirsMade.get(dest)

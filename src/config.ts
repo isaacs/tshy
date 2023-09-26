@@ -10,7 +10,8 @@ const validConfig = (e: any): e is TshyConfig =>
   !!e &&
   typeof e === 'object' &&
   (e.exports === undefined || validExports(e['exports'])) &&
-  (e.dialects === undefined || validDialects(e['dialects']))
+  (e.dialects === undefined || validDialects(e['dialects'])) &&
+  (e.selfLink === undefined || typeof e.selfLink === 'boolean')
 
 const getConfig = (
   pkg: Package,

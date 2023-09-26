@@ -57,3 +57,32 @@ Array [
   ],
 ]
 `
+
+exports[`test/self-dep.ts > TAP > try one more time if it fails > mkdirps 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > try one more time if it fails > rimrafs 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > try one more time if it fails > symlinks 1`] = `
+Array [
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`

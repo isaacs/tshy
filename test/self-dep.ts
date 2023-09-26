@@ -13,8 +13,17 @@ const mkdirpCalls = t.capture(
 ).args
 
 import * as FS from 'node:fs'
+let symlinkThrow: Error | undefined = undefined
 const fs = {
-  symlinkSync: () => {},
+  symlinkSync: () => {
+    if (symlinkThrow) {
+      try {
+        throw symlinkThrow
+      } finally {
+        symlinkThrow = undefined
+      }
+    }
+  },
   readlinkSync: FS.readlinkSync,
 }
 const symlinkCalls = t.capture(fs, 'symlinkSync', fs.symlinkSync).args
@@ -34,17 +43,41 @@ const { link, unlink } = (await t.mockImport(
 )) as typeof import('../dist/esm/self-dep.js')
 
 t.test('no pkg name, nothing to do', t => {
-  link({} as unknown as Package, 'some/path')
-  unlink({} as unknown as Package, 'some/path')
+  link({} as Package, 'some/path')
+  unlink({} as Package, 'some/path')
   t.strictSame(symlinkCalls(), [], 'no symlinks')
   t.strictSame(rimrafCalls(), [], 'no rimrafs')
   t.strictSame(mkdirpCalls(), [], 'no mkdirps')
   t.end()
 })
 
+t.test('no selfLink, nothing to do', t => {
+  link(
+    { name: 'name', tshy: { selfLink: false } } as Package,
+    'some/path'
+  )
+  unlink(
+    { name: 'name', tshy: { selfLink: false } } as Package,
+    'some/path'
+  )
+  t.strictSame(symlinkCalls(), [], 'no symlinks')
+  t.strictSame(rimrafCalls(), [], 'no rimrafs')
+  t.strictSame(mkdirpCalls(), [], 'no mkdirps')
+  t.end()
+})
+
+t.test('try one more time if it fails', t => {
+  symlinkThrow = new Error('eexist')
+  link({ name: 'name', version: '1.2.3' }, 'some/path')
+  t.matchSnapshot(symlinkCalls(), 'symlinks')
+  t.matchSnapshot(rimrafCalls(), 'rimrafs')
+  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.end()
+})
+
 t.test('link, but no dirs made', t => {
-  link({ name: 'name' } as unknown as Package, 'some/path')
-  unlink({ name: 'name' } as unknown as Package, 'some/path')
+  link({ name: 'name', version: '1.2.3' }, 'some/path')
+  unlink({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
   t.matchSnapshot(rimrafCalls(), 'rimrafs')
   t.matchSnapshot(mkdirpCalls(), 'mkdirps')
@@ -53,8 +86,8 @@ t.test('link, but no dirs made', t => {
 
 t.test('made dir, clean up', t => {
   mkdirpMade = 'some'
-  link({ name: 'name' } as unknown as Package, 'some/path')
-  unlink({ name: 'name' } as unknown as Package, 'some/path')
+  link({ name: 'name', version: '1.2.3' }, 'some/path')
+  unlink({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
   t.matchSnapshot(rimrafCalls(), 'rimrafs')
   t.matchSnapshot(mkdirpCalls(), 'mkdirps')
@@ -105,8 +138,8 @@ t.test('already in node_modules, do not create link', t => {
         { mkdirp, fs, rimraf }
       )) as typeof import('../dist/esm/self-dep.js')
       process.chdir(resolve(dir, d))
-      link({ name } as unknown as Package, 'src')
-      unlink({ name } as unknown as Package, 'src')
+      link({ name, version: '1.2.3' }, 'src')
+      unlink({ name, version: '1.2.3' }, 'src')
       const rl = readlinkCalls()
       if (name.endsWith('linked')) {
         t.strictSame(

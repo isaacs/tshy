@@ -299,6 +299,18 @@ If you rely on this feature, you may need to add a `paths`
 section to your `tsconfig.json` so that you don't get nagged
 constantly by your editor about missing type references.
 
+You can suppress the self-linking by putting this config in
+`package.json` but be advised this means that you won't be able
+to import from local package exports:
+
+```json
+{
+  "tshy": {
+    "selfLink": false
+  }
+}
+```
+
 <details>
 <summary>tl;dr explanation</summary>
 

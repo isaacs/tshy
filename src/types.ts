@@ -1,6 +1,7 @@
 export type TshyConfig = {
   exports?: Record<string, TshyExport>
   dialects?: Dialect[]
+  selfLink?: boolean
 }
 
 export type Dialect = 'commonjs' | 'esm'
