@@ -107,9 +107,12 @@ export const setMain = (
     }
     const types = resolveExport(pkg.exports['.'], [m, 'types'])
     pkg.main = mod
+    if (c.main === 'esm') pkg.type = 'module'
+    else delete pkg.type
     if (types && types !== mod) pkg.types = types
     else delete pkg.types
   } else {
+    pkg.type = 'module'
     delete pkg.main
     delete pkg.types
   }

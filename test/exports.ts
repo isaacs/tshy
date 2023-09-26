@@ -74,10 +74,12 @@ t.test('setting top level main', async t => {
       exports: Record<string, Export>
       main?: string
       types?: string
+      type?: string
     },
     {
       main?: string
       types?: string
+      type?: string
     },
     boolean
   ][] = [
@@ -91,7 +93,7 @@ t.test('setting top level main', async t => {
           },
         },
       },
-      {},
+      { type: 'module' },
       true,
     ],
     [
@@ -119,7 +121,7 @@ t.test('setting top level main', async t => {
           },
         },
       },
-      { main: './i.js', types: './i.d.ts' },
+      { type: 'module', main: './i.js', types: './i.d.ts' },
       true,
     ],
     [
@@ -147,7 +149,7 @@ t.test('setting top level main', async t => {
           },
         },
       },
-      { main: './i.js' },
+      { main: './i.js', type: 'module' },
       true,
     ],
     [
@@ -241,6 +243,7 @@ t.test('setting top level main', async t => {
       if (ok) {
         t.equal(pkg.main, expect.main)
         t.equal(pkg.types, expect.types)
+        t.equal(pkg.type, expect.type)
       } else {
         t.strictSame(exits(), [[1]])
         t.matchSnapshot(fails)
