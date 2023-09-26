@@ -5,7 +5,8 @@ import fail from './fail.js'
 import pkg from './package.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
-import { Export, TshyConfig, TshyExport } from './types.js'
+import { Export, Package, TshyConfig, TshyExport } from './types.js'
+import { isDialect } from './valid-dialects.js'
 
 export const getImpTarget = (
   s: string | TshyExport | undefined | null
@@ -22,7 +23,7 @@ export const getImpTarget = (
         ).replace(/\.(m?)tsx?$/, '.$1js')}`
       : undefined
   }
-  return resolveExport(s, 'import')
+  return resolveExport(s, ['import'])
 }
 
 export const getReqTarget = (
@@ -41,7 +42,7 @@ export const getReqTarget = (
         ).replace(/\.(c?)tsx?$/, '.$1js')}`
       : undefined
   }
-  return getReqTarget(resolveExport(s, 'require'), polyfills)
+  return getReqTarget(resolveExport(s, ['require']), polyfills)
 }
 
 export const getExports = (
@@ -52,7 +53,7 @@ export const getExports = (
   /* c8 ignore start */
   if (!c.exports) {
     fail('no exports on tshy config (is there code in ./src?)')
-    process.exit(1)
+    return process.exit(1)
   }
   /* c8 ignore stop */
   const e: Record<string, Export> = {}
@@ -89,8 +90,33 @@ export const getExports = (
   return e
 }
 
+export const setMain = (
+  c: TshyConfig | undefined,
+  pkg: Package & { exports: Record<string, Export> }
+) => {
+  if (c?.main !== undefined) {
+    if (!isDialect(c.main)) {
+      fail(`config.main must be 'commonjs' or 'esm', got: ${c.main}`)
+      return process.exit(1)
+    }
+    const m = c.main === 'commonjs' ? 'require' : 'import'
+    const mod = resolveExport(pkg.exports['.'], [m])
+    if (!mod) {
+      fail(`could not resolve exports['.'] for tshy.main '${m}'`)
+      return process.exit(1)
+    }
+    const types = resolveExport(pkg.exports['.'], [m, 'types'])
+    pkg.main = mod
+    if (types && types !== mod) pkg.types = types
+    else delete pkg.types
+  } else {
+    delete pkg.main
+    delete pkg.types
+  }
+}
+
 // These are all defined by exports, so it's just confusing otherwise
 delete pkg.module
-delete pkg.main
-delete pkg.types
-export default pkg.exports = getExports(config, polyfills)
+pkg.exports = getExports(config, polyfills)
+setMain(config, pkg as Package & { exports: Record<string, Export> })
+export default pkg.exports

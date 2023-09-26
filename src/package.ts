@@ -6,10 +6,7 @@ import { Package } from './types.js'
 
 const readPkg = (): Package => {
   try {
-    return Object.assign(
-      JSON.parse(readFileSync('package.json', 'utf8')),
-      { type: 'module' }
-    )
+    return JSON.parse(readFileSync('package.json', 'utf8'))
   } catch (er) {
     fail('failed to read package.json', er as Error)
     process.exit(1)

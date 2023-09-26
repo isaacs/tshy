@@ -1,7 +1,7 @@
 import fail from './fail.js'
 import { Dialect, TshyConfig } from './types.js'
 
-const isDialect = (d: any): d is Dialect =>
+export const isDialect = (d: any): d is Dialect =>
   d === 'commonjs' || d === 'esm'
 
 export default (

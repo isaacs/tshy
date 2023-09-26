@@ -48,6 +48,8 @@ There is very little configuration for this. The only thing to
 decide is the exported paths. If you have a `./index.ts` file,
 then that will be listed as the main `"."` export by default.
 
+### `exports`
+
 You can set other entry points by putting this in your
 `package.json` file:
 
@@ -111,7 +113,7 @@ just be passed through as-is.
 }
 ```
 
-## Making Noise
+### Making Noise
 
 On failure, all logs will be printed.
 
@@ -121,7 +123,7 @@ To print error logs and a `success!` message at the end, set
 To print debugging and other extra information, set
 `TSHY_VERBOSE=2` in the environment.
 
-## Selecting Dialects
+### Selecting Dialects
 
 You can tell tshy which dialect you're building for by setting
 the `dialects` config to an array of strings:
@@ -137,6 +139,77 @@ the `dialects` config to an array of strings:
 The default is `["esm", "commonjs"]` (ie, both of them). If you
 set it to just one, then only that dialect will be built and
 exported.
+
+### Suppressing the self-link
+
+See below about **Local Package `exports`** for an explanation of
+what this is.
+
+Suppress the symlink to the project folder into a `node_modules`
+folder in `dist` and `src` by doing this:
+
+```json
+{
+  "tshy": {
+    "selfLink": false
+  }
+}
+```
+
+### Old Style Exports
+
+Versions of node prior to 12.10.0 (published in early to mid
+2016) did not have support for `exports` as a means for defining
+package entry points.
+
+By default, tshy deletes the `main` field, rather than maintain
+this affordance for versions of node that met their end of life
+more than a year ago. However, some tools still rely on `main`
+and have not been updated to read the package entry points via
+`exports`.
+
+You can tell tshy to export a top-level `main` and `types` field
+by setting `main` to either `commonjs` or `esm`. If `main` is set
+to `"commonjs"`, then the package will not have `"type":
+"module"` set.
+
+If the specified dialect is not built, or if a `"."` export is
+not created, or if the `"."` export does not support the
+specified dialect, then the build will fail.
+
+For example, this config:
+
+```json
+{
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts"
+    },
+    "main": "commonjs"
+  }
+}
+```
+
+will produce:
+
+```json
+{
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    }
+  }
+}
+```
 
 ## CommonJS Dialect Polyfills
 

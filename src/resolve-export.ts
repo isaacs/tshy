@@ -1,18 +1,22 @@
 export const resolveExport = (
   exp: any,
-  m: 'import' | 'require'
+  conditions: ('import' | 'require' | 'types')[]
 ): string | undefined | null => {
   if (typeof exp === 'string') return exp
   if (typeof exp !== 'object') return undefined
   if (exp === null) return exp
   if (Array.isArray(exp)) {
     for (const e of exp) {
-      const u = resolveExport(e, m)
+      const u = resolveExport(e, conditions)
       if (u || u === null) return u
     }
     return undefined
   }
-  if (exp[m]) return resolveExport(exp[m], m)
-  if (exp.node) return resolveExport(exp.node, m)
-  if (exp.default) return resolveExport(exp.default, m)
+  const conds = [...conditions, 'node', 'default']
+  for (const [c, e] of Object.entries(exp)) {
+    if (conds.includes(c)) {
+      const u = resolveExport(e, conditions)
+      if (u || u === null) return u
+    }
+  }
 }

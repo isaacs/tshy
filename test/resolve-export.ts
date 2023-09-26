@@ -1,9 +1,10 @@
 import t from 'tap'
 import { resolveExport } from '../src/resolve-export.js'
 
+type C = 'import' | 'require' | 'types'
 const cases: [
   exp: any,
-  m: 'import' | 'require',
+  m: C | C[],
   expect: string | null | undefined
 ][] = [
   [null, 'import', null],
@@ -26,12 +27,33 @@ const cases: [
   [{ default: 'x.js' }, 'require', 'x.js'],
   [[{ require: 'r.js' }, 'd.js'], 'require', 'r.js'],
   [[{ require: 'r.js' }, 'd.js'], 'import', 'd.js'],
+  [
+    [{ require: [{ types: 'r.d.ts' }, 'r.js'] }, 'd.js'],
+    'import',
+    'd.js',
+  ],
+  [
+    [{ require: { types: 'r.d.ts', default: 'r.js' } }, 'd.js'],
+    ['require', 'types'],
+    'r.d.ts',
+  ],
+  [
+    [{ require: { default: 'r.js', types: 'r.d.ts' } }, 'd.js'],
+    ['require', 'types'],
+    'r.js',
+  ],
+  [
+    [{ require: { default: null, types: 'r.d.ts' } }, 'd.js'],
+    ['require', 'types'],
+    null,
+  ],
 ]
 
 t.plan(cases.length)
 for (const [exp, m, expect] of cases) {
+  const cond = Array.isArray(m) ? m : [m]
   t.equal(
-    resolveExport(exp, m),
+    resolveExport(exp, cond),
     expect,
     `${m} ${JSON.stringify(exp)}`
   )
