@@ -168,6 +168,13 @@ more than a year ago. However, some tools still rely on `main`
 and have not been updated to read the package entry points via
 `exports`.
 
+**Warning: this will likely cause incorrect types to be loaded.**
+Use with extreme caution. It's almost always better to _not_
+define top-level `main` and `types` fields if you are shipping a
+hybrid module. Users will need to update their `module` and
+`moduleResolution` tsconfigs appropriately. **That is a good
+thing, and will save them future headaches.**
+
 You can tell tshy to export a top-level `main` and `types` field
 by setting `main` to either `commonjs` or `esm`. If `main` is set
 to `"commonjs"`, then the package will not have `"type":
