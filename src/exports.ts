@@ -6,7 +6,6 @@ import pkg from './package.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
 import { Export, Package, TshyConfig, TshyExport } from './types.js'
-import { isDialect } from './valid-dialects.js'
 
 export const getImpTarget = (
   s: string | TshyExport | undefined | null
@@ -94,28 +93,26 @@ export const setMain = (
   c: TshyConfig | undefined,
   pkg: Package & { exports: Record<string, Export> }
 ) => {
-  if (c?.main !== undefined) {
-    if (!isDialect(c.main)) {
-      fail(`config.main must be 'commonjs' or 'esm', got: ${c.main}`)
-      return process.exit(1)
-    }
-    const m = c.main === 'commonjs' ? 'require' : 'import'
-    const mod = resolveExport(pkg.exports['.'], [m])
+  if (!!c?.main) {
+    c.main = true
+    const mod = resolveExport(pkg.exports['.'], ['require'])
     if (!mod) {
-      fail(`could not resolve exports['.'] for tshy.main '${m}'`)
+      fail(`could not resolve exports['.'] for tshy.main 'require'`)
       return process.exit(1)
     }
-    const types = resolveExport(pkg.exports['.'], [m, 'types'])
+    const types = resolveExport(pkg.exports['.'], [
+      'require',
+      'types',
+    ])
     pkg.main = mod
-    if (c.main === 'esm') pkg.type = 'module'
-    else delete pkg.type
     if (types && types !== mod) pkg.types = types
     else delete pkg.types
   } else {
-    pkg.type = 'module'
+    if (c) delete c.main
     delete pkg.main
     delete pkg.types
   }
+  pkg.type = 'module'
 }
 
 // These are all defined by exports, so it's just confusing otherwise

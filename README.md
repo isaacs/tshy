@@ -164,11 +164,12 @@ package entry points.
 
 By default, tshy deletes the `main` field, rather than maintain
 this affordance for versions of node that met their end of life
-more than a year ago. However, some tools still rely on `main`
-and have not been updated to read the package entry points via
-`exports`.
+long ago. However, some tools still rely on `main` and have not
+been updated to read the package entry points via `exports`.
 
-**Warning: this will likely cause incorrect types to be loaded.**
+**Warning: this will likely cause incorrect types to be loaded in
+some scenarios.**
+
 Use with extreme caution. It's almost always better to _not_
 define top-level `main` and `types` fields if you are shipping a
 hybrid module. Users will need to update their `module` and
@@ -176,13 +177,11 @@ hybrid module. Users will need to update their `module` and
 thing, and will save them future headaches.**
 
 You can tell tshy to export a top-level `main` and `types` field
-by setting `main` to either `commonjs` or `esm`. If `main` is set
-to `"commonjs"`, then the package will not have `"type":
-"module"` set.
+by setting `main` to `true`.
 
-If the specified dialect is not built, or if a `"."` export is
+If the `commonjs` dialect is not built, or if a `"."` export is
 not created, or if the `"."` export does not support the
-specified dialect, then the build will fail.
+`commonjs` dialect, then the build will fail.
 
 For example, this config:
 
@@ -192,7 +191,7 @@ For example, this config:
     "exports": {
       ".": "./src/index.ts"
     },
-    "main": "commonjs"
+    "main": true
   }
 }
 ```
@@ -203,6 +202,7 @@ will produce:
 {
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
   "exports": {
     ".": {
       "require": {

@@ -79,7 +79,6 @@ t.test('setting top level main', async t => {
     {
       main?: string
       types?: string
-      type?: string
     },
     boolean
   ][] = [
@@ -93,13 +92,13 @@ t.test('setting top level main', async t => {
           },
         },
       },
-      { type: 'module' },
+      {},
       true,
     ],
     [
       'main commonjs',
       {
-        tshy: { main: 'commonjs' },
+        tshy: { main: true },
         exports: {
           '.': {
             require: { types: './r.d.ts', default: './r.js' },
@@ -111,23 +110,9 @@ t.test('setting top level main', async t => {
       true,
     ],
     [
-      'main esm',
-      {
-        tshy: { main: 'esm' },
-        exports: {
-          '.': {
-            require: { types: './r.d.ts', default: './r.js' },
-            import: { types: './i.d.ts', default: './i.js' },
-          },
-        },
-      },
-      { type: 'module', main: './i.js', types: './i.d.ts' },
-      true,
-    ],
-    [
       'main commonjs, no types',
       {
-        tshy: { main: 'commonjs' },
+        tshy: { main: true },
         exports: {
           '.': {
             require: './r.js',
@@ -139,38 +124,8 @@ t.test('setting top level main', async t => {
       true,
     ],
     [
-      'main esm, no types',
-      {
-        tshy: { main: 'esm' },
-        exports: {
-          '.': {
-            require: { types: './r.d.ts', default: './r.js' },
-            import: './i.js',
-          },
-        },
-      },
-      { main: './i.js', type: 'module' },
-      true,
-    ],
-    [
-      'invalid main=blah',
-      {
-        //@ts-expect-error
-        tshy: { main: 'blah' },
-        exports: {
-          '.': {
-            require: { types: './r.d.ts', default: './r.js' },
-            import: { types: './i.d.ts', default: './i.js' },
-          },
-        },
-      },
-      {},
-      false,
-    ],
-    [
       'invalid main=false',
       {
-        //@ts-expect-error
         tshy: { main: false },
         exports: {
           '.': {
@@ -180,12 +135,12 @@ t.test('setting top level main', async t => {
         },
       },
       {},
-      false,
+      true
     ],
     [
       'invalid main commonjs',
       {
-        tshy: { main: 'commonjs' },
+        tshy: { main: true },
         exports: {
           '.': {
             import: { types: './i.d.ts', default: './i.js' },
@@ -196,31 +151,9 @@ t.test('setting top level main', async t => {
       false,
     ],
     [
-      'invalid main esm',
-      {
-        tshy: { main: 'esm' },
-        exports: {
-          '.': {
-            require: { types: './r.d.ts', default: './r.js' },
-          },
-        },
-      },
-      {},
-      false,
-    ],
-    [
       'invalid main commonjs, no exports',
       {
-        tshy: { main: 'commonjs' },
-        exports: {},
-      },
-      {},
-      false,
-    ],
-    [
-      'invalid main esm, no exports',
-      {
-        tshy: { main: 'esm' },
+        tshy: { main: true },
         exports: {},
       },
       {},
@@ -243,7 +176,7 @@ t.test('setting top level main', async t => {
       if (ok) {
         t.equal(pkg.main, expect.main)
         t.equal(pkg.types, expect.types)
-        t.equal(pkg.type, expect.type)
+        t.equal(pkg.type, 'module')
       } else {
         t.strictSame(exits(), [[1]])
         t.matchSnapshot(fails)

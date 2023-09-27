@@ -20,35 +20,3 @@ Array [
   ],
 ]
 `
-
-exports[`test/exports.ts > TAP > setting top level main > invalid main esm > must match snapshot 1`] = `
-Array [
-  Array [
-    "could not resolve exports['.'] for tshy.main 'import'",
-  ],
-]
-`
-
-exports[`test/exports.ts > TAP > setting top level main > invalid main esm, no exports > must match snapshot 1`] = `
-Array [
-  Array [
-    "could not resolve exports['.'] for tshy.main 'import'",
-  ],
-]
-`
-
-exports[`test/exports.ts > TAP > setting top level main > invalid main=blah > must match snapshot 1`] = `
-Array [
-  Array [
-    "config.main must be 'commonjs' or 'esm', got: blah",
-  ],
-]
-`
-
-exports[`test/exports.ts > TAP > setting top level main > invalid main=false > must match snapshot 1`] = `
-Array [
-  Array [
-    "config.main must be 'commonjs' or 'esm', got: false",
-  ],
-]
-`
