@@ -12,3 +12,7 @@ tshy.dialects must be an array including "esm" and/or "commonjs", got: "yolo"
 exports[`test/config.ts > TAP > {"config":{"exports":{"./blah":{"require":"./src/notallowed"}}},"sources":[],"ok":false} > must match snapshot 1`] = `
 tshy.exports ./blah unbuilt exports must not be in ./src, and exports in src must be string values. got: {"require":"./src/notallowed"}
 `
+
+exports[`test/config.ts > TAP > {"config":{"main":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `
+tshy.main must be a boolean value if specified, got: blah
+`

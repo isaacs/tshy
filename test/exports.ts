@@ -83,8 +83,24 @@ t.test('setting top level main', async t => {
     boolean
   ][] = [
     [
-      'no main set',
+      'main defaults true',
       {
+        exports: {
+          '.': {
+            require: { types: './r.d.ts', default: './r.js' },
+            import: { types: './i.d.ts', default: './i.js' },
+          },
+        },
+      },
+      { main: './r.js', types: './r.d.ts' },
+      true,
+    ],
+    [
+      'main explicit false, removes',
+      {
+        tshy: { main: false },
+        main: './r.js',
+        types: './r.d.ts',
         exports: {
           '.': {
             require: { types: './r.d.ts', default: './r.js' },
@@ -96,7 +112,7 @@ t.test('setting top level main', async t => {
       true,
     ],
     [
-      'main commonjs',
+      'main explicit true',
       {
         tshy: { main: true },
         exports: {
@@ -124,7 +140,7 @@ t.test('setting top level main', async t => {
       true,
     ],
     [
-      'invalid main=false',
+      'main=false, not set in pj already',
       {
         tshy: { main: false },
         exports: {
@@ -135,10 +151,23 @@ t.test('setting top level main', async t => {
         },
       },
       {},
-      true
+      true,
     ],
     [
-      'invalid main commonjs',
+      'main not set, no commonjs main export',
+      {
+        tshy: {},
+        exports: {
+          '.': {
+            import: { types: './i.d.ts', default: './i.js' },
+          },
+        },
+      },
+      {},
+      true,
+    ],
+    [
+      'main explicit true, no commonjs module',
       {
         tshy: { main: true },
         exports: {

@@ -93,9 +93,9 @@ export const setMain = (
   c: TshyConfig | undefined,
   pkg: Package & { exports: Record<string, Export> }
 ) => {
-  if (!!c?.main) {
-    c.main = true
-    const mod = resolveExport(pkg.exports['.'], ['require'])
+  const mod = resolveExport(pkg.exports['.'], ['require'])
+  const main = c?.main ?? !!mod
+  if (main) {
     if (!mod) {
       fail(`could not resolve exports['.'] for tshy.main 'require'`)
       return process.exit(1)

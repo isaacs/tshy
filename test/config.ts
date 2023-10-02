@@ -52,6 +52,8 @@ const cases: [
       exports: { '.': './src/main.ts' },
     },
   ],
+  //@ts-expect-error
+  [{ main: 'blah' }, [], false, {}],
 ]
 
 t.plan(cases.length)
