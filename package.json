@@ -34,7 +34,7 @@
     "coverage-map": "map.js"
   },
   "engines": {
-    "node": "16 >=16.17 || 18 >=18.16.0 || >=20.6.1"
+    "node": "16 >=16.17 || 18 >=18.15.0 || >=20.6.1"
   },
   "repository": "https://github.com/isaacs/tshy",
   "keywords": [
