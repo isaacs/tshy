@@ -6,6 +6,7 @@ import sources from './sources.js'
 import { Package, TshyConfig } from './types.js'
 import validDialects from './valid-dialects.js'
 import validExports from './valid-exports.js'
+import validExtraDialects from './valid-extra-dialects.js'
 
 const validBoolean = (e: Record<string, any>, name: string) => {
   const v = e[name]
@@ -17,8 +18,9 @@ const validBoolean = (e: Record<string, any>, name: string) => {
 const validConfig = (e: any): e is TshyConfig =>
   !!e &&
   typeof e === 'object' &&
-  (e.exports === undefined || validExports(e['exports'])) &&
-  (e.dialects === undefined || validDialects(e['dialects'])) &&
+  (e.exports === undefined || validExports(e.exports)) &&
+  (e.dialects === undefined || validDialects(e.dialects)) &&
+  validExtraDialects(e) &&
   validBoolean(e, 'selfLink') &&
   validBoolean(e, 'main')
 

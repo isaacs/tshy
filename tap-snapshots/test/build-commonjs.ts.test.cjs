@@ -28,6 +28,20 @@ Array [
       "stdio": "inherit",
     },
   ],
+  Array [
+    "tsc -p .tshy/blah.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/no-overrides.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
 ]
 `
 
@@ -37,6 +51,10 @@ Array [
   "blah-cjs.cjs.map",
   "blah-cjs.d.cts",
   "blah-cjs.d.cts.map",
+  "blah.d.ts",
+  "blah.d.ts.map",
+  "blah.js",
+  "blah.js.map",
   "index.d.ts",
   "index.d.ts.map",
   "index.js",
@@ -48,6 +66,20 @@ exports[`test/build-commonjs.ts > TAP > build failure > must match snapshot 2`] 
 Array [
   Array [
     "tsc -p .tshy/commonjs.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/blah.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/no-overrides.json",
     Object {
       "shell": true,
       "stdio": "inherit",

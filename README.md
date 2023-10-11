@@ -267,6 +267,84 @@ esm, use the "Dialect Switching" trick, with the ESM code living
 in `src/<whatever>.ts` and the CommonJS polyfill living in
 `src/<whatever>-cjs.cts`.
 
+## Other Targets: `browser`, `deno`, etc.
+
+If you have any other dialects that you'd like to support, you
+can list them as either `commonjsDialects` or `esmDialects`,
+depending on whether you want them to be built as CommonJS or
+ESM.
+
+Note that each added dialect you create will result in another
+build in the `./dist` folder, so you may wish to use sparingly if
+shipping a large project.
+
+For example:
+
+```json
+{
+  "tshy": {
+    "exports": {
+      ".": "./src/index.ts"
+    },
+    "esmDialects": ["deno", "browser"],
+    "commonjsDialects": ["webpack"]
+  }
+}
+```
+
+Will result in:
+
+```json
+{
+  "exports": {
+    ".": {
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "webpack": {
+        "types": "./dist/webpack/index.d.ts",
+        "default": "./dist/webpack/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    }
+  }
+}
+```
+
+In each of these, you can use the same kind of dialect override
+that works for CommonJS polyfills described above. For
+`commonjsDialects` types, create a file named
+`<filename>-<dialect>.cts`, and for `esmDialects` types, create a
+file named `<filename>-<dialect>.mts`.
+
+For example, to provide deno, browser, and webpack overrides in
+the setup above, the following files would be relevant:
+
+```
+src/index.ts           # normal esm/cjs version
+src/index-cjs.cts      # cjs variant for default commonjs
+src/index-browser.mts  # esm variant for the browser
+src/index-deno.mts     # esm variant for deno
+src/index-webpack.cts  # cjs variant for webpack
+```
+
+Note that the `commonjs` override uses the abbreviated `cjs`
+name (historical reasons, it was originally the only override
+supported), and that the file extension must be `cts` or `mts`
+depending on the dialect type that it is.
+
 ## Atomic Builds
 
 Code is built in `./.tshy-build-tmp` and then copied over only if

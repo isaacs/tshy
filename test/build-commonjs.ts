@@ -42,6 +42,7 @@ t.test('basic commonjs build', async t => {
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {
+          commonjsDialects: ['blah', 'no-overrides'],
           exports: {
             '.': './src/index.ts',
             './blah': './src/blah.ts',
@@ -54,9 +55,13 @@ t.test('basic commonjs build', async t => {
           //@ts-ignore
           export const u = import.meta.url
         `,
+        'blah-blah.cts': `
+          //@ts-ignore
+          export const u = 'file:///blah/blah.blah'
+        `,
         'blah-cjs.cts': `
           import { pathToFileURL } from 'url'
-          export const u = pathToFileURL(__filename)
+          export const u = String(pathToFileURL(__filename))
         `,
       },
     })

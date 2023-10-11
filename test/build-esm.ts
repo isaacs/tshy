@@ -42,6 +42,7 @@ t.test('basic esm build', async t => {
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {
+          esmDialects: ['blah', 'no-overrides'],
           exports: {
             '.': './src/index.ts',
             './blah': './src/blah.ts',
@@ -53,6 +54,10 @@ t.test('basic esm build', async t => {
         'blah.ts': `
           //@ts-ignore
           export const u = import.meta.url
+        `,
+        'blah-blah.mts': `
+          //@ts-ignore
+          export const u = 'file://blah/blah.blah'
         `,
         'blah-cjs.cts': `
           import { pathToFileURL } from 'url'

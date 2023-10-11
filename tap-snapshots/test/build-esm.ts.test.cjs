@@ -28,6 +28,20 @@ Array [
       "stdio": "inherit",
     },
   ],
+  Array [
+    "tsc -p .tshy/blah.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/no-overrides.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
 ]
 `
 
@@ -48,6 +62,20 @@ exports[`test/build-esm.ts > TAP > build failure > must match snapshot 2`] = `
 Array [
   Array [
     "tsc -p .tshy/esm.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/blah.json",
+    Object {
+      "shell": true,
+      "stdio": "inherit",
+    },
+  ],
+  Array [
+    "tsc -p .tshy/no-overrides.json",
     Object {
       "shell": true,
       "stdio": "inherit",

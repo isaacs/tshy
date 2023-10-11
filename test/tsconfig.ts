@@ -4,12 +4,19 @@ import t from 'tap'
 
 const cwd = process.cwd()
 t.after(() => process.chdir(cwd))
-process.chdir(t.testdir({
-  src: {
-    'index.ts': '',
-    'index-cjs.cts': '',
-  }
-}))
+process.chdir(
+  t.testdir({
+    'package.json': JSON.stringify({
+      tshy: { esmDialects: ['deno'], commonjsDialects: ['webpack'] },
+    }),
+    src: {
+      'index.ts': '',
+      'index-cjs.cts': '',
+      'index-deno.mts': '',
+      'index-webpack.mts': '',
+    },
+  })
+)
 
 await import('../dist/esm/tsconfig.js')
 
@@ -47,9 +54,11 @@ for (const f of [
   '.tshy/build.json',
   '.tshy/commonjs.json',
   '.tshy/esm.json',
+  '.tshy/deno.json',
+  '.tshy/webpack.json',
 ]) {
   t.matchSnapshot(
     JSON.parse(readFileSync(resolve(t.testdirName, f), 'utf8')),
-    f + ' has initial tsconfig.json'
+    f
   )
 }

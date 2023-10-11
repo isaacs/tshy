@@ -23,8 +23,8 @@ export default (
 
     if (typeof exp !== 'object') {
       fail(
-        `tshy.exports ${sub} value must be valid package.json exports value, ` +
-          `got: ${JSON.stringify(exp)}`
+        `tshy.exports ${sub} value must be valid package.json exports ` +
+          `value, got: ${JSON.stringify(exp)}`
       )
       return process.exit(1)
     }

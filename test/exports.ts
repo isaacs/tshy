@@ -1,6 +1,10 @@
 import { ConditionalValue } from 'resolve-import'
 import t from 'tap'
+import { PolyfillSet } from '../src/polyfills.js'
 import { TshyConfig } from '../src/types.js'
+
+// order is relevant in the exports objects we're snapshotting here
+t.compareOptions = { sort: false }
 
 const { getImpTarget, getReqTarget } = (await t.mockImport(
   '../src/exports.js',
@@ -35,7 +39,14 @@ t.equal(esm.getImpTarget('./src/foo.cts'), undefined)
 t.equal(esm.getImpTarget({ import: './foo.mts' }), './foo.mts')
 t.equal(esm.getImpTarget('./src/foo.mts'), './dist/esm/foo.mjs')
 
-const p = new Map([['./src/fill-cjs.cts', './src/fill.ts']])
+const p = new Map([
+  [
+    'cjs',
+    Object.assign(new PolyfillSet('commonjs', 'cjs'), {
+      map: new Map([['./src/fill-cjs.cts', './src/fill.ts']]),
+    }),
+  ],
+])
 t.equal(getReqTarget(undefined, p), undefined)
 t.equal(getReqTarget('foo.cts', p), 'foo.cts')
 t.equal(getReqTarget('foo.mts', p), undefined)
@@ -57,7 +68,7 @@ t.equal(esm.getReqTarget(undefined, p), undefined)
 t.equal(esm.getReqTarget('foo.cts', p), 'foo.cts')
 t.equal(esm.getReqTarget('foo.mts', p), undefined)
 t.equal(esm.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
-t.equal(esm.getReqTarget({ require: './foo.mts' }, p), undefined)
+t.equal(esm.getReqTarget({ require: './foo.mts' }, p), './foo.mts')
 t.equal(esm.getReqTarget('./src/foo.cts', p), undefined)
 t.equal(esm.getReqTarget({ import: './foo.mts' }, p), undefined)
 t.equal(esm.getReqTarget('./src/foo.mts', p), undefined)
@@ -215,4 +226,48 @@ t.test('setting top level main', async t => {
       t.end()
     })
   }
+})
+
+t.test('extra dialects', async t => {
+  const dialectOptions = [undefined, ['commonjs'], ['esm']]
+  for (const dialects of dialectOptions) {
+    t.test(String(dialects), async t => {
+      const esmDialects = ['deno', 'no-overrides']
+      const commonjsDialects = ['blah']
+      for (const extras of [true, false]) {
+        t.test(`extras=${extras}`, async t => {
+          const { default: extraDialects } = (await t.mockImport(
+            '../dist/esm/exports.js',
+            {
+              '../dist/esm/package.js': {
+                default: {
+                  tshy: {
+                    ...(extras && { esmDialects, commonjsDialects }),
+                    dialects,
+                    exports: {
+                      '.': './src/index.ts',
+                      './foo': './src/foo.ts',
+                    },
+                  },
+                },
+              },
+
+              '../dist/esm/sources.js': {
+                default: new Set([
+                  './src/index.ts',
+                  './src/index-blah.cts',
+                  './src/index-cjs.cts',
+                  './src/index-deno.mts',
+                  './src/foo.ts',
+                  './src/foo-blah.cts',
+                ]),
+              },
+            }
+          )) as typeof import('../dist/esm/exports.js')
+          t.matchSnapshot(extraDialects)
+        })
+      }
+    })
+  }
+  t.end()
 })

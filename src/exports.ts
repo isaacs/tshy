@@ -8,50 +8,65 @@ import config from './config.js'
 import dialects from './dialects.js'
 import fail from './fail.js'
 import pkg from './package.js'
+import type { PolyfillSet } from './polyfills.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
 import { Package, TshyConfig, TshyExport } from './types.js'
+const { esmDialects = [], commonjsDialects = [] } = config
 
-export const getImpTarget = (
-  s: string | TshyExport | undefined | null
+const getTargetForDialectCondition = <T extends string>(
+  s: string | TshyExport | undefined | null,
+  dialect: T,
+  condition: T extends 'esm'
+    ? 'import'
+    : T extends 'commonjs'
+    ? 'require'
+    : T,
+  type: T extends 'esm'
+    ? 'esm'
+    : T extends 'commonjs'
+    ? 'commonjs'
+    : 'esm' | 'commonjs',
+  polyfills: Map<string, PolyfillSet> = new Map()
 ): string | undefined | null => {
   if (s === undefined) return undefined
   if (typeof s === 'string') {
-    const imp = s.endsWith('.cts') ? undefined : s
-    return !imp || !imp.startsWith('./src/')
-      ? imp
-      : dialects.includes('esm')
-      ? `./dist/esm/${relative(
+    // the excluded filename pattern
+    const xts = type === 'commonjs' ? '.mts' : '.cts'
+    if (s.endsWith(xts)) return undefined
+    const pf = dialect === 'commonjs' ? 'cjs' : dialect
+    return !s || !s.startsWith('./src/')
+      ? s
+      : dialects.includes(type)
+      ? `./dist/${dialect}/${relative(
           resolve('./src'),
-          resolve(imp)
-        ).replace(/\.(m?)tsx?$/, '.$1js')}`
+          resolve(polyfills.get(pf)?.map.get(s) ?? s)
+        ).replace(/\.([mc]?)tsx?$/, '.$1js')}`
       : undefined
   }
-  return resolveExport(s, ['import'])
+  return resolveExport(s, [condition])
 }
+
+export const getImpTarget = (
+  s: string | TshyExport | undefined | null,
+  polyfills: Map<string, PolyfillSet> = new Map()
+) =>
+  getTargetForDialectCondition(s, 'esm', 'import', 'esm', polyfills)
 
 export const getReqTarget = (
   s: string | TshyExport | undefined | null,
-  polyfills: Map<string, string>
-): string | null | undefined => {
-  if (s === undefined) return undefined
-  if (typeof s === 'string') {
-    const req = s.endsWith('.mts') ? undefined : s
-    return !req || !req.startsWith('./src/')
-      ? req
-      : dialects.includes('commonjs')
-      ? `./dist/commonjs/${relative(
-          resolve('./src'),
-          resolve(polyfills.get(req) || req)
-        ).replace(/\.(c?)tsx?$/, '.$1js')}`
-      : undefined
-  }
-  return getReqTarget(resolveExport(s, ['require']), polyfills)
-}
+  polyfills: Map<string, PolyfillSet> = new Map()
+) =>
+  getTargetForDialectCondition(
+    s,
+    'commonjs',
+    'require',
+    'commonjs',
+    polyfills
+  )
 
-export const getExports = (
-  c: TshyConfig,
-  polyfills: Map<string, string>
+const getExports = (
+  c: TshyConfig
 ): Record<string, ConditionalValue> => {
   // by this time it always exports, will get the default if missing
   /* c8 ignore start */
@@ -72,7 +87,7 @@ export const getExports = (
       continue
     }
 
-    const impTarget = getImpTarget(s)
+    const impTarget = getImpTarget(s, polyfills)
     const reqTarget = getReqTarget(s, polyfills)
 
     // should be impossible
@@ -81,6 +96,42 @@ export const getExports = (
     /* c8 ignore stop */
 
     const exp: ConditionalValueObject = (e[sub] = {})
+    if (impTarget) {
+      for (const d of esmDialects) {
+        const target = getTargetForDialectCondition(
+          s,
+          d,
+          d,
+          'esm',
+          polyfills
+        )
+        if (target) {
+          exp[d] = {
+            types: target.replace(/\.js$/, '.d.ts'),
+            default: target,
+          }
+        }
+      }
+    }
+
+    if (reqTarget) {
+      for (const d of commonjsDialects) {
+        const target = getTargetForDialectCondition(
+          s,
+          d,
+          d,
+          'commonjs',
+          polyfills
+        )
+        if (target) {
+          exp[d] = {
+            types: target.replace(/\.js$/, '.d.ts'),
+            default: target,
+          }
+        }
+      }
+    }
+    // put the default import/require after all the other special ones.
     if (impTarget) {
       exp.import = {
         types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
@@ -125,6 +176,6 @@ export const setMain = (
 
 // These are all defined by exports, so it's just confusing otherwise
 delete pkg.module
-pkg.exports = getExports(config, polyfills)
+pkg.exports = getExports(config)
 setMain(config, pkg as Package & { exports: ExportsSubpaths })
 export default pkg.exports

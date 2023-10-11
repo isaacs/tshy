@@ -5,6 +5,18 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
+exports[`test/tsconfig.ts > TAP > .tshy/build.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": "../src",
+    "target": "es2022",
+  },
+  "extends": "../tsconfig.json",
+}
+`
+
 exports[`test/tsconfig.ts > TAP > .tshy/build.json generate everything 1`] = `
 Object {
   "compilerOptions": Object {
@@ -17,26 +29,14 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > .tshy/build.json has initial tsconfig.json 1`] = `
-Object {
-  "compilerOptions": Object {
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "rootDir": "../src",
-    "target": "es2022",
-  },
-  "extends": "../tsconfig.json",
-}
-`
-
-exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json generate everything 1`] = `
+exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json 1`] = `
 Object {
   "compilerOptions": Object {
     "outDir": "../.tshy-build-tmp/commonjs",
   },
   "exclude": Array [
-    ".../src/**/*.mts",
-    "../src/index.ts",
+    "../src/**/*.mts",
+    "../src/index-deno.mts",
   ],
   "extends": "./build.json",
   "include": Array [
@@ -47,19 +47,54 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json has initial tsconfig.json 1`] = `
+exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json generate everything 1`] = `
 Object {
   "compilerOptions": Object {
     "outDir": "../.tshy-build-tmp/commonjs",
   },
   "exclude": Array [
-    ".../src/**/*.mts",
-    "../src/index.ts",
+    "../src/**/*.mts",
+    "../src/index-deno.mts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.cts",
+    "../src/**/*.tsx",
+  ],
+}
+`
+
+exports[`test/tsconfig.ts > TAP > .tshy/deno.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "outDir": "../.tshy-build-tmp/deno",
+  },
+  "exclude": Array [
+    ".././src/index-cjs.cts",
+  ],
+  "extends": "./build.json",
+  "include": Array [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+  ],
+}
+`
+
+exports[`test/tsconfig.ts > TAP > .tshy/esm.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "outDir": "../.tshy-build-tmp/esm",
+  },
+  "exclude": Array [
+    ".././src/index-cjs.cts",
+    ".././src/index-deno.mts",
+  ],
+  "extends": "./build.json",
+  "include": Array [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
     "../src/**/*.tsx",
   ],
 }
@@ -70,6 +105,10 @@ Object {
   "compilerOptions": Object {
     "outDir": "../.tshy-build-tmp/esm",
   },
+  "exclude": Array [
+    ".././src/index-cjs.cts",
+    ".././src/index-deno.mts",
+  ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
@@ -79,17 +118,31 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > .tshy/esm.json has initial tsconfig.json 1`] = `
+exports[`test/tsconfig.ts > TAP > .tshy/webpack.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/esm",
+    "outDir": "../.tshy-build-tmp/webpack",
   },
+  "exclude": Array [
+    "../src/**/*.mts",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
+  ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
-    "../src/**/*.mts",
+    "../src/**/*.cts",
     "../src/**/*.tsx",
   ],
+}
+`
+
+exports[`test/tsconfig.ts > TAP > tsconfig.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "this_data": "is preserved",
+    "yolo": "🍑",
+  },
 }
 `
 
@@ -110,15 +163,6 @@ Object {
     "sourceMap": true,
     "strict": true,
     "target": "es2022",
-  },
-}
-`
-
-exports[`test/tsconfig.ts > TAP > tsconfig.json has initial tsconfig.json 1`] = `
-Object {
-  "compilerOptions": Object {
-    "this_data": "is preserved",
-    "yolo": "🍑",
   },
 }
 `

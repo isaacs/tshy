@@ -1,10 +1,24 @@
 import chalk from 'chalk'
-import { existsSync, writeFileSync } from 'fs'
 import { mkdirpSync } from 'mkdirp'
+import { join } from 'node:path/posix'
+import {
+  existsSync,
+  readdirSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs'
+import { resolve } from 'node:path'
 import * as console from './console.js'
 
 // the commonjs build needs to exclude anything that will be polyfilled
 import polyfills from './polyfills.js'
+
+import config from './config.js'
+const {
+  dialects = ['esm', 'commonjs'],
+  esmDialects = [],
+  commonjsDialects = [],
+} = config
 
 const recommended: Record<string, any> = {
   compilerOptions: {
@@ -35,23 +49,42 @@ const build: Record<string, any> = {
   },
 }
 
-const commonjs: Record<string, any> = {
-  extends: './build.json',
-  include: ['../src/**/*.ts', '../src/**/*.cts', '../src/**/*.tsx'],
-  exclude: ['../src/**/*.mts', ...polyfills.values()].map(
-    f => `.${f}`
-  ),
-  compilerOptions: {
-    outDir: '../.tshy-build-tmp/commonjs',
-  },
+const commonjs = (dialect: string): Record<string, any> => {
+  const exclude = ['../src/**/*.mts']
+  for (const [d, pf] of polyfills) {
+    if (d === dialect) continue
+    for (const f of pf.map.keys()) {
+      exclude.push(`../${join(f)}`)
+    }
+  }
+  return {
+    extends: './build.json',
+    include: ['../src/**/*.ts', '../src/**/*.cts', '../src/**/*.tsx'],
+    exclude,
+    compilerOptions: {
+      outDir:
+        '../.tshy-build-tmp/' +
+        (dialect === 'cjs' ? 'commonjs' : dialect),
+    },
+  }
 }
 
-const esm: Record<string, any> = {
-  extends: './build.json',
-  include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
-  compilerOptions: {
-    outDir: '../.tshy-build-tmp/esm',
-  },
+const esm = (dialect: string): Record<string, any> => {
+  const exclude = []
+  for (const [d, pf] of polyfills) {
+    if (d === dialect) continue
+    for (const f of pf.map.keys()) {
+      exclude.push(`../${f}`)
+    }
+  }
+  return {
+    extends: './build.json',
+    include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
+    exclude,
+    compilerOptions: {
+      outDir: '../.tshy-build-tmp/' + dialect,
+    },
+  }
 }
 
 mkdirpSync('.tshy')
@@ -66,6 +99,19 @@ if (!existsSync('tsconfig.json')) {
   console.debug('using existing tsconfig.json')
   writeConfig('../tsconfig', recommended)
 }
+for (const f of readdirSync('.tshy')) {
+  unlinkSync(resolve('.tshy', f))
+}
 writeConfig('build', build)
-writeConfig('commonjs', commonjs)
-writeConfig('esm', esm)
+if (dialects.includes('commonjs')) {
+  writeConfig('commonjs', commonjs('cjs'))
+  for (const d of commonjsDialects) {
+    writeConfig(d, commonjs(d))
+  }
+}
+if (dialects.includes('esm')) {
+  writeConfig('esm', esm('esm'))
+  for (const d of esmDialects) {
+    writeConfig(d, esm(d))
+  }
+}
