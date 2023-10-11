@@ -1,11 +1,16 @@
 import { relative, resolve } from 'node:path/posix'
+import {
+  ConditionalValue,
+  ConditionalValueObject,
+  ExportsSubpaths,
+} from 'resolve-import'
 import config from './config.js'
 import dialects from './dialects.js'
 import fail from './fail.js'
 import pkg from './package.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
-import { Export, Package, TshyConfig, TshyExport } from './types.js'
+import { Package, TshyConfig, TshyExport } from './types.js'
 
 export const getImpTarget = (
   s: string | TshyExport | undefined | null
@@ -47,7 +52,7 @@ export const getReqTarget = (
 export const getExports = (
   c: TshyConfig,
   polyfills: Map<string, string>
-): Record<string, Export> => {
+): Record<string, ConditionalValue> => {
   // by this time it always exports, will get the default if missing
   /* c8 ignore start */
   if (!c.exports) {
@@ -55,12 +60,15 @@ export const getExports = (
     return process.exit(1)
   }
   /* c8 ignore stop */
-  const e: Record<string, Export> = {}
+  const e: Record<string, ConditionalValue> = {}
   for (const [sub, s] of Object.entries(c.exports)) {
     // external export, not built by us
-    if (typeof s !== 'string' || !s.startsWith('./src/')) {
+    if (
+      s !== null &&
+      (typeof s !== 'string' || !s.startsWith('./src/'))
+    ) {
       // already been validated, just accept as-is
-      e[sub] = s as Export
+      e[sub] = s as ConditionalValue
       continue
     }
 
@@ -72,7 +80,7 @@ export const getExports = (
     if (!impTarget && !reqTarget) continue
     /* c8 ignore stop */
 
-    const exp: Export = (e[sub] = {})
+    const exp: ConditionalValueObject = (e[sub] = {})
     if (impTarget) {
       exp.import = {
         types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
@@ -91,7 +99,7 @@ export const getExports = (
 
 export const setMain = (
   c: TshyConfig | undefined,
-  pkg: Package & { exports: Record<string, Export> }
+  pkg: Package & { exports: ExportsSubpaths }
 ) => {
   const mod = resolveExport(pkg.exports['.'], ['require'])
   const main = c?.main ?? !!mod
@@ -118,5 +126,5 @@ export const setMain = (
 // These are all defined by exports, so it's just confusing otherwise
 delete pkg.module
 pkg.exports = getExports(config, polyfills)
-setMain(config, pkg as Package & { exports: Record<string, Export> })
+setMain(config, pkg as Package & { exports: ExportsSubpaths })
 export default pkg.exports

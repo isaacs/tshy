@@ -1,8 +1,8 @@
 import { join } from 'path/posix'
+import type { ConditionalValueObject } from 'resolve-import'
 import { resolveExport } from './resolve-export.js'
-import { Export } from './types.js'
 
-export default (exp: any): exp is Export => {
+export default (exp: any): exp is ConditionalValueObject => {
   const i = resolveExport(exp, ['import'])
   const r = resolveExport(exp, ['require'])
   if (i && join(i).startsWith('src/')) return false

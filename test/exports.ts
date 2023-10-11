@@ -1,5 +1,6 @@
+import { ConditionalValue } from 'resolve-import'
 import t from 'tap'
-import { Export, TshyConfig } from '../src/types.js'
+import { TshyConfig } from '../src/types.js'
 
 const { getImpTarget, getReqTarget } = (await t.mockImport(
   '../src/exports.js',
@@ -71,7 +72,7 @@ t.test('setting top level main', async t => {
     string,
     {
       tshy?: TshyConfig
-      exports: Record<string, Export>
+      exports: Record<string, ConditionalValue>
       main?: string
       types?: string
       type?: string
