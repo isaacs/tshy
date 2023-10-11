@@ -160,15 +160,17 @@ folder in `dist` and `src` by doing this:
 
 Versions of node prior to 12.10.0 (published in early to mid
 2016) did not have support for `exports` as a means for defining
-package entry points.
+package entry points. Unfortunately, even 7 years later at the
+time of this writing, some projects are still using outdated
+tools that are not capable of understanding this interface.
 
-By default, tshy deletes the `main` field, rather than maintain
-this affordance for versions of node that met their end of life
-long ago. However, some tools still rely on `main` and have not
-been updated to read the package entry points via `exports`.
+If there is a `commonjs` export of the `"."` subpath, and the
+`tshy.main` field in package.json is not set to `false`, then
+tshy will use that to set the `main` and `types` fields, for
+compatibility with these tools. 
 
-**Warning: this will likely cause incorrect types to be loaded in
-some scenarios.**
+**Warning: relying on top-level main/types will likely cause
+incorrect types to be loaded in some scenarios.**
 
 Use with extreme caution. It's almost always better to _not_
 define top-level `main` and `types` fields if you are shipping a
@@ -176,12 +178,10 @@ hybrid module. Users will need to update their `module` and
 `moduleResolution` tsconfigs appropriately. **That is a good
 thing, and will save them future headaches.**
 
-You can tell tshy to export a top-level `main` and `types` field
-by setting `main` to `true`.
-
 If the `commonjs` dialect is not built, or if a `"."` export is
 not created, or if the `"."` export does not support the
-`commonjs` dialect, then the build will fail.
+`commonjs` dialect, and `main` is explicitly set to `true`, then
+the build will fail.
 
 For example, this config:
 
@@ -190,8 +190,7 @@ For example, this config:
   "tshy": {
     "exports": {
       ".": "./src/index.ts"
-    },
-    "main": true
+    }
   }
 }
 ```
