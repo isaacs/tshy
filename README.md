@@ -113,6 +113,59 @@ just be passed through as-is.
 }
 ```
 
+### `tshy.imports`
+
+You can use Node `package.json` `imports` in the `tshy` config,
+referencing input files in `./src`. These will be copied into the
+`package.json` files built into the `dist/{esm,commonjs}`
+folders, so that they work like they would in a normal Node
+program.
+
+The `tshy.imports` entries:
+
+- Must have a string key starting with `#`.
+- Must have a string value starting with `'./src'`.
+
+For example, you can do this:
+
+```json
+{
+  "tshy": {
+    "imports": {
+      "#foo": "./src/lib/foo.ts",
+      "#utils/*": "./src/app/shared-components/utils/*"
+    }
+  }
+}
+```
+
+Then in your program, you can do this:
+
+```ts
+// src/index.ts
+import { foo } from '#foo'
+import { barUtil } from '#utils/bar.js'
+```
+
+When this is compiled to `./dist/esm/index.js`, it will
+automatically map `#foo` to `./dist/esm/lib/foo.js` and
+`#utils/bar.js` to
+`./dist/esm/app/shared-components/utils/bar.js`.
+
+When using this feature, `tshy` will automatically update your
+`./tsconfig.json` file to set the
+[`paths`](https://www.typescriptlang.org/tsconfig#paths)
+appropriately so that it can find the types.
+
+Note that you can _not_ set conditional imports in this way, so
+you can't use this to have `#import` style module identifiers
+pointing to something outside of the built `dist` folder. (That
+_is_ supported with `imports` in the top level `package.json`,
+with some caveats. See below.)
+
+None of the keys in `tshy.imports` are allowed to conflict with
+the keys in the `package.json`'s top-level `imports`.
+
 ### Making Noise
 
 On failure, all logs will be printed.
@@ -158,8 +211,8 @@ folder in `dist` and `src` by doing this:
 
 ### Old Style Exports
 
-Versions of node prior to 12.10.0 (published in early to mid
-2016) did not have support for `exports` as a means for defining
+Versions of node prior to 12.10.0, published in early to mid
+2016, did not have support for `exports` as a means for defining
 package entry points. Unfortunately, even 7 years later at the
 time of this writing, some projects are still using outdated
 tools that are not capable of understanding this interface.
@@ -167,7 +220,7 @@ tools that are not capable of understanding this interface.
 If there is a `commonjs` export of the `"."` subpath, and the
 `tshy.main` field in package.json is not set to `false`, then
 tshy will use that to set the `main` and `types` fields, for
-compatibility with these tools. 
+compatibility with these tools.
 
 **Warning: relying on top-level main/types will likely cause
 incorrect types to be loaded in some scenarios.**
@@ -404,7 +457,7 @@ for this purpose, and then delete it afterwards. If that file
 exists and _wasn't_ put there by `tshy`, then it will be
 destroyed.
 
-## Package `#imports`
+## Package `#imports` (outside of `tshy` config)
 
 If you use `"imports"` in your package.json, then tshy will set
 `scripts.preinstall` to set up some symbolic links to make it

@@ -1,7 +1,12 @@
-import type { ConditionalValue, ExportsSubpaths } from 'resolve-import'
+import type {
+  ConditionalValue,
+  ExportsSubpaths,
+  Imports,
+} from 'resolve-import'
 
 export type TshyConfig = {
   exports?: Record<string, TshyExport>
+  imports?: Record<string, string>
   dialects?: Dialect[]
   selfLink?: boolean
   main?: boolean
@@ -27,6 +32,6 @@ export type Package = {
   bin?: string | Record<string, string>
   exports?: ExportsSubpaths
   tshy?: TshyConfig
-  imports?: Record<string, any>
+  imports?: Imports
   [k: string]: any
 }

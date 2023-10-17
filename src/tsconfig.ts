@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import { mkdirpSync } from 'mkdirp'
-import { join } from 'node:path/posix'
 import {
   existsSync,
   readdirSync,
@@ -8,19 +7,21 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { resolve } from 'node:path'
+import { join } from 'node:path/posix'
 import * as console from './console.js'
 
 // the commonjs build needs to exclude anything that will be polyfilled
+import { addToFile, addToObject } from './add-paths-to-tsconfig.js'
+import config from './config.js'
 import polyfills from './polyfills.js'
 
-import config from './config.js'
 const {
   dialects = ['esm', 'commonjs'],
   esmDialects = [],
   commonjsDialects = [],
 } = config
 
-const recommended: Record<string, any> = {
+const recommended: Record<string, any> = addToObject({
   compilerOptions: {
     declaration: true,
     declarationMap: true,
@@ -37,7 +38,7 @@ const recommended: Record<string, any> = {
     strict: true,
     target: 'es2022',
   },
-}
+})
 
 const build: Record<string, any> = {
   extends: '../tsconfig.json',
@@ -70,7 +71,7 @@ const commonjs = (dialect: string): Record<string, any> => {
 }
 
 const esm = (dialect: string): Record<string, any> => {
-  const exclude = []
+  const exclude: string[] = []
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
     for (const f of pf.map.keys()) {
@@ -96,8 +97,11 @@ const writeConfig = (name: string, data: Record<string, any>) =>
 
 console.debug(chalk.cyan.dim('writing tsconfig files...'))
 if (!existsSync('tsconfig.json')) {
-  console.debug('using existing tsconfig.json')
+  console.debug('using recommended tsconfig.json')
   writeConfig('../tsconfig', recommended)
+} else {
+  console.debug('using existing tsconfig.json')
+  addToFile()
 }
 for (const f of readdirSync('.tshy')) {
   unlinkSync(resolve('.tshy', f))

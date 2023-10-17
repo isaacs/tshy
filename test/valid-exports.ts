@@ -20,7 +20,7 @@ const cases: [any, boolean][] = [
   [{ './b': './src/blah.ts' }, true],
   [{ './b': 'src/b.ts' }, true],
   [{ './B': 8 }, false],
-  [{ './b': { require: './blah.js' }}, true ],
+  [{ './b': { require: './blah.js' } }, true],
 ]
 
 t.plan(cases.length)

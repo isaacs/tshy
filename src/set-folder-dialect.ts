@@ -2,6 +2,7 @@ import chalk from 'chalk'
 import { writeFileSync } from 'fs'
 import { rimrafSync } from 'rimraf'
 import * as console from './console.js'
+import getImports from './get-imports.js'
 import pkg from './package.js'
 import { Dialect } from './types.js'
 
@@ -11,9 +12,12 @@ const writeDialectPJ = (d: string, mode?: Dialect) => {
   }
   const v: { type: string; imports?: Record<string, any> } = {
     type: mode === 'commonjs' ? 'commonjs' : 'module',
-    imports: pkg.imports,
+    imports: getImports(pkg),
   }
-  writeFileSync(`${d}/package.json`, JSON.stringify(v))
+  writeFileSync(
+    `${d}/package.json`,
+    JSON.stringify(v, null, 2) + '\n'
+  )
 }
 
 export default (where: string, mode?: Dialect) => {

@@ -67,7 +67,7 @@ t.test('basic commonjs build', async t => {
     })
   )
   let buildFailed = false
-  const { buildCommonJS } = await t.mockImport(
+  const { buildCommonJS } = (await t.mockImport(
     '../dist/esm/build-commonjs.js',
     {
       child_process: { spawnSync },
@@ -77,7 +77,7 @@ t.test('basic commonjs build', async t => {
         },
       },
     }
-  ) as typeof import('../dist/esm/build-commonjs.js')
+  )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, false)
   t.matchSnapshot(output())
@@ -110,7 +110,7 @@ t.test('build failure', async t => {
     })
   )
   let buildFailed = false
-  const { buildCommonJS } = await t.mockImport(
+  const { buildCommonJS } = (await t.mockImport(
     '../dist/esm/build-commonjs.js',
     {
       child_process: { spawnSync },
@@ -120,7 +120,7 @@ t.test('build failure', async t => {
         },
       },
     }
-  ) as typeof import('../dist/esm/build-commonjs.js')
+  )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, true)
   t.matchSnapshot(output())

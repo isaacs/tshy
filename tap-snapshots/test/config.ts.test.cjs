@@ -13,6 +13,14 @@ exports[`test/config.ts > TAP > {"config":{"exports":{"./blah":{"require":"./src
 tshy.exports ./blah unbuilt exports must not be in ./src, and exports in src must be string values. got: {"require":"./src/notallowed"}
 `
 
+exports[`test/config.ts > TAP > {"config":{"imports":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `
+tshy.imports must be an object if specified
+`
+
+exports[`test/config.ts > TAP > {"config":{"imports":["blah"]},"sources":[],"ok":false} > must match snapshot 1`] = `
+tshy.imports must be an object if specified
+`
+
 exports[`test/config.ts > TAP > {"config":{"main":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `
 tshy.main must be a boolean value if specified, got: blah
 `

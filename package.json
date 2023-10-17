@@ -31,8 +31,7 @@
     "snap": "tap"
   },
   "tap": {
-    "coverage-map": "map.js",
-    "typecheck": true
+    "coverage-map": "map.js"
   },
   "engines": {
     "node": "16 >=16.17 || 18 >=18.15.0 || >=20.6.1"

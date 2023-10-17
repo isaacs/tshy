@@ -54,6 +54,26 @@ const cases: [
   ],
   //@ts-expect-error
   [{ main: 'blah' }, [], false, {}],
+
+  //@ts-expect-error
+  [{ imports: 'blah' }, [], false, {}],
+
+  //@ts-expect-error
+  [{ imports: ['blah'] }, [], false, {}],
+
+  [
+    { imports: { '#blah': './src/blah.ts' } },
+    [],
+    true,
+    {
+      imports: {
+        '#blah': './src/blah.ts',
+      },
+      exports: {
+        './package.json': './package.json',
+      },
+    },
+  ],
 ]
 
 t.plan(cases.length)

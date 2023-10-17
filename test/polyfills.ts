@@ -1,4 +1,4 @@
-import {inspect} from 'node:util'
+import { inspect } from 'node:util'
 import t from 'tap'
 
 const polyfills = await t.mockImport('../dist/esm/polyfills.js', {
@@ -39,17 +39,13 @@ t.match(
     [
       'deno',
       {
-        map: new Map([
-          ['./src/foo-deno.mts', './src/foo.ts'],
-        ]),
+        map: new Map([['./src/foo-deno.mts', './src/foo.ts']]),
       },
     ],
     [
       'blah',
       {
-        map: new Map([
-          ['./src/foo-blah.cts', './src/foo.ts'],
-        ]),
+        map: new Map([['./src/foo-blah.cts', './src/foo.ts']]),
       },
     ],
   ])

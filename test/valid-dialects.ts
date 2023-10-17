@@ -2,9 +2,12 @@ import t from 'tap'
 
 const exits = t.capture(process, 'exit', () => false).args
 let failed = false
-const { default: validDialects } = await t.mockImport('../dist/esm/valid-dialects.js', {
-  '../dist/esm/fail.js': () => failed = true
-}) as typeof import('../dist/esm/valid-dialects.js')
+const { default: validDialects } = (await t.mockImport(
+  '../dist/esm/valid-dialects.js',
+  {
+    '../dist/esm/fail.js': () => (failed = true),
+  }
+)) as typeof import('../dist/esm/valid-dialects.js')
 
 t.equal(validDialects(['esm', 'commonjs']), true)
 t.equal(validDialects(['commonjs']), true)

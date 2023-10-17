@@ -1,5 +1,5 @@
 import t from 'tap'
-import {TshyConfig} from '../src/types.js'
+import { TshyConfig } from '../src/types.js'
 const mockFail = {
   default: (..._: any[]) => {},
 }
@@ -13,22 +13,22 @@ const { default: validExtraDialects } = (await t.mockImport(
   }
 )) as typeof import('../src/valid-extra-dialects.js')
 
-const cases:[config: TshyConfig, ok: boolean][] = [
+const cases: [config: TshyConfig, ok: boolean][] = [
   [{}, true],
-  [{commonjsDialects:['blah']}, true],
-  [{esmDialects:['blah']}, true],
-  [{esmDialects:['blah'], commonjsDialects:['blah']}, false],
-  [{esmDialects:['blah'], commonjsDialects:['bloo']}, true],
-  [{esmDialects:['default']}, false],
-  [{esmDialects:['import']}, false],
-  [{esmDialects:['require']}, false],
-  [{esmDialects:['node']}, false],
-  [{esmDialects:['commonjs']}, false],
-  [{esmDialects:['cjs']}, false],
+  [{ commonjsDialects: ['blah'] }, true],
+  [{ esmDialects: ['blah'] }, true],
+  [{ esmDialects: ['blah'], commonjsDialects: ['blah'] }, false],
+  [{ esmDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
+  [{ esmDialects: ['default'] }, false],
+  [{ esmDialects: ['import'] }, false],
+  [{ esmDialects: ['require'] }, false],
+  [{ esmDialects: ['node'] }, false],
+  [{ esmDialects: ['commonjs'] }, false],
+  [{ esmDialects: ['cjs'] }, false],
   //@ts-expect-error
-  [{esmDialects:[123]}, false],
+  [{ esmDialects: [123] }, false],
   //@ts-expect-error
-  [{commonjsDialects:[123]}, false],
+  [{ commonjsDialects: [123] }, false],
 ]
 
 for (const [config, ok] of cases) {

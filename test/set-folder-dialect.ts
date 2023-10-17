@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import {resolve} from 'path'
+import { resolve } from 'path'
 import t from 'tap'
 import setFolderDialect from '../src/set-folder-dialect.js'
 
@@ -9,9 +9,9 @@ const expect = (n?: string) => {
   if (!n) {
     t.throws(() => readFileSync(resolve(dir, 'package.json'), 'utf8'))
   } else {
-    t.equal(readFileSync(resolve(dir, 'package.json'), 'utf8'), JSON.stringify({
-      type: n
-    }))
+    const expect = JSON.stringify({ type: n }, null, 2) + '\n'
+    const actual = readFileSync(resolve(dir, 'package.json'), 'utf8')
+    t.equal(actual, expect)
   }
 }
 

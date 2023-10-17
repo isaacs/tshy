@@ -67,7 +67,7 @@ t.test('basic esm build', async t => {
     })
   )
   let buildFailed = false
-  const { buildESM } = await t.mockImport(
+  const { buildESM } = (await t.mockImport(
     '../dist/esm/build-esm.js',
     {
       child_process: { spawnSync },
@@ -77,7 +77,7 @@ t.test('basic esm build', async t => {
         },
       },
     }
-  ) as typeof import('../dist/esm/build-esm.js')
+  )) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, false)
   t.matchSnapshot(output())
@@ -110,7 +110,7 @@ t.test('build failure', async t => {
     })
   )
   let buildFailed = false
-  const { buildESM } = await t.mockImport(
+  const { buildESM } = (await t.mockImport(
     '../dist/esm/build-esm.js',
     {
       child_process: { spawnSync },
@@ -120,7 +120,7 @@ t.test('build failure', async t => {
         },
       },
     }
-  ) as typeof import('../dist/esm/build-esm.js')
+  )) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, true)
   t.matchSnapshot(output())

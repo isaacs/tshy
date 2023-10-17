@@ -14,7 +14,7 @@ export class PolyfillSet {
     this.type = type
     this.name = name
   }
-  addFile (f: string, sources: Set<string>) {
+  addFile(f: string, sources: Set<string>) {
     const dotts = this.type === 'commonjs' ? 'cts' : 'mts'
     const ending = `-${this.name}.${dotts}`
     if (!f.endsWith(ending)) return

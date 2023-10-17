@@ -1,3 +1,5 @@
+// this is the thing that supports top-level package.json imports
+// via symlinks, not the tshy.imports which are just config.
 import { writeFileSync } from 'fs'
 import { symlink } from 'fs/promises'
 import { mkdirp } from 'mkdirp'
