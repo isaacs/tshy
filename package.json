@@ -46,10 +46,10 @@
     "build"
   ],
   "devDependencies": {
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.8.6",
     "prettier": "^2.8.8",
-    "tap": "^18.5.0",
-    "typedoc": "^0.25.1"
+    "tap": "^18.5.2",
+    "typedoc": "^0.25.2"
   },
   "prettier": {
     "semi": false,
