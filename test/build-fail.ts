@@ -9,7 +9,7 @@ const { default: buildFail } = (await t.mockImport(
   {
     '../dist/esm/tsconfig.js': {},
     '../dist/esm/package.js': { default: { name: 'package' } },
-    '../dist/esm/imports.js': {
+    '../dist/esm/unbuilt-imports.js': {
       unlink: (...a: any[]) => calls.push(['unlinkImports', a]),
     },
     '../dist/esm/self-dep.js': {

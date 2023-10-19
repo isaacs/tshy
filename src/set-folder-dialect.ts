@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import { writeFileSync } from 'fs'
 import { rimrafSync } from 'rimraf'
 import * as console from './console.js'
-import getImports from './get-imports.js'
+import getImports from './built-imports.js'
 import pkg from './package.js'
 import { Dialect } from './types.js'
 

@@ -10,7 +10,7 @@ import {
   link as linkImports,
   save as saveImports,
   unlink as unlinkImports,
-} from './imports.js'
+} from './unbuilt-imports.js'
 import pkg from './package.js'
 import {
   link as linkSelfDep,
