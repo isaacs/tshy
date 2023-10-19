@@ -6,7 +6,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [16.x, 18.15.x, 18.x, 20.x]
+        node-version: [16.x, 18.x, 20.x]
         platform:
         - os: ubuntu-latest
           shell: bash
@@ -21,12 +21,13 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v1.1.0
+        uses: actions/checkout@v4
 
       - name: Use Nodejs ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: npm
 
       - name: Install dependencies
         run: npm install
