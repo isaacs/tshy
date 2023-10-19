@@ -5,30 +5,22 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":"asdf"},"pkg":{}} > failure message 1`] = `
-tshy.imports must be an object if specified
+exports[`test/valid-imports.ts > TAP > {"pkg":{"imports":"asdf"}} > failure message 1`] = `
+invalid imports object, must be Record<string, Import>, got: "asdf"
 `
 
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":[]},"pkg":{}} > failure message 1`] = `
-tshy.imports must be an object if specified
+exports[`test/valid-imports.ts > TAP > {"pkg":{"imports":[]}} > failure message 1`] = `
+invalid imports object, must be Record<string, Import>, got: []
 `
 
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":{"#":"y"}},"pkg":{}} > failure message 1`] = `
-invalid tshy.imports module specifier: #
+exports[`test/valid-imports.ts > TAP > {"pkg":{"imports":{"#":"y"}}} > failure message 1`] = `
+invalid imports module specifier: #
 `
 
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":{"#x":"./src/x"}},"pkg":{"imports":{"#x":{}}}} > failure message 1`] = `
-tshy.imports keys must not appear in top-level imports, found in both: "#x"
+exports[`test/valid-imports.ts > TAP > {"pkg":{"imports":{"#x":["./src/x"]}}} > failure message 1`] = `
+unbuilt package.imports #x must not be in ./src, and imports in ./src must be string values. got: ["./src/x"]
 `
 
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":{"#x":"y"}},"pkg":{}} > failure message 1`] = `
-tshy.imports values must start with "./src/", got: "y"
-`
-
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":{"#x":{}}},"pkg":{}} > failure message 1`] = `
-tshy.imports values must start with "./src/", got: {}
-`
-
-exports[`test/valid-imports.ts > TAP > {"config":{"imports":{"x":"y"}},"pkg":{}} > failure message 1`] = `
-invalid tshy.imports module specifier: x
+exports[`test/valid-imports.ts > TAP > {"pkg":{"imports":{"x":"y"}}} > failure message 1`] = `
+invalid imports module specifier: x
 `

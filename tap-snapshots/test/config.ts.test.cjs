@@ -14,11 +14,11 @@ tshy.exports ./blah unbuilt exports must not be in ./src, and exports in src mus
 `
 
 exports[`test/config.ts > TAP > {"config":{"imports":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `
-tshy.imports must be an object if specified
+invalid imports module specifier: 0
 `
 
 exports[`test/config.ts > TAP > {"config":{"imports":["blah"]},"sources":[],"ok":false} > must match snapshot 1`] = `
-tshy.imports must be an object if specified
+invalid imports module specifier: 0
 `
 
 exports[`test/config.ts > TAP > {"config":{"main":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `

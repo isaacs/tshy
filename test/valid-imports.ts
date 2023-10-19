@@ -1,5 +1,5 @@
 import t from 'tap'
-import { Package, TshyConfig } from '../src/types.js'
+import { Package } from '../src/types.js'
 
 let failed: undefined | string = undefined
 
@@ -14,32 +14,22 @@ const { default: validImports } = (await t.mockImport(
 
 const exits = t.capture(process, 'exit').args
 
-const cases: [
-  conf: TshyConfig,
-  pkg: Omit<Package, 'name' | 'version'>,
-  ok: boolean
-][] = [
-  [{}, {}, true],
-  //@ts-expect-error
-  [{ imports: 'asdf' }, {}, false],
-  //@ts-expect-error
-  [{ imports: [] }, {}, false],
-  //@ts-expect-error
-  [{ imports: { '#x': {} } }, {}, false],
-  [{ imports: { '#x': 'y' } }, {}, false],
-  [{ imports: { x: 'y' } }, {}, false],
-  [{ imports: { '#': 'y' } }, {}, false],
+const cases: [pkg: Omit<Package, 'name' | 'version'>, ok: boolean][] =
   [
-    { imports: { '#x': './src/x' } },
-    { imports: { '#x': {} } },
-    false,
-  ],
-  [{ imports: { '#x': './src/x' } }, {}, true],
-]
+    [{}, true],
+    [{ imports: 'asdf' }, false],
+    [{ imports: [] }, false],
+    [{ imports: { '#x': {} } }, true],
+    [{ imports: { '#x': 'y' } }, true],
+    [{ imports: { x: 'y' } }, false],
+    [{ imports: { '#': 'y' } }, false],
+    [{ imports: { '#x': './src/x' } }, true],
+    [{ imports: { '#x': ['./src/x'] }}, false],
+  ]
 
-for (const [config, pkg, ok] of cases) {
-  t.test(JSON.stringify({ config, pkg }), t => {
-    const actual = validImports(config, pkg as Package)
+for (const [pkg, ok] of cases) {
+  t.test(JSON.stringify({ pkg }), t => {
+    const actual = validImports(pkg as Package)
     if (!ok) {
       t.notOk(actual, 'should not be ok')
       t.matchSnapshot(failed, 'failure message')

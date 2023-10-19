@@ -6,7 +6,6 @@ import type {
 
 export type TshyConfig = {
   exports?: Record<string, TshyExport>
-  imports?: Record<string, string>
   dialects?: Dialect[]
   selfLink?: boolean
   main?: boolean

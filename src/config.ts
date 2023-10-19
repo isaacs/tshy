@@ -1,5 +1,7 @@
 // get the config and package and stuff
 
+import chalk from 'chalk'
+import * as console from './console.js'
 import fail from './fail.js'
 import pkg from './package.js'
 import sources from './sources.js'
@@ -23,14 +25,26 @@ const validConfig = (e: any): e is TshyConfig =>
   (e.dialects === undefined || validDialects(e.dialects)) &&
   validExtraDialects(e) &&
   validBoolean(e, 'selfLink') &&
-  validBoolean(e, 'main') &&
-  validImports(e, pkg)
+  validBoolean(e, 'main')
 
 const getConfig = (
   pkg: Package,
   sources: Set<string>
 ): TshyConfig => {
   const tshy: TshyConfig = validConfig(pkg.tshy) ? pkg.tshy : {}
+  const ti = tshy as TshyConfig & { imports?: any }
+  if (ti.imports) {
+    console.debug(
+      chalk.cyan.dim('imports') +
+        ' moving from tshy config to top level'
+    )
+    pkg.imports = {
+      ...pkg.imports,
+      ...ti.imports,
+    }
+    delete ti.imports
+  }
+  validImports(pkg)
   if (tshy.exports) return tshy
   const e: Exclude<TshyConfig['exports'], undefined> = {
     './package.json': './package.json',
