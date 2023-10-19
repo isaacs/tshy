@@ -11,7 +11,6 @@ import { join } from 'node:path/posix'
 import * as console from './console.js'
 
 // the commonjs build needs to exclude anything that will be polyfilled
-import { addToFile, addToObject } from './add-paths-to-tsconfig.js'
 import config from './config.js'
 import polyfills from './polyfills.js'
 
@@ -21,7 +20,7 @@ const {
   commonjsDialects = [],
 } = config
 
-const recommended: Record<string, any> = addToObject({
+const recommended: Record<string, any> = {
   compilerOptions: {
     declaration: true,
     declarationMap: true,
@@ -38,7 +37,7 @@ const recommended: Record<string, any> = addToObject({
     strict: true,
     target: 'es2022',
   },
-})
+}
 
 const build: Record<string, any> = {
   extends: '../tsconfig.json',
@@ -101,7 +100,6 @@ if (!existsSync('tsconfig.json')) {
   writeConfig('../tsconfig', recommended)
 } else {
   console.debug('using existing tsconfig.json')
-  addToFile()
 }
 for (const f of readdirSync('.tshy')) {
   unlinkSync(resolve('.tshy', f))

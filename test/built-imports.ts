@@ -11,12 +11,10 @@ const cases: [
   [{ imports: { '#x': 'y' } }, { '#x': 'y' }],
   [
     {
-      tshy: {
-        imports: {
-          '#t': './src/t.ts',
-          '#x': './src/x.tsx',
-          '#b/*': './src/blah/*.ts',
-        },
+      imports: {
+        '#t': './src/t.ts',
+        '#x': './src/x.tsx',
+        '#b/*': './src/blah/*.ts',
       },
     },
     { '#t': './t.js', '#x': './x.js', '#b/*': './blah/*.js' },
@@ -25,13 +23,9 @@ const cases: [
     {
       imports: {
         '#a': './xyz/a.js',
-      },
-      tshy: {
-        imports: {
-          '#t': './src/t.ts',
-          '#x': './src/x.tsx',
-          '#b/*': './src/blah/*.ts',
-        },
+        '#t': './src/t.ts',
+        '#x': './src/x.tsx',
+        '#b/*': './src/blah/*.ts',
       },
     },
     {
