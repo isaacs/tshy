@@ -113,58 +113,103 @@ just be passed through as-is.
 }
 ```
 
-### `tshy.imports`
+### Package `#imports`
 
-You can use Node `package.json` `imports` in the `tshy` config,
-referencing input files in `./src`. These will be copied into the
-`package.json` files built into the `dist/{esm,commonjs}`
-folders, so that they work like they would in a normal Node
-program.
+You can use `"imports"` in your package.json, and it will be
+handled in the following ways.
 
-The `tshy.imports` entries:
+### Built Imports
 
-- Must have a string key starting with `#`.
-- Must have a string value starting with `'./src'`.
-
-For example, you can do this:
+Any `"imports"` that resolve to a file built as part of your
+program must be a non-conditional string value pointing to the
+file in `./src/`. For example:
 
 ```json
 {
-  "tshy": {
-    "imports": {
-      "#foo": "./src/lib/foo.ts",
-      "#utils/*": "./src/app/shared-components/utils/*"
+  "imports": {
+    "#name": "./src/path/to/name.ts",
+    "#utils/*": "./src/path/to/utils/*.ts"
+  }
+}
+```
+
+In the ESM build, `import * from '#name'` will resolve to
+`./dist/esm/path/to/name.js`, and will be built for ESM. In the
+CommonJS build, `require('#name')` will resolve to
+`./dist/commonjs/path/to/name.js` and will be built for CommonJS.
+
+<details>
+<summary>tl;dr how this works and why it can't be conditional</summary>
+
+In the built `dist/{dialect}/package.json` files, the `./src`
+will be stripped from the path and their file extension changed
+from `ts` to `js` (`cts` to `cjs` and `mts` to `mjs`).
+
+It shouldn't be conditional, because the condition is already
+implicit in the build. In the CommonJS build, they should be
+required, and in the ESM builds, they should be imported, and
+there's only one thing that it can resolve to from any given
+build.
+
+</details>
+
+Any `"imports"` that resolve to something _not_ built by tshy,
+then tshy will set `scripts.preinstall` to set up symbolic links
+to make it work at install time. This just means that you can't
+use `scripts.preinstall` for anything else if you have
+`"imports"` that aren't managed by tshy. For example:
+
+```json
+{
+  "imports": {
+    "#dep": "@scope/dep/submodule",
+    "#conditional": {
+      "types": "./vendor/blah.d.ts",
+      "require": "./vendor/blah.cjs",
+      "import": "./vendor/blah.mjs
     }
   }
 }
 ```
 
-Then in your program, you can do this:
+<details>
+<summary>tl;dr explanation</summary>
 
-```ts
-// src/index.ts
-import { foo } from '#foo'
-import { barUtil } from '#utils/bar.js'
-```
+The `"imports"` field in package.json allows you to set local
+package imports, which have the same kind of conditional import
+logic as `"exports"`. This is especially useful when you have a
+vendored dependency with `require` and `import` variants, modules
+that have to be bundled in different ways for different
+environments, or different dependencies for different
+environments.
 
-When this is compiled to `./dist/esm/index.js`, it will
-automatically map `#foo` to `./dist/esm/lib/foo.js` and
-`#utils/bar.js` to
-`./dist/esm/app/shared-components/utils/bar.js`.
+These package imports are _always_ resolved against the nearest
+`package.json` file, and tshy uses generated package.json files
+to set the module dialect to `"type":"module"` in `dist/esm` and
+`"type":"commonjs"` in `dist/commonjs`, and it swaps the
+`src/package.json` file between this during the `tsc` builds.
 
-When using this feature, `tshy` will automatically update your
-`./tsconfig.json` file to set the
-[`paths`](https://www.typescriptlang.org/tsconfig#paths)
-appropriately so that it can find the types.
+Furthermore, local package imports may not be relative files
+outside the package folder. They may only be local files within
+the local package, or dependencies resolved in `node_modules`.
 
-Note that you can _not_ set conditional imports in this way, so
-you can't use this to have `#import` style module identifiers
-pointing to something outside of the built `dist` folder. (That
-_is_ supported with `imports` in the top level `package.json`,
-with some caveats. See below.)
+To support this, tshy copies the `imports` field from the
+project's package.json into these dialect-setting generated
+package.json files, and creates symlinks into the appropriate
+places so that they resolve to the same files on disk.
 
-None of the keys in `tshy.imports` are allowed to conflict with
-the keys in the `package.json`'s top-level `imports`.
+Because symlinks may not be included in npm packages (and even if
+they are included, they won't be unpacked at install time), the
+symlinks it places in `./dist` wouldn't do much good. In order to
+work around _this_ restriction, tshy creates a node program at
+`dist/.tshy-link-imports.mjs`, which generates the symlinks at
+install time via the `preinstall` script.
+
+</details>
+
+_If a `tshy.imports` is present (a previous iteration of this
+behavior), it will be merged into the top-level `"imports"` and
+deleted from the `tshy` section._
 
 ### Making Noise
 
@@ -456,48 +501,6 @@ During the build, `tshy` will create a file at `src/package.json`
 for this purpose, and then delete it afterwards. If that file
 exists and _wasn't_ put there by `tshy`, then it will be
 destroyed.
-
-## Package `#imports` (outside of `tshy` config)
-
-If you use `"imports"` in your package.json, then tshy will set
-`scripts.preinstall` to set up some symbolic links to make it
-work. This just means you can't use `scripts.preinstall` for
-anything else if you use `"imports"`.
-
-<details>
-<summary>tl;dr explanation</summary>
-
-The `"imports"` field in package.json allows you to set local
-package imports, which have the same kind of conditional import
-logic as `"exports"`. This is especially useful when you have a
-vendored dependency with `require` and `import` variants, modules
-that have to be bundled in different ways for different
-environments, or different dependencies for different
-environments.
-
-These package imports are _always_ resolved against the nearest
-`package.json` file, and tshy uses generated package.json files
-to set the module dialect to `"type":"module"` in `dist/esm` and
-`"type":"commonjs"` in `dist/commonjs`, and it swaps the
-`src/package.json` file between this during the `tsc` builds.
-
-Furthermore, local package imports may not be relative files
-outside the package folder. They may only be local files within
-the local package, or dependencies resolved in `node_modules`.
-
-To support this, tshy copies the `imports` field from the
-project's package.json into these dialect-setting generated
-package.json files, and creates symlinks into the appropriate
-places so that they resolve to the same files on disk.
-
-Because symlinks may not be included in npm packages (and even if
-they are included, they won't be unpacked at install time), the
-symlinks it places in `./dist` wouldn't do much good. In order to
-work around _this_ restriction, tshy creates a node program at
-`dist/.tshy-link-imports.mjs`, which generates the symlinks at
-install time via the `preinstall` script.
-
-</details>
 
 ## Local Package `exports`
 
