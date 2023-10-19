@@ -16,7 +16,7 @@ const logCall = t.captureFn((_msg: string, _args: any[]) => {})
 const calls = logCall.args
 
 const mocks = {
-  '../dist/esm/imports.js': {
+  '../dist/esm/unbuilt-imports.js': {
     link: async (...a: any[]) => logCall('imports.link', a),
     unlink: async (...a: any[]) => logCall('imports.unlink', a),
     save: (...a: any[]) => logCall('imports.save', a),
@@ -105,7 +105,7 @@ t.test('imports linking', async t => {
         {
           ...mocks,
           '../dist/esm/package.js': { default: pkg },
-          '../dist/esm/imports.js': {
+          '../dist/esm/unbuilt-imports.js': {
             link: async (...a: any[]) => logCall('imports.link', a),
             unlink: async (...a: any[]) =>
               logCall('imports.unlink', a),

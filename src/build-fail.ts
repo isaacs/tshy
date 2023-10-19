@@ -3,7 +3,7 @@ import * as console from './console.js'
 import fail from './fail.js'
 import setFolderDialect from './set-folder-dialect.js'
 import './tsconfig.js'
-import { unlink as unlinkImports } from './imports.js'
+import { unlink as unlinkImports } from './unbuilt-imports.js'
 import { unlink as unlinkSelfDep } from './self-dep.js'
 import pkg from './package.js'
 

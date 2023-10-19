@@ -38,8 +38,12 @@ Promise.all(links.map(([dest, src]) => symlink(src, dest).catch(e)))
 }
 
 let targets: undefined | string[] = undefined
+// Get the targets that will have to be linked, because they're not
+// a target in ./src
 const getTargets = async (imports: Record<string, any>) => {
-  const conds = getAllConditionalValues(imports)
+  const conds = getAllConditionalValues(imports).filter(
+    c => !c.startsWith('./src/')
+  )
   if (!conds.some(c => c.includes('*'))) {
     // fast path
     return (targets = conds.filter(c => c.startsWith('./')))
@@ -54,7 +58,14 @@ const getTargets = async (imports: Record<string, any>) => {
       if (typeof url === 'string') continue
       const p = fileURLToPath(url)
       const rel = relative(process.cwd(), p)
-      if (!rel || rel.startsWith('..' + sep)) continue
+      // if it's empty, a dep in node_modules, or a built module, skip
+      if (
+        !rel ||
+        rel.startsWith('..' + sep) ||
+        rel.startsWith('src' + sep) ||
+        rel.startsWith('node_modules' + sep)
+      )
+        continue
       t.add('./' + rel.replace(/\\/g, '/'))
     }
   }
@@ -72,6 +83,7 @@ export const link = async (
   const { imports } = pkg
   if (!imports) return
   if (!targets) targets = await getTargets(imports)
+  if (!targets.length) return
   console.debug(`link import targets in ${dir}`, targets)
   const rel = relative(resolve(dir), process.cwd())
   const lps: Promise<any>[] = []
