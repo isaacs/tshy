@@ -1,3 +1,14 @@
+# 1.7
+
+- Prevent `verbatimModuleSyntax` ts config if building for both
+  ESM and CommonJS, as it's fundamentally incompatible
+- Add `--watch` option
+- Add `--help` option
+
+# 1.6
+
+- put all imports in top-level imports field (2023-10-19)
+
 # 1.5
 
 - Add `tshy.imports` config
@@ -16,7 +27,7 @@
 # 1.2
 
 - Initial experimental support for `tshy.main`
-- Add  `tshy.selfLink` config to suppress the internal symlink
+- Add `tshy.selfLink` config to suppress the internal symlink
 
 # 1.1
 
