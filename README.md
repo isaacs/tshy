@@ -36,6 +36,203 @@ The built files will end up in `./dist/esm` (ESM) and
 Your `exports` will be edited to reflect the correct module entry
 points.
 
+## Dual Package Hazards
+
+If you are exporting both CommonJS and ESM forms of a package,
+then it is possible for both versions to be loaded at run-time.
+However, the CommonJS build is a different module from the ESM
+build, and thus a _different thing_ from the point of view of the
+JavaScript interpreter in Node.js.
+
+Consider this contrived example:
+
+```js
+// import the class from ESM
+import { SomeClass } from 'module-built-by-tshy'
+import { createRequire } from 'node:module'
+const req = createRequire(import.meta.url)
+
+// create an object using the commonjs version
+function getObject() {
+  const { SomeClass } = require('module-built-by-tshy')
+  return new SomeClass()
+}
+
+const obj = getObject()
+console.log(obj instanceof SomeClass) // false!!
+```
+
+In a real program, this might happen because one part of the code
+loads the package using `require()` and another loads it using
+`import`.
+
+The Node.js documentation
+[recommends](https://nodejs.org/api/packages.html#dual-package-hazard)
+exporting an ESM wrapper that re-exports the CommonJS code, or
+isolating state into a single module used by both CommonJS and
+ESM. While these strategies do work, they are not what tshy does.
+
+### What Does tshy Do Instead?
+
+It builds your program twice, into two separate folders, and sets
+up exports. By default, the ESM and CommonJS forms live in
+separate universes, unaware of one another, and treats the "Dual
+Module Hazard" as a simple fact of life.
+
+Which it is.
+
+### "Dual Module Hazard" is a fact of life anyway
+
+Since the advent of npm, circa 2010, module in node have been
+potentially duplicated in the dependency graph. Node's nested
+`node_modules` resolution algorithm, added in Node 0.4, made this
+even easier to leverage, and more likely to occur.
+
+So: **as a package author, you cannot safely rely on there being
+exactly one copy of your library loaded at run-time.**
+
+This doesn't mean you shouldn't care about it. It mean that you
+_should_ take it into consideration always, whether you are using
+a hybrid build or not.
+
+If you need to ensure that exactly one copy of something exists
+at run-time, whether using a hybrid build or not, you need to
+guard this with a check that is not dependent on the dependency
+graph, such as a global variable.
+
+```js
+const ThereCanBeOnlyOne = Symbol.for('there can be only one')
+const g = globalThis as typeof globalThis & {
+  [ThereCanBeOnlyOne]?: Thing
+}
+import { Thing } from './thing.js'
+g[ThereCanBeOnlyOne] ??= new Thing
+export const thing = g[ThereCanBeOnlyOne]
+```
+
+If you find yourself doing this, it's a good idea to pause and
+consider if you would be better off with a type check function or
+something other than relying on `instanceof`. There are certainly
+cases where it's unavoidable, but it can be tricky to work with.
+
+### Module Local State
+
+There are some cases where you need something to be the _same
+value_ whether loaded with CommonJS or ESM, but not necessarily
+unique to the entire program.
+
+For example, say that there is some package-local set of data,
+and it needs to be updated and accessible whether the user is
+accessing your package via `import` or `require`.
+
+In this case, we can use a dialect polyfill that pulls in the
+state module from a single dialect.
+
+In Node, it's easy for ESM to load CommonJS, but since ESM cannot
+be loaded synchronously by CommonJS, I recommend putting the
+state in the polyfill, and having the "normal" module access it
+from that location.
+
+For example:
+
+```js
+// src/index.ts
+import { state } from './state.js'
+export const setValue = (key: string, value: any) => {
+  state[key] = value
+}
+export const getValue = (key: string) => state[key]
+```
+
+```js
+// src/state-cjs.cts
+// this is the actual "thing"
+export const state: Record<string, any> = {}
+```
+
+```js
+// src/state.ts
+// this is what will end up in the esm build
+// need a ts-ignore because this is a hack.
+//@ts-ignore
+import cjsState from '../commonjs/state.js'
+export const { state } = cjsState as { state: Record<string, any> }
+```
+
+If you need a provide an ESM dialect that _doesn't_ support
+CommonJS (eg, deno, browser, etc), then you can do this:
+
+```js
+// src/state-deno.mts
+// can't load the CJS version, so no dual package hazard
+export const state: Record<string, any> = {}
+```
+
+See below for more on using dialect specific polyfills.
+
+## Handling Default Exports
+
+`export default` is the bane of hybrid TypeScript modules.
+
+When compiled as CommonJS, this results in creating an export
+named `default`, which is not the same as setting
+`module.exports`.
+
+```js
+// esm, beautiful and clean
+import foo from 'foo'
+// commonjs, unnecessarily ugly and confusing
+// even if you like it for some reason, it's not "the same"
+const { default: foo } = require('foo')
+```
+
+You can tell TypeScript to do a true default export for CommonJS
+by using `export = <whatever>`. However:
+
+- This is not compatible with an ESM build.
+- You cannot export types along with it.
+
+In general, when publishing TypeScript packages as both CommonJS
+and ESM, it is a good idea to avoid default exports for any
+public interfaces.
+
+- No need to polyfill anything.
+- Can export types alongside the values.
+
+However, if you are publishing something that _does_ need to
+provide a default export (for example, porting a project to
+hybrid and/or TypeScript, and want to keep the interface
+consistent), you can do it with a CommonJS polyfill.
+
+```ts
+// index.ts
+// the thing that gets exported for ESM
+import { thing } from './main.ts'
+import type { SomeType } from './main.ts'
+
+export default thing
+export type { SomeType }
+```
+
+```ts
+// index-cjs.cts
+// the polyfill for CommonJS
+import * as items from './main.ts'
+declare global {
+  namespace mything {
+    export type SomeType = items.SomeType
+  }
+}
+export = items.thing
+```
+
+Then, CommonJS users will get the appropriate thing when they
+`import 'mything'`, and can access the type via the global
+namespace like `mything.SomeType`.
+
+But in almost all cases, it's much simpler to just use named
+exports exclusively.
+
 ## Configuration
 
 Mostly, this just uses opinionated convention, and so there is
@@ -44,14 +241,18 @@ very little to configure.
 Source must be in `./src`. Builds are in `./dist/commonjs` for
 CommonJS and `./dist/esm` for ESM.
 
-There is very little configuration for this. The only thing to
-decide is the exported paths. If you have a `./index.ts` file,
-then that will be listed as the main `"."` export by default.
+There is very little configuration for this, but a lot of things
+_can_ be configured.
 
 ### `exports`
 
-You can set other entry points by putting this in your
-`package.json` file:
+By default, if there is a `src/index.ts` file, then that will be
+set as the `"."` export, and the `package.json` file will be
+exported as `"./package.json"`, because that's just convenient to
+expose.
+
+You can set other entry points by putting something like this in
+your `package.json` file:
 
 ```json
 {
@@ -118,8 +319,6 @@ just be passed through as-is.
 You can use `"imports"` in your package.json, and it will be
 handled in the following ways.
 
-### Built Imports
-
 Any `"imports"` that resolve to a file built as part of your
 program must be a non-conditional string value pointing to the
 file in `./src/`. For example:
@@ -153,11 +352,11 @@ build.
 
 </details>
 
-Any `"imports"` that resolve to something _not_ built by tshy,
-then tshy will set `scripts.preinstall` to set up symbolic links
-to make it work at install time. This just means that you can't
-use `scripts.preinstall` for anything else if you have
-`"imports"` that aren't managed by tshy. For example:
+If there are any `"imports"` that resolve to something _not_
+built by tshy, then tshy will set `scripts.preinstall` to set up
+symbolic links at install time to make it work. This just means
+that you can't use `scripts.preinstall` for anything else if you
+have `"imports"` that aren't managed by tshy. For example:
 
 ```json
 {
