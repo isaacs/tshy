@@ -166,7 +166,7 @@ use `scripts.preinstall` for anything else if you have
     "#conditional": {
       "types": "./vendor/blah.d.ts",
       "require": "./vendor/blah.cjs",
-      "import": "./vendor/blah.mjs
+      "import": "./vendor/blah.mjs"
     }
   }
 }
