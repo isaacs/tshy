@@ -13,6 +13,7 @@ import * as console from './console.js'
 // the commonjs build needs to exclude anything that will be polyfilled
 import config from './config.js'
 import polyfills from './polyfills.js'
+import preventVerbatimModuleSyntax from './prevent-verbatim-module-syntax.js'
 
 const {
   dialects = ['esm', 'commonjs'],
@@ -99,6 +100,7 @@ if (!existsSync('tsconfig.json')) {
   console.debug('using recommended tsconfig.json')
   writeConfig('../tsconfig', recommended)
 } else {
+  if (dialects.length > 1) preventVerbatimModuleSyntax()
   console.debug('using existing tsconfig.json')
 }
 for (const f of readdirSync('.tshy')) {
