@@ -1,17 +1,31 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk'
-import * as console from './console.js'
+import build from './build.js'
+import * as debugConsole from './console.js'
 import './exports.js'
 import pkg from './package.js'
-import build from './build.js'
+import usage from './usage.js'
 
 const { exports: exp, tshy } = pkg
 
-console.debug(chalk.yellow.bold('building'), process.cwd())
-console.debug(chalk.cyan.dim('tshy config'), tshy)
-console.debug(chalk.cyan.dim('exports'), exp)
+const main = async () => {
+  for (const arg of process.argv.slice(2)) {
+    switch (arg) {
+      case '--help':
+      case '-h':
+        return usage()
+      default:
+        return usage(`Unknown argument: ${arg}`)
+    }
+  }
 
-await build()
+  debugConsole.debug(chalk.yellow.bold('building'), process.cwd())
+  debugConsole.debug(chalk.cyan.dim('tshy config'), tshy)
+  debugConsole.debug(chalk.cyan.dim('exports'), exp)
 
-console.log(chalk.bold.green('success!'))
+  await build()
+
+  debugConsole.log(chalk.bold.green('success!'))
+}
+await main()

@@ -19,3 +19,29 @@ t.match(debug(), [
   ['exports', Object],
 ])
 t.strictSame(logs(), [['success!']])
+
+t.test('print help message', async t => {
+  t.intercept(process, 'argv', {
+    value: [process.execPath, 'index.js', '--help'],
+  })
+  let usageCalled: string | undefined = undefined
+  await t.mockImport('../dist/esm/index.js', {
+    '../dist/esm/usage.js': {
+      default: (n?: string) => (usageCalled = n),
+    },
+  })
+  t.equal(usageCalled, undefined)
+})
+
+t.test('print usage and error for unknown arg', async t => {
+  t.intercept(process, 'argv', {
+    value: [process.execPath, 'index.js', 'xyz'],
+  })
+  let usageCalled: string | undefined = undefined
+  await t.mockImport('../dist/esm/index.js', {
+    '../dist/esm/usage.js': {
+      default: (n?: string) => (usageCalled = n),
+    },
+  })
+  t.equal(usageCalled, `Unknown argument: xyz`)
+})
