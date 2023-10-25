@@ -6,6 +6,7 @@ import * as debugConsole from './console.js'
 import './exports.js'
 import pkg from './package.js'
 import usage from './usage.js'
+import watch from './watch.js'
 
 const { exports: exp, tshy } = pkg
 
@@ -15,6 +16,9 @@ const main = async () => {
       case '--help':
       case '-h':
         return usage()
+      case '--watch':
+      case '-w':
+        return watch()
       default:
         return usage(`Unknown argument: ${arg}`)
     }

@@ -7,7 +7,8 @@
 'use strict'
 exports[`test/usage.ts > TAP > no error > no link > must match snapshot 1`] = `
 Usage: tshy [--help]
-  --help    Print this message and exit.
+  --help -h   Print this message and exit.
+  --watch -w  Watch files in ./src and build when they change.
 
 Default behavior: build project according to tshy config in package.json
 
@@ -16,7 +17,8 @@ See the docs for more information: https://github.com/isaacs/tshy
 
 exports[`test/usage.ts > TAP > no error > with link > must match snapshot 1`] = `
 Usage: tshy [--help]
-  --help    Print this message and exit.
+  --help -h   Print this message and exit.
+  --watch -w  Watch files in ./src and build when they change.
 
 Default behavior: build project according to tshy config in package.json
 
@@ -25,7 +27,8 @@ See the docs for more information: ]8;;https://github.com/isaacs/tshy\\https:/
 
 exports[`test/usage.ts > TAP > with error > no link > must match snapshot 1`] = `
 Usage: tshy [--help]
-  --help    Print this message and exit.
+  --help -h   Print this message and exit.
+  --watch -w  Watch files in ./src and build when they change.
 
 Default behavior: build project according to tshy config in package.json
 
@@ -35,7 +38,8 @@ See the docs for more information: https://github.com/isaacs/tshy
 
 exports[`test/usage.ts > TAP > with error > with link > must match snapshot 1`] = `
 Usage: tshy [--help]
-  --help    Print this message and exit.
+  --help -h   Print this message and exit.
+  --watch -w  Watch files in ./src and build when they change.
 
 Default behavior: build project according to tshy config in package.json
 

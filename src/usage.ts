@@ -6,7 +6,8 @@ export default (err?: string) => {
   const link =
     chalk.level > 0 ? `\x1b]8;;${url}\x1b\\${url}\x1b]8;;\x1b\\` : url
   console[err ? 'error' : 'log'](`Usage: tshy [--help]
-  --help    Print this message and exit.
+  --help -h   Print this message and exit.
+  --watch -w  Watch files in ./src and build when they change.
 
 Default behavior: build project according to tshy config in package.json
 

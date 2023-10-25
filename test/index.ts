@@ -45,3 +45,16 @@ t.test('print usage and error for unknown arg', async t => {
   })
   t.equal(usageCalled, `Unknown argument: xyz`)
 })
+
+t.test('watch if --watch specified', async t => {
+  t.intercept(process, 'argv', {
+    value: [process.execPath, 'index.js', '--watch'],
+  })
+  let watchCalled = false
+  await t.mockImport('../dist/esm/index.js', {
+    '../dist/esm/watch.js': {
+      default: () => (watchCalled = true),
+    },
+  })
+  t.equal(watchCalled, true)
+})
