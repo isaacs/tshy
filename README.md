@@ -91,7 +91,7 @@ even easier to leverage, and more likely to occur.
 So: **as a package author, you cannot safely rely on there being
 exactly one copy of your library loaded at run-time.**
 
-This doesn't mean you shouldn't care about it. It mean that you
+This doesn't mean you shouldn't care about it. It means that you
 _should_ take it into consideration always, whether you are using
 a hybrid build or not.
 
