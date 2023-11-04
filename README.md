@@ -453,6 +453,10 @@ folder in `dist` and `src` by doing this:
 }
 ```
 
+If the `selfLink` config is not explicitly set, and creating the
+symlink fails (common on Windows systems where `fs.symlink()` may
+require elevated permissions), then the error will be ignored.
+
 ### Old Style Exports
 
 Versions of node prior to 12.10.0, published in early to mid

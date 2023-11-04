@@ -3,6 +3,8 @@
   present.
 - Rename build directory from '.tshy-build-tmp' to '.tshy-build',
   since it's not temporary if incremental builds are used.
+- Make the `selfLink` best-effort if not explicitly true or
+  false.
 
 # 1.7
 
