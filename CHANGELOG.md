@@ -1,3 +1,5 @@
+# 1.8
+
 - Support `"incremental": true` tsconfig option, making the build
   directory persistent if there are `*.tsbuildinfo` files
   present.
