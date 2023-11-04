@@ -8,7 +8,7 @@
 exports[`test/build.ts > TAP > build both > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -62,7 +62,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -80,7 +80,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -98,7 +98,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -152,7 +152,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -170,7 +170,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -188,7 +188,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -242,7 +242,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -260,7 +260,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -278,7 +278,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -332,7 +332,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -350,7 +350,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -373,7 +373,7 @@ Array [
 exports[`test/build.ts > TAP > build commonjs only > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -424,7 +424,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -441,7 +441,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -458,7 +458,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -509,7 +509,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -526,7 +526,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -548,7 +548,7 @@ Array [
 exports[`test/build.ts > TAP > build esm only > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -599,7 +599,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -616,7 +616,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -633,7 +633,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -684,7 +684,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -701,7 +701,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -718,7 +718,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -769,7 +769,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -786,7 +786,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -808,7 +808,7 @@ Array [
 exports[`test/build.ts > TAP > default settings > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -850,7 +850,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -864,7 +864,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -883,7 +883,7 @@ Array [
 exports[`test/build.ts > TAP > imports linking > basic > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -937,7 +937,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -955,7 +955,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -973,7 +973,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1027,7 +1027,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -1045,7 +1045,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1063,7 +1063,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1117,7 +1117,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -1135,7 +1135,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1153,7 +1153,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1207,7 +1207,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -1225,7 +1225,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -1243,7 +1243,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -1498,7 +1498,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "imports": Object {
@@ -1583,7 +1583,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -1846,7 +1846,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "exports": Object {
@@ -2239,7 +2239,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "exports": Object {
@@ -2370,7 +2370,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "exports": Object {
@@ -2771,7 +2771,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "name": "@my/package",
@@ -2819,7 +2819,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "name": "@my/package",
@@ -2835,7 +2835,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "name": "@my/package",
@@ -2856,7 +2856,7 @@ Array [
 exports[`test/build.ts > TAP > imports linking > imports > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -2910,7 +2910,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -2928,7 +2928,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -2946,7 +2946,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3000,7 +3000,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -3018,7 +3018,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3036,7 +3036,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3090,7 +3090,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -3108,7 +3108,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3126,7 +3126,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3180,7 +3180,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -3198,7 +3198,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3216,7 +3216,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -3471,7 +3471,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "imports": Object {
@@ -3556,7 +3556,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -3824,7 +3824,7 @@ Array [
 exports[`test/build.ts > TAP > imports linking > imports-with-star > must match snapshot 1`] = `
 Array [
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3878,7 +3878,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -3896,7 +3896,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3914,7 +3914,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -3968,7 +3968,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -3986,7 +3986,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -4004,7 +4004,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -4058,7 +4058,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -4076,7 +4076,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -4094,7 +4094,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -4148,7 +4148,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "tshy": Object {
@@ -4166,7 +4166,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "tshy": Object {
@@ -4184,7 +4184,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -4439,7 +4439,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "imports": Object {
@@ -4524,7 +4524,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "imports": Object {
@@ -4787,7 +4787,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "exports": Object {
@@ -5180,7 +5180,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.unlink",
+    "self-link.unlink",
     Array [
       Object {
         "exports": Object {
@@ -5311,7 +5311,7 @@ Array [
     ],
   ],
   Array [
-    "self-dep.link",
+    "self-link.link",
     Array [
       Object {
         "exports": Object {

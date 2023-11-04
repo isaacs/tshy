@@ -10,7 +10,7 @@ import pkg from './package.js'
 import {
   link as linkSelfDep,
   unlink as unlinkSelfDep,
-} from './self-dep.js'
+} from './self-link.js'
 import './tsconfig.js'
 import {
   link as linkImports,

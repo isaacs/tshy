@@ -40,9 +40,9 @@ const rimrafCalls = t.capture(
 ).args
 
 const { link, unlink } = (await t.mockImport(
-  '../dist/esm/self-dep.js',
+  '../dist/esm/self-link.js',
   { mkdirp, fs, rimraf, path }
-)) as typeof import('../dist/esm/self-dep.js')
+)) as typeof import('../dist/esm/self-link.js')
 
 t.test('no pkg name, nothing to do', t => {
   link({} as Package, 'some/path')
@@ -161,9 +161,9 @@ t.test('already in node_modules, do not create link', t => {
       // need a separate import for each test, because this gets cached
       // to save extra readlink and walkUp calls.
       const { link, unlink } = (await t.mockImport(
-        '../dist/esm/self-dep.js',
+        '../dist/esm/self-link.js',
         { mkdirp, fs, rimraf }
-      )) as typeof import('../dist/esm/self-dep.js')
+      )) as typeof import('../dist/esm/self-link.js')
       process.chdir(resolve(dir, d))
       link({ name, version: '1.2.3' }, 'src')
       unlink({ name, version: '1.2.3' }, 'src')

@@ -21,9 +21,9 @@ const mocks = {
     unlink: async (...a: any[]) => logCall('imports.unlink', a),
     save: (...a: any[]) => logCall('imports.save', a),
   },
-  '../dist/esm/self-dep.js': {
-    link: (...a: any[]) => logCall('self-dep.link', a),
-    unlink: (...a: any[]) => logCall('self-dep.unlink', a),
+  '../dist/esm/self-link.js': {
+    link: (...a: any[]) => logCall('self-link.link', a),
+    unlink: (...a: any[]) => logCall('self-link.unlink', a),
   },
   '../dist/esm/package.js': { default: pkg },
   '../dist/esm/bins.js': { default: () => {} },

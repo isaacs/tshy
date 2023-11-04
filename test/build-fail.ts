@@ -12,7 +12,7 @@ const { default: buildFail } = (await t.mockImport(
     '../dist/esm/unbuilt-imports.js': {
       unlink: (...a: any[]) => calls.push(['unlinkImports', a]),
     },
-    '../dist/esm/self-dep.js': {
+    '../dist/esm/self-link.js': {
       unlink: (...a: any[]) => calls.push(['unlinkSelfDep', a]),
     },
     '../dist/esm/set-folder-dialect.js': {
