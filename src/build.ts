@@ -18,9 +18,10 @@ import {
 } from './self-dep.js'
 import './tsconfig.js'
 import writePackage from './write-package.js'
+import cleanBuildTmp from './clean-build-tmp.js'
 
 export default async () => {
-  rimrafSync('.tshy-build-tmp')
+  cleanBuildTmp()
 
   linkSelfDep(pkg, 'src')
   await linkImports(pkg, 'src')
@@ -31,8 +32,9 @@ export default async () => {
 
   console.debug(chalk.cyan.dim('moving to ./dist'))
   syncContentSync('.tshy-build-tmp', 'dist')
-  console.debug(chalk.cyan.dim('removing build temp dir'))
-  rimrafSync('.tshy-build-tmp')
+  console.debug(chalk.cyan.dim('cleaning build temp dir'))
+
+  cleanBuildTmp()
 
   linkSelfDep(pkg, 'dist')
 

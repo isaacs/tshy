@@ -3,20 +3,12 @@
 // be made to work in a hybrid context.
 // Note: cannot just use JSON.parse, because ts config files
 // are jsonc.
-import { resolve } from 'path'
-import ts from 'typescript'
 import * as console from './console.js'
 import fail from './fail.js'
-const { readFile } = ts.sys
+import readTypescriptConfig from './read-typescript-config.js'
 
 export default () => {
-  const configPath = resolve('tsconfig.json')
-  const readResult = ts.readConfigFile(configPath, readFile)
-  const config = ts.parseJsonConfigFileContent(
-    readResult.config,
-    ts.sys,
-    process.cwd()
-  )
+  const config = readTypescriptConfig()
   if (config.options.verbatimModuleSyntax) {
     fail('verbatimModuleSyntax detected')
     console.error(

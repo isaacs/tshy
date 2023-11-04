@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import t from 'tap'
+import readTypescriptConfig from '../src/read-typescript-config.js'
 import preventVerbatimModuleSyntax from '../src/prevent-verbatim-module-syntax.js'
 
 chalk.level = 3
@@ -16,17 +17,8 @@ t.test('not set, no worries', t => {
   t.end()
 })
 
-t.test('not set, no worries', t => {
-  const cwd = process.cwd()
-  process.chdir(
-    t.testdir({
-      'tsconfig.json': JSON.stringify({
-        compilerOptions: {
-          verbatimModuleSyntax: true,
-        },
-      }),
-    })
-  )
+t.test('is set, many worries', t => {
+  readTypescriptConfig().options.verbatimModuleSyntax = true
   preventVerbatimModuleSyntax()
   t.strictSame(exits(), [[1]])
   t.matchSnapshot(
@@ -35,6 +27,5 @@ t.test('not set, no worries', t => {
       .join('\n')
   )
   t.strictSame(logs(), [])
-  process.chdir(cwd)
   t.end()
 })

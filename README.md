@@ -650,6 +650,10 @@ you may have packages that depend on one another and are all
 being built in parallel (as long as they've been built one time,
 of course).
 
+If you use `"incremental": true` in your tsconfig, then this
+folder will persist, so that TSC can benefit from the
+`.tsbuildinfo` files it creates in there.
+
 ## Exports Management
 
 The `exports` field in your package.json file will be updated

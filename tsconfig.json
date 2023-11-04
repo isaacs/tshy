@@ -12,6 +12,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2022",
-    "module": "nodenext"
+    "module": "nodenext",
+    "composite": true,
+    "incremental": true
   }
 }
