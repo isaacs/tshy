@@ -40,11 +40,8 @@ const linkedAlready = (pkg: Package) => {
 }
 
 export const link = (pkg: Package, where: string) => {
-  if (
-    !pkg.name ||
-    pkg?.tshy?.selfLink === false ||
-    linkedAlready(pkg)
-  ) {
+  const selfLink = pkg?.tshy?.selfLink
+  if (!pkg.name || selfLink === false || linkedAlready(pkg)) {
     return
   }
   const dest = resolve(where, 'node_modules', pkg.name)
@@ -56,7 +53,14 @@ export const link = (pkg: Package, where: string) => {
     symlinkSync(src, dest)
   } catch {
     rimrafSync(dest)
-    symlinkSync(src, dest)
+    let threw = true
+    try {
+      symlinkSync(src, dest)
+      threw = false
+    } finally {
+      // best effort if not set explicitly. suppress error with return.
+      if (threw && selfLink === undefined) return
+    }
   }
 }
 

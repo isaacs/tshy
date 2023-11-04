@@ -14,13 +14,15 @@ const mkdirpCalls = t.capture(
 
 import * as FS from 'node:fs'
 let symlinkThrow: Error | undefined = undefined
+let symlinkThrowAgain: Error | undefined = undefined
 const fs = {
   symlinkSync: () => {
     if (symlinkThrow) {
       try {
         throw symlinkThrow
       } finally {
-        symlinkThrow = undefined
+        symlinkThrow = symlinkThrowAgain
+        symlinkThrowAgain = undefined
       }
     }
   },
@@ -69,6 +71,31 @@ t.test('no selfLink, nothing to do', t => {
 t.test('try one more time if it fails', t => {
   symlinkThrow = new Error('eexist')
   link({ name: 'name', version: '1.2.3' }, 'some/path')
+  t.matchSnapshot(symlinkCalls(), 'symlinks')
+  t.matchSnapshot(rimrafCalls(), 'rimrafs')
+  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.end()
+})
+
+t.test('throw both times, but accept if best-effort', t => {
+  symlinkThrow = new Error('EPERM')
+  symlinkThrowAgain = new Error('EPERM')
+  link({ name: 'name', version: '1.2.3' }, 'some/path')
+  t.matchSnapshot(symlinkCalls(), 'symlinks')
+  t.matchSnapshot(rimrafCalls(), 'rimrafs')
+  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.end()
+})
+
+t.test('throw both times, but self-link is required', t => {
+  symlinkThrow = new Error('EPERM')
+  symlinkThrowAgain = new Error('EPERM')
+  t.throws(() =>
+    link(
+      { name: 'name', version: '1.2.3', tshy: { selfLink: true } },
+      'some/path'
+    )
+  )
   t.matchSnapshot(symlinkCalls(), 'symlinks')
   t.matchSnapshot(rimrafCalls(), 'rimrafs')
   t.matchSnapshot(mkdirpCalls(), 'mkdirps')

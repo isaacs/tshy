@@ -58,6 +58,64 @@ Array [
 ]
 `
 
+exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > mkdirps 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > rimrafs 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > symlinks 1`] = `
+Array [
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > mkdirps 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > rimrafs 1`] = `
+Array [
+  Array [
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`
+
+exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > symlinks 1`] = `
+Array [
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+  Array [
+    "../../..",
+    "{CWD}/some/path/node_modules/name",
+  ],
+]
+`
+
 exports[`test/self-dep.ts > TAP > try one more time if it fails > mkdirps 1`] = `
 Array [
   Array [
