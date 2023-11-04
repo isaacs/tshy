@@ -1,24 +1,23 @@
 import chalk from 'chalk'
-import { rimrafSync } from 'rimraf'
 import { syncContentSync } from 'sync-content'
 import bins from './bins.js'
 import { buildCommonJS } from './build-commonjs.js'
 import { buildESM } from './build-esm.js'
+import cleanBuildTmp from './clean-build-tmp.js'
 import * as console from './console.js'
 import dialects from './dialects.js'
-import {
-  link as linkImports,
-  save as saveImports,
-  unlink as unlinkImports,
-} from './unbuilt-imports.js'
 import pkg from './package.js'
 import {
   link as linkSelfDep,
   unlink as unlinkSelfDep,
 } from './self-dep.js'
 import './tsconfig.js'
+import {
+  link as linkImports,
+  save as saveImports,
+  unlink as unlinkImports,
+} from './unbuilt-imports.js'
 import writePackage from './write-package.js'
-import cleanBuildTmp from './clean-build-tmp.js'
 
 export default async () => {
   cleanBuildTmp()
@@ -31,7 +30,7 @@ export default async () => {
   unlinkSelfDep(pkg, 'src')
 
   console.debug(chalk.cyan.dim('moving to ./dist'))
-  syncContentSync('.tshy-build-tmp', 'dist')
+  syncContentSync('.tshy-build', 'dist')
   console.debug(chalk.cyan.dim('cleaning build temp dir'))
 
   cleanBuildTmp()

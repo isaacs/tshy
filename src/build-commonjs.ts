@@ -23,14 +23,14 @@ export const buildCommonJS = () => {
       setFolderDialect('src')
       return buildFail(res)
     }
-    setFolderDialect('.tshy-build-tmp/' + d, 'commonjs')
+    setFolderDialect('.tshy-build/' + d, 'commonjs')
     for (const [override, orig] of pf?.map.entries() ?? []) {
       const stemFrom = resolve(
-        `.tshy-build-tmp/${d}`,
+        `.tshy-build/${d}`,
         relative(resolve('src'), resolve(override))
       ).replace(/\.cts$/, '')
       const stemTo = resolve(
-        `.tshy-build-tmp/${d}`,
+        `.tshy-build/${d}`,
         relative(resolve('src'), resolve(orig))
       ).replace(/\.tsx?$/, '')
       unlinkSync(`${stemTo}.js.map`)

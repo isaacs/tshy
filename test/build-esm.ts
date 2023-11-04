@@ -32,7 +32,7 @@ const spawnSync = t.captureFn((...a: any[]) => {
 })
 
 const output = () =>
-  readdirSync('.tshy-build-tmp/esm').sort((a, b) =>
+  readdirSync('.tshy-build/esm').sort((a, b) =>
     a.localeCompare(b, 'en')
   )
 

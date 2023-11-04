@@ -32,7 +32,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/commonjs",
+    "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
     "../src/**/*.mts",
@@ -50,7 +50,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/commonjs.json generate everything 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/commonjs",
+    "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
     "../src/**/*.mts",
@@ -68,7 +68,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/deno.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/deno",
+    "outDir": "../.tshy-build/deno",
   },
   "exclude": Array [
     ".././src/index-cjs.cts",
@@ -85,7 +85,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/esm.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/esm",
+    "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
     ".././src/index-cjs.cts",
@@ -103,7 +103,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/esm.json generate everything 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/esm",
+    "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
     ".././src/index-cjs.cts",
@@ -121,7 +121,7 @@ Object {
 exports[`test/tsconfig.ts > TAP > .tshy/webpack.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build-tmp/webpack",
+    "outDir": "../.tshy-build/webpack",
   },
   "exclude": Array [
     "../src/**/*.mts",

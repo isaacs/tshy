@@ -1,4 +1,4 @@
-// Remove the .tshy-build-tmp folder, but ONLY if
+// Remove the .tshy-build folder, but ONLY if
 // the "incremental" config value is not set, or if
 // it does not contain any tsbuildinfo files.
 // If we are in incremental mode, and have tsbuildinfo files,
@@ -67,20 +67,20 @@ const cleanRemovedOutputs = (path: string, root: string) => {
 export default () => {
   const config = readTypescriptConfig()
   if (config.options.incremental !== true) {
-    return rimrafSync('.tshy-build-tmp')
+    return rimrafSync('.tshy-build')
   }
 
   let buildInfos: string[] | undefined = undefined
   try {
-    buildInfos = readdirSync('.tshy-build-tmp/.tshy')
+    buildInfos = readdirSync('.tshy-build/.tshy')
   } catch {}
   if (!buildInfos?.length) {
-    return rimrafSync('.tshy-build-tmp')
+    return rimrafSync('.tshy-build')
   }
 
   // delete anything that has been removed from src.
-  for (const dialect of readdirSync('.tshy-build-tmp')) {
+  for (const dialect of readdirSync('.tshy-build')) {
     if (dialect === '.tshy') continue
-    cleanRemovedOutputs('.', `.tshy-build-tmp/${dialect}`)
+    cleanRemovedOutputs('.', `.tshy-build/${dialect}`)
   }
 }

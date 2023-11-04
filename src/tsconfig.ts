@@ -64,7 +64,7 @@ const commonjs = (dialect: string): Record<string, any> => {
     exclude,
     compilerOptions: {
       outDir:
-        '../.tshy-build-tmp/' +
+        '../.tshy-build/' +
         (dialect === 'cjs' ? 'commonjs' : dialect),
     },
   }
@@ -83,7 +83,7 @@ const esm = (dialect: string): Record<string, any> => {
     include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
     exclude,
     compilerOptions: {
-      outDir: '../.tshy-build-tmp/' + dialect,
+      outDir: '../.tshy-build/' + dialect,
     },
   }
 }

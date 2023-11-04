@@ -644,7 +644,7 @@ depending on the dialect type that it is.
 
 ## Atomic Builds
 
-Code is built in `./.tshy-build-tmp` and then copied over only if
+Code is built in `./.tshy-build` and then copied over only if
 the build succeeds. This makes it work in monorepo cases where
 you may have packages that depend on one another and are all
 being built in parallel (as long as they've been built one time,

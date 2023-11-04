@@ -9,11 +9,11 @@ t.test('no incremental build, just delete it', t => {
   readTypescriptConfig().options.incremental = false
   process.chdir(
     t.testdir({
-      '.tshy-build-tmp': {},
+      '.tshy-build': {},
     })
   )
   cleanBuildTmp()
-  t.throws(() => statSync('.tshy-build-tmp'))
+  t.throws(() => statSync('.tshy-build'))
   t.end()
 })
 
@@ -21,11 +21,11 @@ t.test('no tsbuildinfo, just delete it', t => {
   readTypescriptConfig().options.incremental = true
   process.chdir(
     t.testdir({
-      '.tshy-build-tmp': {},
+      '.tshy-build': {},
     })
   )
   cleanBuildTmp()
-  t.throws(() => statSync('.tshy-build-tmp'))
+  t.throws(() => statSync('.tshy-build'))
   t.end()
 })
 
@@ -33,7 +33,7 @@ t.test('remove files not found in src', t => {
   readTypescriptConfig().options.incremental = true
   process.chdir(
     t.testdir({
-      '.tshy-build-tmp': {
+      '.tshy-build': {
         '.tshy': { 'esm.tsbuildinfo': '{}' },
         esm: {
           'a.d.ts': '',
@@ -73,7 +73,7 @@ t.test('remove files not found in src', t => {
     })
   )
   cleanBuildTmp()
-  t.throws(() => statSync('.tshy-build-tmp/dist/esm/x.js.map'))
-  t.throws(() => statSync('.tshy-build-tmp/dist/esm/x.d.ts'))
+  t.throws(() => statSync('.tshy-build/dist/esm/x.js.map'))
+  t.throws(() => statSync('.tshy-build/dist/esm/x.d.ts'))
   t.end()
 })
