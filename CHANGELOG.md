@@ -1,3 +1,9 @@
+- Support `"incremental": true` tsconfig option, making the build
+  directory persistent if there are `*.tsbuildinfo` files
+  present.
+- Rename build directory from '.tshy-build-tmp' to '.tshy-build',
+  since it's not temporary if incremental builds are used.
+
 # 1.7
 
 - Prevent `verbatimModuleSyntax` ts config if building for both
