@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { spawnSync } from 'node:child_process'
-import { renameSync, unlinkSync } from 'node:fs'
+import { renameSync, unlinkSync, existsSync } from 'node:fs'
 import { relative, resolve } from 'node:path/posix'
 import buildFail from './build-fail.js'
 import config from './config.js'
@@ -33,8 +33,14 @@ export const buildCommonJS = () => {
         `.tshy-build/${d}`,
         relative(resolve('src'), resolve(orig))
       ).replace(/\.tsx?$/, '')
-      unlinkSync(`${stemTo}.js.map`)
-      unlinkSync(`${stemTo}.d.ts.map`)
+      const stemToPath = `${stemTo}.js.map`
+      if (existsSync(stemToPath)) {
+        unlinkSync(stemToPath)
+      }
+      const stemToDtsPath = `${stemTo}.d.ts.map`
+      if (existsSync(stemToDtsPath)) {
+        unlinkSync(stemToDtsPath)
+      }
       renameSync(`${stemFrom}.cjs`, `${stemTo}.js`)
       renameSync(`${stemFrom}.d.cts`, `${stemTo}.d.ts`)
     }
