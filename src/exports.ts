@@ -167,7 +167,7 @@ export const setMain = (
     if (types && types !== mod) pkg.types = types
     else delete pkg.types
   } else {
-    if (c) delete c.main
+    if (c && c.main !== false) delete c.main
     delete pkg.main
     delete pkg.types
   }

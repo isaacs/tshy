@@ -213,11 +213,14 @@ t.test('setting top level main', async t => {
   })
   for (const [name, pkg, expect, ok] of cases) {
     t.test(name, t => {
+      const { tshy = {} } = pkg
+      const { main } = tshy
       setMain(pkg.tshy, pkg)
       if (ok) {
         t.equal(pkg.main, expect.main)
         t.equal(pkg.types, expect.types)
         t.equal(pkg.type, 'module')
+        if (main === false) t.equal(pkg.tshy?.main, main)
       } else {
         t.strictSame(exits(), [[1]])
         t.matchSnapshot(fails)
