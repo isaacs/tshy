@@ -41,7 +41,10 @@ const recommended: Record<string, any> = {
 }
 
 const build: Record<string, any> = {
-  extends: '../tsconfig.json',
+  extends:
+    config.tsconfigPath === undefined
+      ? '../tsconfig.json'
+      : join('..', config.tsconfigPath),
   compilerOptions: {
     rootDir: '../src',
     target: 'es2022',
@@ -96,7 +99,10 @@ const writeConfig = (name: string, data: Record<string, any>) =>
   )
 
 console.debug(chalk.cyan.dim('writing tsconfig files...'))
-if (!existsSync('tsconfig.json')) {
+if (
+  config.tsconfigPath === undefined &&
+  !existsSync('tsconfig.json')
+) {
   console.debug('using recommended tsconfig.json')
   writeConfig('../tsconfig', recommended)
 } else {
