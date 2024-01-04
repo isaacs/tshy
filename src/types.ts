@@ -11,6 +11,7 @@ export type TshyConfig = {
   main?: boolean
   commonjsDialects?: string[]
   esmDialects?: string[]
+  tsconfigPath?: string
 }
 
 export type Dialect = 'commonjs' | 'esm'

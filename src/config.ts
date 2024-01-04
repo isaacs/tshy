@@ -10,6 +10,7 @@ import validDialects from './valid-dialects.js'
 import validExports from './valid-exports.js'
 import validExtraDialects from './valid-extra-dialects.js'
 import validImports from './valid-imports.js'
+import validTsconfigPath from './valid-tsconfig-path.js'
 
 const validBoolean = (e: Record<string, any>, name: string) => {
   const v = e[name]
@@ -23,6 +24,8 @@ const validConfig = (e: any): e is TshyConfig =>
   typeof e === 'object' &&
   (e.exports === undefined || validExports(e.exports)) &&
   (e.dialects === undefined || validDialects(e.dialects)) &&
+  (e.tsconfigPath === undefined ||
+    validTsconfigPath(e.tsconfigPath)) &&
   validExtraDialects(e) &&
   validBoolean(e, 'selfLink') &&
   validBoolean(e, 'main')
