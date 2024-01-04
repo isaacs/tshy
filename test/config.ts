@@ -60,6 +60,8 @@ const cases: [
 
   //@ts-expect-error
   [{ imports: ['blah'] }, [], false, {}],
+
+  [{ project: 'thisFileDoesNotExist.json' }, [], false, {}],
 ]
 
 t.plan(cases.length)

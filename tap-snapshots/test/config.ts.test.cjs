@@ -24,3 +24,7 @@ invalid imports module specifier: 0
 exports[`test/config.ts > TAP > {"config":{"main":"blah"},"sources":[],"ok":false} > must match snapshot 1`] = `
 tshy.main must be a boolean value if specified, got: blah
 `
+
+exports[`test/config.ts > TAP > {"config":{"project":"thisFileDoesNotExist.json"},"sources":[],"ok":false} > must match snapshot 1`] = `
+tshy.project must point to a tsconfig file on disk, got: "thisFileDoesNotExist.json"
+`

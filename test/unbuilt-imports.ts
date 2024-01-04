@@ -16,6 +16,7 @@ t.test('imports linking', async t => {
     'imports-with-star',
     'basic',
     'basic-imports-only-deps',
+    'basic-custom-project',
   ]) {
     t.test(i, async t => {
       // keep the pjs unmodified

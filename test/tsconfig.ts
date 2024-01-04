@@ -1,64 +1,109 @@
-import { readFileSync, unlinkSync, writeFileSync } from 'fs'
+import {
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from 'fs'
 import { resolve } from 'path'
 import t from 'tap'
 
 const cwd = process.cwd()
 t.after(() => process.chdir(cwd))
-process.chdir(
-  t.testdir({
-    'package.json': JSON.stringify({
-      tshy: { esmDialects: ['deno'], commonjsDialects: ['webpack'] },
-    }),
-    src: {
-      'index.ts': '',
-      'index-cjs.cts': '',
-      'index-deno.mts': '',
-      'index-webpack.mts': '',
-    },
-  })
-)
+const dir = t.testdir({
+  'package.json': JSON.stringify({
+    tshy: { esmDialects: ['deno'], commonjsDialects: ['webpack'] },
+  }),
+  src: {
+    'index.ts': '',
+    'index-cjs.cts': '',
+    'index-deno.mts': '',
+    'index-webpack.mts': '',
+  },
+})
+process.chdir(dir)
 
-await import('../dist/esm/tsconfig.js')
+t.test('with tsconfig.json file', async t => {
+  await import('../dist/esm/tsconfig.js')
 
-for (const f of [
-  'tsconfig.json',
-  '.tshy/build.json',
-  '.tshy/commonjs.json',
-  '.tshy/esm.json',
-]) {
-  t.matchSnapshot(
-    JSON.parse(readFileSync(resolve(t.testdirName, f), 'utf8')),
-    f + ' generate everything'
+  for (const f of [
+    'tsconfig.json',
+    '.tshy/build.json',
+    '.tshy/commonjs.json',
+    '.tshy/esm.json',
+  ]) {
+    t.matchSnapshot(
+      JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
+      f + ' generate everything'
+    )
+  }
+
+  writeFileSync(
+    resolve(dir, 'tsconfig.json'),
+    JSON.stringify({
+      compilerOptions: {
+        yolo: '🍑',
+        this_data: 'is preserved',
+      },
+    })
   )
-}
-
-writeFileSync(
-  resolve(t.testdirName, 'tsconfig.json'),
-  JSON.stringify({
-    compilerOptions: {
-      yolo: '🍑',
-      this_data: 'is preserved',
-    },
-  })
-)
-unlinkSync(resolve(t.testdirName, '.tshy/build.json'))
-writeFileSync(
-  resolve(t.testdirName, '.tshy/esm.json'),
-  'not even json, this gets clobbered'
-)
-
-await t.mockImport('../dist/esm/tsconfig.js')
-
-for (const f of [
-  'tsconfig.json',
-  '.tshy/build.json',
-  '.tshy/commonjs.json',
-  '.tshy/esm.json',
-  '.tshy/deno.json',
-  '.tshy/webpack.json',
-]) {
-  t.matchSnapshot(
-    JSON.parse(readFileSync(resolve(t.testdirName, f), 'utf8')),
-    f
+  unlinkSync(resolve(dir, '.tshy/build.json'))
+  writeFileSync(
+    resolve(dir, '.tshy/esm.json'),
+    'not even json, this gets clobbered'
   )
-}
+
+  await t.mockImport('../dist/esm/tsconfig.js')
+
+  for (const f of [
+    'tsconfig.json',
+    '.tshy/build.json',
+    '.tshy/commonjs.json',
+    '.tshy/esm.json',
+    '.tshy/deno.json',
+    '.tshy/webpack.json',
+  ]) {
+    t.matchSnapshot(
+      JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
+      f
+    )
+  }
+})
+
+t.test('with custom project tsconfig name', async t => {
+  renameSync(
+    resolve(dir, 'tsconfig.json'),
+    resolve(dir, 'custom.json')
+  )
+
+  writeFileSync(
+    resolve(dir, 'package.json'),
+    JSON.stringify({
+      tshy: {
+        project: 'custom.json',
+        esmDialects: ['deno'],
+        commonjsDialects: ['webpack'],
+      },
+    })
+  )
+
+  await t.mockImport('../dist/esm/tsconfig.js')
+
+  t.throws(() => statSync(resolve(dir, 'tsconfig.json')), {
+    code: 'ENOENT',
+  })
+
+  for (const f of [
+    'custom.json',
+    '.tshy/build.json',
+    '.tshy/commonjs.json',
+    '.tshy/esm.json',
+    '.tshy/deno.json',
+    '.tshy/webpack.json',
+  ]) {
+    t.matchSnapshot(
+      JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
+      f
+    )
+  }
+})

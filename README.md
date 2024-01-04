@@ -697,6 +697,26 @@ provided for you.
 Then the `tsconfig.json` file will be used as the default project
 for code hints in VSCode, neovim, tests, etc.
 
+### Custom `project`
+
+Configure `tshy.project` if you want tshy to extend from a custom
+tsconfig file. This is often useful when you have multiple
+`tsconfig` files for different tools:
+
+- A default `tsconfig.json` for typechecking and type-aware
+  `typescript-eslint`, specifying `"noEmit": true` and
+  `"include": ["**/*.ts"]`
+- A `tsconfig.build.json` for compilation, with `"noEmit":
+  false`. Note that the [caveats](#tsconfigs) above still apply.
+
+```json
+{
+  "tshy": {
+    "project": "./tsconfig.build.json"
+  }
+}
+```
+
 ## `src/package.json`
 
 As of TypeScript 5.2, the only way to emit JavaScript to ESM or

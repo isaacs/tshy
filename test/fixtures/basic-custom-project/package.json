@@ -1,0 +1,11 @@
+{
+  "name": "@my/package",
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "project": "./tsconfig.custom.json"
+  }
+}
