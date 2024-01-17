@@ -1,3 +1,7 @@
+# 1.11
+
+- Add support for TypeScript 5.3
+
 # 1.10
 
 - Exclude sources from all builds via the `exclude` config
