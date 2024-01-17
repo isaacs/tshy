@@ -19,7 +19,10 @@ const {
   dialects = ['esm', 'commonjs'],
   esmDialects = [],
   commonjsDialects = [],
+  exclude = [],
 } = config
+
+const relativeExclude = exclude.map(e => `../${e}`)
 
 const recommended: Record<string, any> = {
   compilerOptions: {
@@ -54,7 +57,7 @@ const build: Record<string, any> = {
 }
 
 const commonjs = (dialect: string): Record<string, any> => {
-  const exclude = ['../src/**/*.mts']
+  const exclude = [...relativeExclude, '../src/**/*.mts']
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
     for (const f of pf.map.keys()) {
@@ -74,7 +77,7 @@ const commonjs = (dialect: string): Record<string, any> => {
 }
 
 const esm = (dialect: string): Record<string, any> => {
-  const exclude: string[] = []
+  const exclude: string[] = [...relativeExclude]
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
     for (const f of pf.map.keys()) {
@@ -84,7 +87,7 @@ const esm = (dialect: string): Record<string, any> => {
   return {
     extends: './build.json',
     include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
-    exclude,
+    exclude: exclude,
     compilerOptions: {
       outDir: '../.tshy-build/' + dialect,
     },

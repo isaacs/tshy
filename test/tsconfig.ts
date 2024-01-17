@@ -12,7 +12,11 @@ const cwd = process.cwd()
 t.after(() => process.chdir(cwd))
 const dir = t.testdir({
   'package.json': JSON.stringify({
-    tshy: { esmDialects: ['deno'], commonjsDialects: ['webpack'] },
+    tshy: {
+      exclude: ['./src/**/*.test.ts'],
+      esmDialects: ['deno'],
+      commonjsDialects: ['webpack'],
+    },
   }),
   src: {
     'index.ts': '',

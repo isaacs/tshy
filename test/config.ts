@@ -13,6 +13,7 @@ const cases: [
     true,
     { exports: { './package.json': './package.json' } },
   ],
+
   [
     undefined,
     ['./src/index.ts'],
@@ -24,6 +25,7 @@ const cases: [
       },
     },
   ],
+
   [
     { selfLink: false },
     ['./src/index.ts'],
@@ -36,22 +38,30 @@ const cases: [
       selfLink: false,
     },
   ],
+
   //@ts-expect-error
   [{ dialects: 'yolo' }, [], false, {}],
+
   [
     { exports: { './blah': { require: './src/notallowed' } } },
     [],
     false,
     {},
   ],
+
   [
-    { exports: { '.': './src/main.ts' } },
-    ['./src/main.ts'],
+    {
+      exclude: ['./src/*.test.ts'],
+      exports: { '.': './src/index.ts' },
+    },
+    ['./src/index.ts'],
     true,
     {
-      exports: { '.': './src/main.ts' },
+      exclude: ['./src/*.test.ts'],
+      exports: { '.': './src/index.ts' },
     },
   ],
+
   //@ts-expect-error
   [{ main: 'blah' }, [], false, {}],
 

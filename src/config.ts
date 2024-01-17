@@ -7,6 +7,7 @@ import pkg from './package.js'
 import sources from './sources.js'
 import { Package, TshyConfig } from './types.js'
 import validDialects from './valid-dialects.js'
+import validExclude from './valid-exclude.js'
 import validExports from './valid-exports.js'
 import validExtraDialects from './valid-extra-dialects.js'
 import validImports from './valid-imports.js'
@@ -25,6 +26,7 @@ const validConfig = (e: any): e is TshyConfig =>
   (e.exports === undefined || validExports(e.exports)) &&
   (e.dialects === undefined || validDialects(e.dialects)) &&
   (e.project === undefined || validProject(e.project)) &&
+  (e.exclude === undefined || validExclude(e.exclude)) &&
   validExtraDialects(e) &&
   validBoolean(e, 'selfLink') &&
   validBoolean(e, 'main')
@@ -47,6 +49,7 @@ const getConfig = (
     delete ti.imports
   }
   validImports(pkg)
+  pkg.tshy = tshy
   if (tshy.exports) return tshy
   const e: Exclude<TshyConfig['exports'], undefined> = {
     './package.json': './package.json',
@@ -57,7 +60,6 @@ const getConfig = (
       break
     }
   }
-  pkg.tshy = tshy
   tshy.exports = e
   return tshy
 }

@@ -12,6 +12,7 @@ export type TshyConfig = {
   commonjsDialects?: string[]
   esmDialects?: string[]
   project?: string
+  exclude?: string[]
 }
 
 export type Dialect = 'commonjs' | 'esm'

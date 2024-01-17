@@ -568,6 +568,20 @@ esm, use the "Dialect Switching" trick, with the ESM code living
 in `src/<whatever>.ts` and the CommonJS polyfill living in
 `src/<whatever>-cjs.cts`.
 
+## Excluding Files Entirely From All Builds
+
+If you want to keep some files from being processed by tshy's
+builds entirely, you can add an `exclude` `string[]` field to the
+`tshy` object in `package.json`.  For example:
+
+```json
+{
+  "tshy": {
+    "exclude": ["src/**/*.test.ts"]
+  }
+}
+```
+
 ## Other Targets: `browser`, `deno`, etc.
 
 If you have any other dialects that you'd like to support, you

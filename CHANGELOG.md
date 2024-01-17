@@ -1,3 +1,12 @@
+# 1.10
+
+- Exclude sources from all builds via the `exclude` config
+  setting.
+
+# 1.9
+
+- Set a custom tsconfig file via the `project` config setting.
+
 # 1.8
 
 - Support `"incremental": true` tsconfig option, making the build

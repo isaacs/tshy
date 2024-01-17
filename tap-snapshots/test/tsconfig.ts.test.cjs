@@ -128,6 +128,7 @@ Object {
     "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     "../src/**/*.mts",
     "../src/index-deno.mts",
   ],
@@ -146,6 +147,7 @@ Object {
     "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     "../src/**/*.mts",
     "../src/index-deno.mts",
   ],
@@ -164,6 +166,7 @@ Object {
     "outDir": "../.tshy-build/deno",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     ".././src/index-cjs.cts",
   ],
   "extends": "./build.json",
@@ -181,6 +184,7 @@ Object {
     "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     ".././src/index-cjs.cts",
     ".././src/index-deno.mts",
   ],
@@ -199,6 +203,7 @@ Object {
     "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     ".././src/index-cjs.cts",
     ".././src/index-deno.mts",
   ],
@@ -217,6 +222,7 @@ Object {
     "outDir": "../.tshy-build/webpack",
   },
   "exclude": Array [
+    ".././src/**/*.test.ts",
     "../src/**/*.mts",
     "../src/index-cjs.cts",
     "../src/index-deno.mts",
