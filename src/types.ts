@@ -29,7 +29,7 @@ export type Package = {
   version: string
   main?: string
   types?: string
-  type?: 'module'
+  type?: 'module' | 'commonjs'
   bin?: string | Record<string, string>
   exports?: ExportsSubpaths
   tshy?: TshyConfig

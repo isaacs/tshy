@@ -200,6 +200,41 @@ t.test('setting top level main', async t => {
       {},
       false,
     ],
+    [
+      'type defaults module',
+      {
+        exports: {},
+      },
+      {},
+      true,
+    ],
+    [
+      'type=commonjs',
+      {
+        type: 'commonjs',
+        exports: {},
+      },
+      {},
+      true,
+    ],
+    [
+      'type=module',
+      {
+        type: 'module',
+        exports: {},
+      },
+      {},
+      true,
+    ],
+    [
+      'invalide type',
+      {
+        type: 'invalid type',
+        exports: {},
+      },
+      {},
+      true,
+    ],
   ]
 
   t.plan(cases.length)
@@ -213,13 +248,13 @@ t.test('setting top level main', async t => {
   })
   for (const [name, pkg, expect, ok] of cases) {
     t.test(name, t => {
-      const { tshy = {} } = pkg
+      const { tshy = {}, type } = pkg
       const { main } = tshy
       setMain(pkg.tshy, pkg)
       if (ok) {
         t.equal(pkg.main, expect.main)
         t.equal(pkg.types, expect.types)
-        t.equal(pkg.type, 'module')
+        t.equal(pkg.type, type === 'commonjs' ? 'commonjs' : 'module')
         if (main === false) t.equal(pkg.tshy?.main, main)
       } else {
         t.strictSame(exits(), [[1]])
