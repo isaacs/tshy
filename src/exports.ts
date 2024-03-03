@@ -171,7 +171,7 @@ export const setMain = (
     delete pkg.main
     delete pkg.types
   }
-  pkg.type = 'module'
+  pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
 }
 
 // These are all defined by exports, so it's just confusing otherwise
