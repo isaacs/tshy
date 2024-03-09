@@ -1,6 +1,13 @@
+# 1.12
+
+- Respect `package.json` type field if set to `"commonjs"`
+- Ignore `package.json` changes in `tshy --watch` if the data
+  itself did not change.
+
 # 1.11
 
 - Add support for TypeScript 5.3
+- Preserve indentation/newlines in `package.json` files
 
 # 1.10
 
