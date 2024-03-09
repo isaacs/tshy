@@ -41,7 +41,6 @@ type SpawnResult = {
 }
 const spawnOK: SpawnResult = { code: 0, signal: null }
 const spawnExitCode: SpawnResult = { code: 1, signal: null }
-const spawnExitSignal: SpawnResult = { code: null, signal: 'SIGTERM' }
 let spawnResult: SpawnResult = spawnOK
 
 const mockSpawn = (

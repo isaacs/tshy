@@ -3,9 +3,23 @@
 import chalk from 'chalk'
 import { spawn } from 'child_process'
 import { watch, WatchOptions } from 'chokidar'
+import { readFileSync } from 'fs'
 import { resolve, sep } from 'path'
 import { fileURLToPath } from 'url'
 import * as tshyConsole from './console.js'
+
+const pjData = (): string => {
+  try {
+    return JSON.stringify(
+      JSON.parse(readFileSync('./package.json', 'utf8'))
+    )
+    /* c8 ignore start */
+  } catch {
+    return 'null'
+  }
+  /* c8 ignore stop */
+}
+let lastPJData: string = 'null'
 
 export const options: WatchOptions = {
   persistent: true,
@@ -19,6 +33,7 @@ export const options: WatchOptions = {
     return false
   },
 }
+
 export const srcPJ = resolve('./src/package.json')
 export const srcNM = resolve('./src/node_modules')
 export const src = resolve('./src')
@@ -40,12 +55,19 @@ export default () => {
       if (code || signal) tshyConsole.error({ code, signal })
       else console.log(chalk.green('build success'), { code, signal })
       if (needRebuild) build()
-      else setTimeout(() => (building = false), 50)
+      else building = false
     })
   }
   watcher.on('all', (ev, path) => {
     const r = resolve(path)
     if (r === srcPJ) return
+    if (r === rootPJ) {
+      // check if the data actually changed
+      const newData = pjData()
+      /* c8 ignore next */
+      if (newData === lastPJData) return
+      lastPJData = newData
+    }
     if (building) {
       if (r !== rootPJ) needRebuild = true
       return
