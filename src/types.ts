@@ -36,3 +36,5 @@ export type Package = {
   imports?: Imports
   [k: string]: any
 }
+
+export type FailureReasonCallback = (reason: string) => void

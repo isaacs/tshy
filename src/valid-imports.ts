@@ -1,33 +1,49 @@
 import fail from './fail.js'
-import { Package } from './types.js'
+import { FailureReasonCallback, Package } from './types.js'
 import validExternalExport from './valid-external-export.js'
+import { Imports } from 'resolve-import';
 
-// validate the package.imports field
-export default (pkg: Package) => {
-  const { imports } = pkg
+const noop = () => {}
+
+export const isValidImportsConfig = (imports: any, onFail: FailureReasonCallback = noop): imports is Imports => {
   if (imports === undefined) return true
   if (Array.isArray(imports) || typeof imports !== 'object') {
-    fail(
+    onFail(
       'invalid imports object, must be Record<string, Import>, ' +
         `got: ${JSON.stringify(imports)}`
     )
-    return process.exit(1)
+    return false
   }
 
   for (const [i, v] of Object.entries(imports)) {
     if (!i.startsWith('#') || i === '#' || i.startsWith('#/')) {
-      fail('invalid imports module specifier: ' + i)
-      return process.exit(1)
+      onFail('invalid imports module specifier: ' + i)
+      return false
     }
     if (typeof v === 'string') continue
     if (!validExternalExport(v)) {
-      fail(
+      onFail(
         `unbuilt package.imports ${i} must not be in ./src, ` +
           'and imports in ./src must be string values. got: ' +
           JSON.stringify(v)
       )
-      return process.exit(1)
+      return false
     }
   }
+
   return true
 }
+
+// validate the package.imports field
+export const packageHasValidImportsConfig = (pkg: Package) => {
+  const { imports } = pkg
+
+  const result = isValidImportsConfig(imports, reason => {
+    fail(reason)
+    return process.exit(1)
+  })
+  
+  return result
+}
+
+export default packageHasValidImportsConfig

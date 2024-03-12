@@ -26,13 +26,21 @@ t.test('no error', async t => {
     link()
     t.strictSame(errs(), [])
     t.strictSame(exits(), [[0]])
-    t.matchSnapshot(logs().map(s => s.join('')).join('\n'))
+    t.matchSnapshot(
+      logs()
+        .map(s => s.join(''))
+        .join('\n')
+    )
   })
   t.test('no link', async t => {
     noLink()
     t.strictSame(errs(), [])
     t.strictSame(exits(), [[0]])
-    t.matchSnapshot(logs().map(s => s.join('')).join('\n'))
+    t.matchSnapshot(
+      logs()
+        .map(s => s.join(''))
+        .join('\n')
+    )
   })
 })
 
@@ -41,12 +49,20 @@ t.test('with error', async t => {
     link('error string')
     t.strictSame(logs(), [])
     t.strictSame(exits(), [[1]])
-    t.matchSnapshot(errs().map(s => s.join('')).join('\n'))
+    t.matchSnapshot(
+      errs()
+        .map(s => s.join(''))
+        .join('\n')
+    )
   })
   t.test('no link', async t => {
     noLink('error string')
     t.strictSame(logs(), [])
     t.strictSame(exits(), [[1]])
-    t.matchSnapshot(errs().map(s => s.join('')).join('\n'))
+    t.matchSnapshot(
+      errs()
+        .map(s => s.join(''))
+        .join('\n')
+    )
   })
 })

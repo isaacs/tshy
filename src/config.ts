@@ -4,7 +4,7 @@ import chalk from 'chalk'
 import * as console from './console.js'
 import fail from './fail.js'
 import pkg from './package.js'
-import sources from './sources.js'
+import { getSrcFiles } from './sources.js'
 import { Package, TshyConfig } from './types.js'
 import validDialects from './valid-dialects.js'
 import validExclude from './valid-exclude.js'
@@ -20,7 +20,7 @@ const validBoolean = (e: Record<string, any>, name: string) => {
   return process.exit(1)
 }
 
-const validConfig = (e: any): e is TshyConfig =>
+export const isValidTshyConfig = (e: any): e is TshyConfig =>
   !!e &&
   typeof e === 'object' &&
   (e.exports === undefined || validExports(e.exports)) &&
@@ -35,7 +35,7 @@ const getConfig = (
   pkg: Package,
   sources: Set<string>
 ): TshyConfig => {
-  const tshy: TshyConfig = validConfig(pkg.tshy) ? pkg.tshy : {}
+  const tshy: TshyConfig = isValidTshyConfig(pkg.tshy) ? pkg.tshy : {}
   const ti = tshy as TshyConfig & { imports?: any }
   if (ti.imports) {
     console.debug(
@@ -64,5 +64,5 @@ const getConfig = (
   return tshy
 }
 
-const config: TshyConfig = getConfig(pkg, sources)
+const config: TshyConfig = getConfig(pkg, getSrcFiles())
 export default config

@@ -87,6 +87,7 @@ for (const [config, sources, ok, expect] of cases) {
       version: '1.2.3',
       tshy: config,
     }
+
     let failMsg: undefined | string = undefined
     const result = (await t
       .mockImport('../dist/esm/config.js', {
@@ -94,7 +95,7 @@ for (const [config, sources, ok, expect] of cases) {
         '../dist/esm/fail.js': {
           default: (m: string) => (failMsg = m),
         },
-        '../dist/esm/sources.js': { default: sources },
+        '../dist/esm/sources.js': { getSrcFiles: () => sources },
       })
       .catch(er => {
         if (ok) t.equal(er, undefined, 'did not expect exit')

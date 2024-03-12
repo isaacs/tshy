@@ -7,7 +7,9 @@ const calls: [string, any[]][] = []
 const { default: buildFail } = (await t.mockImport(
   '../dist/esm/build-fail.js',
   {
-    '../dist/esm/tsconfig.js': {},
+    '../dist/esm/tsconfig.js': {
+      generateTsConfigFiles: () => {}
+    },
     '../dist/esm/package.js': { default: { name: 'package' } },
     '../dist/esm/unbuilt-imports.js': {
       unlink: (...a: any[]) => calls.push(['unlinkImports', a]),

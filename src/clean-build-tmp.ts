@@ -1,10 +1,3 @@
-// Remove the .tshy-build folder, but ONLY if
-// the "incremental" config value is not set, or if
-// it does not contain any tsbuildinfo files.
-// If we are in incremental mode, and have tsbuildinfo files,
-// then find and remove any files here that do not have a matching
-// source file in ./src
-
 import { readdirSync } from 'fs'
 import { parse } from 'path'
 import { rimrafSync } from 'rimraf'
@@ -64,6 +57,15 @@ const cleanRemovedOutputs = (path: string, root: string) => {
   }
 }
 
+/**
+ * Remove the .tshy-build folder, but ONLY if
+ * the "incremental" config value is not set,
+ * or if it does not contain any tsbuildinfo files.
+ *
+ * If we are in incremental mode, and have tsbuildinfo files,
+ * then find and remove any files here that do not have a matching
+ * source file in ./src
+ */
 export default () => {
   const config = readTypescriptConfig()
   if (config.options.incremental !== true) {

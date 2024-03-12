@@ -11,13 +11,15 @@ import {
   link as linkSelfDep,
   unlink as unlinkSelfDep,
 } from './self-link.js'
-import './tsconfig.js'
+import { generateTsConfigFiles } from './tsconfig.js'
 import {
   link as linkImports,
   save as saveImports,
   unlink as unlinkImports,
 } from './unbuilt-imports.js'
 import writePackage from './write-package.js'
+
+await generateTsConfigFiles()
 
 export default async () => {
   cleanBuildTmp()

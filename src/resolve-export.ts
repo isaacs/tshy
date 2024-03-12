@@ -1,3 +1,11 @@
+/**
+ * Resolves the exported value from a module export object.
+ *
+ * Checks for string exports, null exports, array exports by recursing,
+ * and object exports with special keys like 'node' and 'default'.
+ *
+ * Returns the first valid resolved export value or undefined if none found.
+ */
 export const resolveExport = (
   exp: any,
   conditions: string[]

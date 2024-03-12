@@ -15,7 +15,7 @@ const arrayOverlap = (
   return false
 }
 
-const validExtraDialectSet = (
+export const isValidExtraDialectSet = (
   e: string[],
   which: 'commonjs' | 'esm'
 ) => {
@@ -40,17 +40,17 @@ const validExtraDialectSet = (
   return true
 }
 
-export default ({ commonjsDialects, esmDialects }: TshyConfig) => {
+export const isValidExtraDialectConfig = ({ commonjsDialects, esmDialects }: TshyConfig) => {
   if (commonjsDialects === undefined && esmDialects === undefined) {
     return true
   }
   if (
     commonjsDialects &&
-    !validExtraDialectSet(commonjsDialects, 'commonjs')
+    !isValidExtraDialectSet(commonjsDialects, 'commonjs')
   ) {
     return false
   }
-  if (esmDialects && !validExtraDialectSet(esmDialects, 'esm')) {
+  if (esmDialects && !isValidExtraDialectSet(esmDialects, 'esm')) {
     return false
   }
   const overlap = arrayOverlap(commonjsDialects, esmDialects)
@@ -63,3 +63,5 @@ export default ({ commonjsDialects, esmDialects }: TshyConfig) => {
   }
   return true
 }
+
+export default isValidExtraDialectConfig

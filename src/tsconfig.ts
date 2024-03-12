@@ -1,3 +1,12 @@
+/**
+ * Generates TypeScript compiler configuration files for building the project.
+ *
+ * Creates a recommended tsconfig.json if one does not exist in the project root.
+ * Extends a base build config, then creates additional configs for each
+ * requested dialect (esm, cjs, etc.) that set the correct outDir and excludes.
+ *
+ * The configs will be written to a .tshy folder that will be cleaned out first.
+ */
 import chalk from 'chalk'
 import { mkdirpSync } from 'mkdirp'
 import {
@@ -24,7 +33,12 @@ const {
 
 const relativeExclude = exclude.map(e => `../${e}`)
 
-const recommended: Record<string, any> = {
+/**
+ * The recommended TypeScript config options used as the base for all build configs.
+ * Includes recommended compiler options like 'strict', 'noUncheckedIndexedAccess',
+ * 'declaration' etc. as well as setting 'module' to 'nodenext' and 'target' to 'es2022'.
+ */
+export const recommendedTsConfig: Record<string, any> = {
   compilerOptions: {
     declaration: true,
     declarationMap: true,
@@ -43,7 +57,13 @@ const recommended: Record<string, any> = {
   },
 }
 
-const build: Record<string, any> = {
+/**
+ * The base TypeScript config used for building.
+ * Extends the root tsconfig.json or the tsconfig file
+ * defined in `config.project` and sets compilerOptions like
+ * rootDir, target, and moduleResolution.
+ */
+export const baseBuildTsConfig: Record<string, any> = {
   extends:
     config.project === undefined
       ? '../tsconfig.json'
@@ -56,7 +76,17 @@ const build: Record<string, any> = {
   },
 }
 
-const commonjs = (dialect: string): Record<string, any> => {
+/**
+ * Generates a TypeScript config for building the CommonJS version of the project.
+ *
+ * Extends the base build config and sets additional options specific to CommonJS:
+ * - Adds polyfill imports to be excluded
+ * - Includes .ts, .cts, and .tsx files from src
+ * - Sets outDir based on the dialect (cjs or esm)
+ */
+export const createCommonjsDialectTsConfig = (
+  dialect: string
+): Record<string, any> => {
   const exclude = [...relativeExclude, '../src/**/*.mts']
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
@@ -76,7 +106,17 @@ const commonjs = (dialect: string): Record<string, any> => {
   }
 }
 
-const esm = (dialect: string): Record<string, any> => {
+/**
+ * Generates a TypeScript config for building the ESM version of the project.
+ *
+ * Extends the base build config and sets additional options specific to ESM:
+ * - Adds polyfill imports to be excluded
+ * - Includes .ts, .mts, and .tsx files from src
+ * - Sets outDir to the provided dialect name
+ */
+export const createEsmDialectTsConfig = (
+  dialect: string
+): Record<string, any> => {
   const exclude: string[] = [...relativeExclude]
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
@@ -94,34 +134,46 @@ const esm = (dialect: string): Record<string, any> => {
   }
 }
 
-mkdirpSync('.tshy')
-const writeConfig = (name: string, data: Record<string, any>) =>
-  writeFileSync(
-    `.tshy/${name}.json`,
-    JSON.stringify(data, null, 2) + '\n'
-  )
+/**
+ * Generates TypeScript config files for building the project.
+ *
+ * Creates the build output directory. Writes the base build config,
+ * as well as configs for CommonJS and ESM builds based on the
+ * specified dialects.
+ */
+export function generateTsConfigFiles() {
+  console.log(chalk.cyan.dim('writing tsconfig files...'))
+  mkdirpSync('.tshy')
+  const writeConfig = (name: string, data: Record<string, any>) =>
+    writeFileSync(
+      `.tshy/${name}.json`,
+      JSON.stringify(data, null, 2) + '\n'
+    )
 
-console.debug(chalk.cyan.dim('writing tsconfig files...'))
-if (config.project === undefined && !existsSync('tsconfig.json')) {
-  console.debug('using recommended tsconfig.json')
-  writeConfig('../tsconfig', recommended)
-} else {
-  if (dialects.length > 1) preventVerbatimModuleSyntax()
-  console.debug('using existing tsconfig.json')
-}
-for (const f of readdirSync('.tshy')) {
-  unlinkSync(resolve('.tshy', f))
-}
-writeConfig('build', build)
-if (dialects.includes('commonjs')) {
-  writeConfig('commonjs', commonjs('cjs'))
-  for (const d of commonjsDialects) {
-    writeConfig(d, commonjs(d))
+  console.debug(chalk.cyan.dim('writing tsconfig files...'))
+  if (config.project === undefined && !existsSync('tsconfig.json')) {
+    console.debug('using recommended tsconfig.json')
+    writeConfig('../tsconfig', recommendedTsConfig)
+  } else {
+    if (dialects.length > 1) preventVerbatimModuleSyntax()
+    console.debug('using existing tsconfig.json')
+  }
+  for (const f of readdirSync('.tshy')) {
+    unlinkSync(resolve('.tshy', f))
+  }
+  writeConfig('build', baseBuildTsConfig)
+  if (dialects.includes('commonjs')) {
+    writeConfig('commonjs', createCommonjsDialectTsConfig('cjs'))
+    for (const d of commonjsDialects) {
+      writeConfig(d, createCommonjsDialectTsConfig(d))
+    }
+  }
+  if (dialects.includes('esm')) {
+    writeConfig('esm', createEsmDialectTsConfig('esm'))
+    for (const d of esmDialects) {
+      writeConfig(d, createEsmDialectTsConfig(d))
+    }
   }
 }
-if (dialects.includes('esm')) {
-  writeConfig('esm', esm('esm'))
-  for (const d of esmDialects) {
-    writeConfig(d, esm(d))
-  }
-}
+
+export default generateTsConfigFiles

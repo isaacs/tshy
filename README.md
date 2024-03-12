@@ -572,7 +572,7 @@ in `src/<whatever>.ts` and the CommonJS polyfill living in
 
 If you want to keep some files from being processed by tshy's
 builds entirely, you can add an `exclude` `string[]` field to the
-`tshy` object in `package.json`.  For example:
+`tshy` object in `package.json`. For example:
 
 ```json
 {
@@ -721,7 +721,7 @@ tsconfig file. This is often useful when you have multiple
   `typescript-eslint`, specifying `"noEmit": true` and
   `"include": ["**/*.ts"]`
 - A `tsconfig.build.json` for compilation, with `"noEmit":
-  false`. Note that the [caveats](#tsconfigs) above still apply.
+false`. Note that the [caveats](#tsconfigs) above still apply.
 
 ```json
 {

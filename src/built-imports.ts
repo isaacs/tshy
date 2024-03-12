@@ -1,9 +1,14 @@
-// merge tshy.imports with package.json imports
-
 import { Package } from './types.js'
 
-// strip the ./src/ and turn ts extension into js for built imports
-// leave unbuilt imports alone, they'll be symlinked
+/**
+ * Merge imports from package.json with imports from tshy.imports,
+ * modifying the paths to point to the built files.
+ *
+ * For imports from ./src/*, it strips the ./src/ prefix and replaces
+ * the .ts extension with .js to point to the built file.
+ *
+ * Leaves unbuilt imports as-is, they will be symlinked.
+ */
 export default (pkg: Package): Package['imports'] => {
   const { imports } = pkg
   if (!imports) return undefined

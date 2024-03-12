@@ -14,6 +14,11 @@ import { resolveExport } from './resolve-export.js'
 import { Package, TshyConfig, TshyExport } from './types.js'
 const { esmDialects = [], commonjsDialects = [] } = config
 
+/**
+ * Returns the target path for the given dialect condition.
+ * Handles converting between ESM, CommonJS and raw file paths.
+ * Also applies configured polyfill mappings.
+ */
 const getTargetForDialectCondition = <T extends string>(
   s: string | TshyExport | undefined | null,
   dialect: T,
@@ -47,12 +52,22 @@ const getTargetForDialectCondition = <T extends string>(
   return resolveExport(s, [condition])
 }
 
+/**
+ * Returns the target import/require path for the given export name
+ * or TshyExport, resolving it for ESM imports and applying polyfill
+ * mappings.
+ */
 export const getImpTarget = (
   s: string | TshyExport | undefined | null,
   polyfills: Map<string, PolyfillSet> = new Map()
 ) =>
   getTargetForDialectCondition(s, 'esm', 'import', 'esm', polyfills)
 
+/**
+ * Returns the target require path for the given export name
+ * or TshyExport, resolving it for CommonJS requires and applying
+ * polyfill mappings.
+ */
 export const getReqTarget = (
   s: string | TshyExport | undefined | null,
   polyfills: Map<string, PolyfillSet> = new Map()
@@ -65,7 +80,17 @@ export const getReqTarget = (
     polyfills
   )
 
-const getExports = (
+/**
+ * Returns a record of conditional exports for the given TshyConfig.
+ *
+ * Loops through the exports in the config, resolving each one to its
+ * target import/require path for different module dialects, and builds
+ * a record mapping the export name to a ConditionalValueObject
+ * containing the resolved targets.
+ *
+ * Handles mapping to polyfills and generating .d.ts types paths.
+ */
+export const getExports = (
   c: TshyConfig
 ): Record<string, ConditionalValue> => {
   // by this time it always exports, will get the default if missing
@@ -174,8 +199,20 @@ export const setMain = (
   pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
 }
 
-// These are all defined by exports, so it's just confusing otherwise
-delete pkg.module
-pkg.exports = getExports(config)
-setMain(config, pkg as Package & { exports: ExportsSubpaths })
-export default pkg.exports
+/**
+ * Updates the package.exports field for the project's package.json by:
+ *
+ * - Deleting the package.module field since everything is defined in the exports
+ * - Setting package.exports to the exports generated from config
+ * - Calling setMain() to potentially set package.main and package.types
+ * - Returning the updated package.exports
+ */
+export const updatePackageExports = () => {
+  // These are all defined by exports, so it's just confusing otherwise
+  delete pkg.module
+  pkg.exports = getExports(config)
+  setMain(config, pkg as Package & { exports: ExportsSubpaths })
+  return pkg.exports
+}
+
+export default updatePackageExports

@@ -1,6 +1,7 @@
 import fail from './fail.js'
 import { TshyConfig } from './types.js'
-export default (
+
+export const isValidExclude = (
   d: any
 ): d is Exclude<TshyConfig['exclude'], undefined> => {
   if (
@@ -11,9 +12,22 @@ export default (
   ) {
     return true
   }
+  
+  return false
+}
+
+
+export default (
+  d: any
+): d is Exclude<TshyConfig['exclude'], undefined> => {
+  if (isValidExclude(d)) {
+    return true
+  }
+
   fail(
     `tshy.exclude must be an array of string glob patterns if defined, ` +
       `got: ${JSON.stringify(d)}`
   )
+
   return process.exit(1)
 }

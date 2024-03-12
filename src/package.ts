@@ -8,7 +8,7 @@ import { Package } from './types.js'
 const isPackage = (pkg: JSONResult): pkg is Package =>
   !!pkg && typeof pkg === 'object' && !Array.isArray(pkg)
 
-const readPkg = (): Package => {
+export const readPackageJson = (): Package => {
   try {
     const res = parse(readFileSync('package.json', 'utf8'))
     if (isPackage(res)) return res
@@ -21,4 +21,4 @@ const readPkg = (): Package => {
   }
 }
 
-export default readPkg()
+export default readPackageJson()

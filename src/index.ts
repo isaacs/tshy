@@ -3,10 +3,12 @@
 import chalk from 'chalk'
 import build from './build.js'
 import * as debugConsole from './console.js'
-import './exports.js'
+import updatePackageExports from './exports.js'
 import pkg from './package.js'
 import usage from './usage.js'
 import watch from './watch.js'
+
+updatePackageExports()
 
 const { exports: exp, tshy } = pkg
 
