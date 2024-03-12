@@ -4,11 +4,13 @@ import { resolveExport } from './resolve-export.js'
 
 /**
  * Checks if the given export is a valid external export (not from src/).
- * 
+ *
  * @param exp - The export to check.
  * @returns Whether the export is a valid external export.
  */
-export const isValidExternalExport = (exp: any): exp is ConditionalValueObject => {
+export const isValidExternalExport = (
+  exp: any
+): exp is ConditionalValueObject => {
   const i = resolveExport(exp, ['import'])
   const r = resolveExport(exp, ['require'])
   if (i && join(i).startsWith('src/')) return false

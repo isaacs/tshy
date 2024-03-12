@@ -12,10 +12,9 @@ export const isValidExclude = (
   ) {
     return true
   }
-  
+
   return false
 }
-
 
 export default (
   d: any

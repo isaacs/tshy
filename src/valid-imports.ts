@@ -1,11 +1,14 @@
 import fail from './fail.js'
 import { FailureReasonCallback, Package } from './types.js'
 import validExternalExport from './valid-external-export.js'
-import { Imports } from 'resolve-import';
+import { Imports } from 'resolve-import'
 
 const noop = () => {}
 
-export const isValidImportsConfig = (imports: any, onFail: FailureReasonCallback = noop): imports is Imports => {
+export const isValidImportsConfig = (
+  imports: any,
+  onFail: FailureReasonCallback = noop
+): imports is Imports => {
   if (imports === undefined) return true
   if (Array.isArray(imports) || typeof imports !== 'object') {
     onFail(
@@ -42,7 +45,7 @@ export const packageHasValidImportsConfig = (pkg: Package) => {
     fail(reason)
     return process.exit(1)
   })
-  
+
   return result
 }
 

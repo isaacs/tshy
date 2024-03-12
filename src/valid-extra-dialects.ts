@@ -40,7 +40,10 @@ export const isValidExtraDialectSet = (
   return true
 }
 
-export const isValidExtraDialectConfig = ({ commonjsDialects, esmDialects }: TshyConfig) => {
+export const isValidExtraDialectConfig = ({
+  commonjsDialects,
+  esmDialects,
+}: TshyConfig) => {
   if (commonjsDialects === undefined && esmDialects === undefined) {
     return true
   }

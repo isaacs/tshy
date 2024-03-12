@@ -5,7 +5,10 @@ import { FailureReasonCallback, TshyConfig } from './types.js'
 
 const noop = () => {}
 
-export const isValidProject = (p: any, onFail: FailureReasonCallback = noop): p is TshyConfig['project'] => {
+export const isValidProject = (
+  p: any,
+  onFail: FailureReasonCallback = noop
+): p is TshyConfig['project'] => {
   if (typeof p === 'string') {
     try {
       readFileSync(resolve(p), 'utf8')
@@ -21,11 +24,10 @@ export const isValidProject = (p: any, onFail: FailureReasonCallback = noop): p 
   return false
 }
 
-
 export default (p: any): p is TshyConfig['project'] => {
-  if(!isValidProject(p, fail)) {
+  if (!isValidProject(p, fail)) {
     return process.exit(1)
   }
-  
+
   return true
 }

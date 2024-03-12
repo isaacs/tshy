@@ -33,7 +33,7 @@ const mocks = {
   '../dist/esm/build-esm.js': { buildESM: () => (builtESM = true) },
   rimraf: { rimrafSync: () => {} },
   '../dist/esm/tsconfig.js': {
-    generateTsConfigFiles: () => {}
+    generateTsConfigFiles: () => {},
   },
   '../dist/esm/write-package.js': { default: () => {} },
   'sync-content': { syncContentSync: () => {} },

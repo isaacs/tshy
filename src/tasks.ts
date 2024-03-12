@@ -10,7 +10,7 @@ export {
   getImpTarget as getImportTargetPath,
   getReqTarget as getRequireTargetPath,
   setMain,
-  updatePackageExports  
+  updatePackageExports,
 } from './exports.js'
 export { default as printFailureMessage } from './fail.js'
 export { default as pkg, readPackageJson } from './package.js'
@@ -41,7 +41,10 @@ export { isValidDialect } from './valid-dialects.js'
 export { isValidExclude } from './valid-exclude.js'
 export { isValidExports } from './valid-exports.js'
 export { isValidExternalExport } from './valid-external-export.js'
-export { isValidExtraDialectConfig, isValidExtraDialectSet } from './valid-extra-dialects.js'
+export {
+  isValidExtraDialectConfig,
+  isValidExtraDialectSet,
+} from './valid-extra-dialects.js'
 export { isValidImportsConfig } from './valid-imports.js'
 export { isValidProject } from './valid-project.js'
 export { default as writePackageJson } from './write-package.js'

@@ -4,7 +4,6 @@ import { Dialect, TshyConfig } from './types.js'
 export const isDialect = (d: any): d is Dialect =>
   d === 'commonjs' || d === 'esm'
 
-
 export const isValidDialect = (
   d: any
 ): d is Exclude<TshyConfig['dialects'], undefined> => {
@@ -17,15 +16,14 @@ export const isValidDialect = (
     return true
   }
 
-  return false;
+  return false
 }
 
 export default (
   d: any
 ): d is Exclude<TshyConfig['dialects'], undefined> => {
-  
   if (isValidDialect(d)) {
-    return true;
+    return true
   }
 
   fail(

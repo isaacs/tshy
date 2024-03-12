@@ -8,7 +8,7 @@ const { default: buildFail } = (await t.mockImport(
   '../dist/esm/build-fail.js',
   {
     '../dist/esm/tsconfig.js': {
-      generateTsConfigFiles: () => {}
+      generateTsConfigFiles: () => {},
     },
     '../dist/esm/package.js': { default: { name: 'package' } },
     '../dist/esm/unbuilt-imports.js': {

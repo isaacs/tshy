@@ -12,7 +12,7 @@ export const isValidExports = (
   if (!e || typeof e !== 'object' || Array.isArray(e)) {
     return false
   }
-  
+
   for (const [sub, exp] of Object.entries(e)) {
     if (sub !== '.' && !sub.startsWith('./')) {
       onFail(
