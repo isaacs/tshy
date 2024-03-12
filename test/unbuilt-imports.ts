@@ -35,7 +35,8 @@ t.test('imports linking', async t => {
       process.chdir(
         fileURLToPath(new URL('./fixtures/' + i, import.meta.url))
       )
-      await t.mockImport('../dist/esm/index.js')
+      const { main } = await t.mockImport('../dist/esm/index.js')
+      await main();
       const logs = t.capture(console, 'log').args
       const { test: testESM } = await import(
         `./fixtures/${i}/dist/esm/index.js`

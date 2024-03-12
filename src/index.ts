@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import chalk from 'chalk'
 import build from './build.js'
 import * as debugConsole from './console.js'
@@ -8,11 +6,11 @@ import pkg from './package.js'
 import usage from './usage.js'
 import watch from './watch.js'
 
-updatePackageExports()
-
 const { exports: exp, tshy } = pkg
 
-const main = async () => {
+export const main = async () => {
+  updatePackageExports()
+
   for (const arg of process.argv.slice(2)) {
     switch (arg) {
       case '--help':
@@ -34,4 +32,5 @@ const main = async () => {
 
   debugConsole.log(chalk.bold.green('success!'))
 }
-await main()
+
+export default main
