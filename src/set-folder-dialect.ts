@@ -20,6 +20,11 @@ const writeDialectPJ = (d: string, mode?: Dialect) => {
   )
 }
 
+/**
+ * Sets/unsets the dialect for a folder by adding/removing a package.json inside it
+ *
+ * WARNING: Any existing package.json in the folder will be overwritten
+ */
 export default (where: string, mode?: Dialect) => {
   if (mode)
     console.debug(chalk.cyan.dim('set dialect'), { where, mode })

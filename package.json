@@ -3,9 +3,12 @@
   "version": "1.12.0",
   "description": "TypeScript HYbridizer - Hybrid (CommonJS/ESM) TypeScript node package builder",
   "author": "Isaac Z. Schlueter <i@izs.me> (https://izs.me)",
+  "contributors": [
+    "Saulo Vallory <saulo@toki.life> (https://about.me/saulovallory)"
+  ],
   "license": "BlueOak-1.0.0",
   "type": "module",
-  "bin": "./dist/esm/index.js",
+  "bin": "./dist/esm/cli.js",
   "files": [
     "dist"
   ],
@@ -70,11 +73,18 @@
     ],
     "exports": {
       "./package.json": "./package.json",
+      "./tasks": "./src/tasks.ts",
       ".": "./src/index.ts"
     }
   },
   "exports": {
     "./package.json": "./package.json",
+    "./tasks": {
+      "import": {
+        "types": "./dist/esm/tasks.d.ts",
+        "default": "./dist/esm/tasks.js"
+      }
+    },
     ".": {
       "import": {
         "types": "./dist/esm/index.d.ts",

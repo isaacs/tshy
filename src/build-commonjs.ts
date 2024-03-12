@@ -7,7 +7,9 @@ import config from './config.js'
 import * as console from './console.js'
 import polyfills from './polyfills.js'
 import setFolderDialect from './set-folder-dialect.js'
-import './tsconfig.js'
+import { generateTsConfigFiles } from './tsconfig.js'
+await generateTsConfigFiles()
+
 const { commonjsDialects = [] } = config
 
 const unlinkIfExist = (f: string) => existsSync(f) && unlinkSync(f)

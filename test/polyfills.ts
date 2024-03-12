@@ -10,18 +10,21 @@ const polyfills = await t.mockImport('../dist/esm/polyfills.js', {
       },
     },
   },
-  '../dist/esm/sources.js': new Set([
-    './src/foo.ts',
-    './src/foo-cjs.cts',
-    './src/foo-blah.cts',
-    './src/foo-deno.mts',
-    './src/no-poly.ts',
-    './src/no-poly.cts',
-    './src/no-poly.mts',
-    './src/jsx.tsx',
-    './src/jsx-cjs.cts',
-    './src/poly-without-target-cjs.cts',
-  ]),
+  '../dist/esm/sources.js': {
+    getSrcFiles: () =>
+      new Set([
+        './src/foo.ts',
+        './src/foo-cjs.cts',
+        './src/foo-blah.cts',
+        './src/foo-deno.mts',
+        './src/no-poly.ts',
+        './src/no-poly.cts',
+        './src/no-poly.mts',
+        './src/jsx.tsx',
+        './src/jsx-cjs.cts',
+        './src/poly-without-target-cjs.cts',
+      ]),
+  },
 })
 
 t.match(

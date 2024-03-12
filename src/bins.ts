@@ -2,6 +2,9 @@
 import { chmodSync } from 'fs'
 import { resolve } from 'path'
 import pkg from './package.js'
+/**
+ * chmod bins after build
+ */
 export default () => {
   const { bin } = pkg
   if (!bin) return

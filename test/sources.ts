@@ -14,5 +14,9 @@ process.chdir(
   })
 )
 
-const { default: sources } = await import('../dist/esm/sources.js')
-t.strictSame(sources, new Set(['./src/dir/file.ts', './src/file.ts']))
+const { getSrcFiles } = await import('../dist/esm/sources.js')
+
+t.strictSame(
+  getSrcFiles(),
+  new Set(['./src/dir/file.ts', './src/file.ts'])
+)

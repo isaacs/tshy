@@ -291,18 +291,19 @@ t.test('extra dialects', async t => {
               },
 
               '../dist/esm/sources.js': {
-                default: new Set([
-                  './src/index.ts',
-                  './src/index-blah.cts',
-                  './src/index-cjs.cts',
-                  './src/index-deno.mts',
-                  './src/foo.ts',
-                  './src/foo-blah.cts',
-                ]),
+                getSrcFiles: () =>
+                  new Set([
+                    './src/index.ts',
+                    './src/index-blah.cts',
+                    './src/index-cjs.cts',
+                    './src/index-deno.mts',
+                    './src/foo.ts',
+                    './src/foo-blah.cts',
+                  ]),
               },
             }
           )) as typeof import('../dist/esm/exports.js')
-          t.matchSnapshot(extraDialects)
+          t.matchSnapshot(extraDialects())
         })
       }
     })

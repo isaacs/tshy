@@ -2,7 +2,7 @@ import t from 'tap'
 
 const exits = t.capture(process, 'exit', () => false).args
 let failed: string | undefined = undefined
-const { default: validExports } = (await t.mockImport(
+const { default: validateExports } = (await t.mockImport(
   '../dist/esm/valid-exports.js',
   {
     '../dist/esm/fail.js': (m: string) => (failed = m),
@@ -27,7 +27,7 @@ t.plan(cases.length)
 
 for (const [exp, ok] of cases) {
   t.test(JSON.stringify(exp) + ' ' + ok, async t => {
-    const v = validExports(exp)
+    const v = validateExports(exp)
     if (!ok) {
       t.equal(v, false)
       t.matchSnapshot(failed, 'message')

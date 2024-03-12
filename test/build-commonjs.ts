@@ -66,6 +66,7 @@ t.test('basic commonjs build', async t => {
       },
     })
   )
+
   let buildFailed = false
   const { buildCommonJS } = (await t.mockImport(
     '../dist/esm/build-commonjs.js',

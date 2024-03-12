@@ -28,7 +28,11 @@ const dir = t.testdir({
 process.chdir(dir)
 
 t.test('with tsconfig.json file', async t => {
-  await import('../dist/esm/tsconfig.js')
+  let { generateTsConfigFiles } = await t.mockImport(
+    '../dist/esm/tsconfig.js'
+  )
+
+  await generateTsConfigFiles()
 
   for (const f of [
     'tsconfig.json',
@@ -57,7 +61,7 @@ t.test('with tsconfig.json file', async t => {
     'not even json, this gets clobbered'
   )
 
-  await t.mockImport('../dist/esm/tsconfig.js')
+  await generateTsConfigFiles()
 
   for (const f of [
     'tsconfig.json',
@@ -91,7 +95,10 @@ t.test('with custom project tsconfig name', async t => {
     })
   )
 
-  await t.mockImport('../dist/esm/tsconfig.js')
+  let { generateTsConfigFiles } = await t.mockImport(
+    '../dist/esm/tsconfig.js'
+  )
+  await generateTsConfigFiles(console as any)
 
   t.throws(() => statSync(resolve(dir, 'tsconfig.json')), {
     code: 'ENOENT',
