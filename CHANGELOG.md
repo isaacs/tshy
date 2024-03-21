@@ -1,3 +1,8 @@
+# 1.13
+
+- Take `target` from `tsconfig.json` if present, rather than
+  hard-coding in the `build.json` config.
+
 # 1.12
 
 - Respect `package.json` type field if set to `"commonjs"`

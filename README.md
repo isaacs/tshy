@@ -701,7 +701,7 @@ following caveats:
   - `outDir` - will be overridden based on build, best omitted
   - `rootDir` - will be set to `./src` in the build, can only
     cause annoying errors otherwise.
-  - `target` - will be set to `es2022`
+  - `target` - will be set to `es2022` if not specified
   - `module` - will be set to `NodeNext`
   - `moduleResolution` - will be set to `NodeNext`
 

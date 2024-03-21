@@ -14,6 +14,7 @@ import * as console from './console.js'
 import config from './config.js'
 import polyfills from './polyfills.js'
 import preventVerbatimModuleSyntax from './prevent-verbatim-module-syntax.js'
+import readTypescriptConfig from './read-typescript-config.js'
 
 const {
   dialects = ['esm', 'commonjs'],
@@ -43,18 +44,21 @@ const recommended: Record<string, any> = {
   },
 }
 
-const build: Record<string, any> = {
+const build = (): Record<string, any> => ({
   extends:
     config.project === undefined
       ? '../tsconfig.json'
       : join('..', config.project),
   compilerOptions: {
+    target:
+      readTypescriptConfig().options.target === undefined
+        ? 'es2022'
+        : undefined,
     rootDir: '../src',
-    target: 'es2022',
     module: 'nodenext',
     moduleResolution: 'nodenext',
   },
-}
+})
 
 const commonjs = (dialect: string): Record<string, any> => {
   const exclude = [...relativeExclude, '../src/**/*.mts']
@@ -112,7 +116,7 @@ if (config.project === undefined && !existsSync('tsconfig.json')) {
 for (const f of readdirSync('.tshy')) {
   unlinkSync(resolve('.tshy', f))
 }
-writeConfig('build', build)
+writeConfig('build', build())
 if (dialects.includes('commonjs')) {
   writeConfig('commonjs', commonjs('cjs'))
   for (const d of commonjsDialects) {
