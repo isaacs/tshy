@@ -116,7 +116,6 @@ Object {
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": "../src",
-    "target": "es2022",
   },
   "extends": "../tsconfig.json",
 }
