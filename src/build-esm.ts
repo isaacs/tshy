@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { spawnSync } from 'node:child_process'
-import { renameSync, unlinkSync } from 'node:fs'
+import { existsSync, renameSync, unlinkSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
 import buildFail from './build-fail.js'
 import config from './config.js'
@@ -33,7 +33,9 @@ export const buildESM = () => {
         `.tshy-build/${d}`,
         relative(resolve('src'), resolve(orig))
       ).replace(/\.tsx?$/, '')
-      unlinkSync(`${stemTo}.js.map`)
+      if (existsSync(`${stemTo}.js.map`)) {
+        unlinkSync(`${stemTo}.js.map`)
+      }
       unlinkSync(`${stemTo}.d.ts.map`)
       renameSync(`${stemFrom}.mjs`, `${stemTo}.js`)
       renameSync(`${stemFrom}.d.mts`, `${stemTo}.d.ts`)
