@@ -4,7 +4,7 @@ Hybrid (CommonJS/ESM) TypeScript node package builder. Write
 modules that Just Work in ESM and CommonJS, in easy mode.
 
 This tool manages the `exports` in your package.json file, and
-builds your TypeScript program using `tsc` 5.2, emitting both ESM
+builds your TypeScript program using `tsc` 5.2+, emitting both ESM
 and CommonJS variants, [providing the full strength of
 TypeScript’s checking for both output
 formats](https://twitter.com/atcb/status/1702069237710479608).
