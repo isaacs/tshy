@@ -22,23 +22,35 @@ Array [
 exports[`test/build-commonjs.ts > TAP > basic commonjs build > must match snapshot 2`] = `
 Array [
   Array [
-    "tsc -p .tshy/commonjs.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/commonjs.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/blah.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/blah.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/no-overrides.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/no-overrides.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
@@ -65,30 +77,46 @@ Array [
 exports[`test/build-commonjs.ts > TAP > build failure > must match snapshot 2`] = `
 Array [
   Array [
-    "tsc -p .tshy/commonjs.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/commonjs.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/blah.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/blah.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/no-overrides.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/no-overrides.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/commonjs.json",
+    "{NODE}",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/commonjs.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],

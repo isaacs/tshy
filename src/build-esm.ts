@@ -8,6 +8,9 @@ import * as console from './console.js'
 import polyfills from './polyfills.js'
 import setFolderDialect from './set-folder-dialect.js'
 import './tsconfig.js'
+import tsc from './which-tsc.js'
+
+const node = process.execPath
 const { esmDialects = [] } = config
 
 export const buildESM = () => {
@@ -15,8 +18,7 @@ export const buildESM = () => {
   for (const d of ['esm', ...esmDialects]) {
     const pf = polyfills.get(d)
     console.debug(chalk.cyan.dim('building ' + d))
-    const res = spawnSync(`tsc -p .tshy/${d}.json`, {
-      shell: true,
+    const res = spawnSync(node, [tsc, '-p', `.tshy/${d}.json`], {
       stdio: 'inherit',
     })
     if (res.status || res.signal) {

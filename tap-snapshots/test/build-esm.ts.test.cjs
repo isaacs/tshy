@@ -22,23 +22,35 @@ Array [
 exports[`test/build-esm.ts > TAP > basic esm build > must match snapshot 2`] = `
 Array [
   Array [
-    "tsc -p .tshy/esm.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/esm.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/blah.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/blah.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/no-overrides.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/no-overrides.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
@@ -61,30 +73,46 @@ Array [
 exports[`test/build-esm.ts > TAP > build failure > must match snapshot 2`] = `
 Array [
   Array [
-    "tsc -p .tshy/esm.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/esm.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/blah.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/blah.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/no-overrides.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/no-overrides.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],
   Array [
-    "tsc -p .tshy/esm.json",
+    "/usr/local/bin/node",
+    Array [
+      "{CWD}/node_modules/typescript/bin/tsc",
+      "-p",
+      ".tshy/esm.json",
+    ],
     Object {
-      "shell": true,
       "stdio": "inherit",
     },
   ],

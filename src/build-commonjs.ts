@@ -8,6 +8,9 @@ import * as console from './console.js'
 import polyfills from './polyfills.js'
 import setFolderDialect from './set-folder-dialect.js'
 import './tsconfig.js'
+import tsc from './which-tsc.js'
+
+const node = process.execPath
 const { commonjsDialects = [] } = config
 
 const unlinkIfExist = (f: string) => existsSync(f) && unlinkSync(f)
@@ -19,8 +22,7 @@ export const buildCommonJS = () => {
   for (const d of ['commonjs', ...commonjsDialects]) {
     const pf = polyfills.get(d === 'commonjs' ? 'cjs' : d)
     console.debug(chalk.cyan.dim('building ' + d))
-    const res = spawnSync(`tsc -p .tshy/${d}.json`, {
-      shell: true,
+    const res = spawnSync(node, [tsc, '-p', `.tshy/${d}.json`], {
       stdio: 'inherit',
     })
     if (res.status || res.signal) {
