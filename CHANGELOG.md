@@ -1,7 +1,14 @@
+# 1.14
+
+- Do not fail if sourcemaps are not generated
+- Support glob patterns in `tshy.exports`
+- Add support for TypeScript 5.4
+
 # 1.13
 
 - Take `target` from `tsconfig.json` if present, rather than
   hard-coding in the `build.json` config.
+- Find `tsc` where pnpm hides it.
 
 # 1.12
 
