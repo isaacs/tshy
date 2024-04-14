@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { spawnSync } from 'node:child_process'
-import { renameSync, unlinkSync } from 'node:fs'
+import { existsSync, renameSync, unlinkSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
 import buildFail from './build-fail.js'
 import config from './config.js'
@@ -9,6 +9,10 @@ import polyfills from './polyfills.js'
 import setFolderDialect from './set-folder-dialect.js'
 import './tsconfig.js'
 import tsc from './which-tsc.js'
+
+const unlinkIfExist = (f: string) => existsSync(f) && unlinkSync(f)
+const renameIfExist = (f: string, to: string) =>
+  existsSync(f) && renameSync(f, to)
 
 const node = process.execPath
 const { esmDialects = [] } = config
@@ -35,10 +39,10 @@ export const buildESM = () => {
         `.tshy-build/${d}`,
         relative(resolve('src'), resolve(orig))
       ).replace(/\.tsx?$/, '')
-      unlinkSync(`${stemTo}.js.map`)
-      unlinkSync(`${stemTo}.d.ts.map`)
-      renameSync(`${stemFrom}.mjs`, `${stemTo}.js`)
-      renameSync(`${stemFrom}.d.mts`, `${stemTo}.d.ts`)
+      unlinkIfExist(`${stemTo}.js.map`)
+      unlinkIfExist(`${stemTo}.d.ts.map`)
+      renameIfExist(`${stemFrom}.mjs`, `${stemTo}.js`)
+      renameIfExist(`${stemFrom}.d.mts`, `${stemTo}.d.ts`)
     }
     console.error(chalk.cyan.bold('built ' + d))
   }
