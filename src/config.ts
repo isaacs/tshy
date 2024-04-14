@@ -1,11 +1,16 @@
 // get the config and package and stuff
 
 import chalk from 'chalk'
+import { Minimatch } from 'minimatch'
 import * as console from './console.js'
 import fail from './fail.js'
 import pkg from './package.js'
 import sources from './sources.js'
-import { Package, TshyConfig } from './types.js'
+import {
+  Package,
+  TshyConfig,
+  TshyConfigMaybeGlobExports,
+} from './types.js'
 import validDialects from './valid-dialects.js'
 import validExclude from './valid-exclude.js'
 import validExports from './valid-exports.js'
@@ -20,10 +25,16 @@ const validBoolean = (e: Record<string, any>, name: string) => {
   return process.exit(1)
 }
 
-const validConfig = (e: any): e is TshyConfig =>
+const isStringArray = (e: any): e is string[] =>
+  !!e && Array.isArray(e) && !e.some(e => typeof e !== 'string')
+
+const validConfig = (e: any): e is TshyConfigMaybeGlobExports =>
   !!e &&
   typeof e === 'object' &&
-  (e.exports === undefined || validExports(e.exports)) &&
+  (e.exports === undefined ||
+    typeof e.exports === 'string' ||
+    isStringArray(e.exports) ||
+    validExports(e.exports)) &&
   (e.dialects === undefined || validDialects(e.dialects)) &&
   (e.project === undefined || validProject(e.project)) &&
   (e.exclude === undefined || validExclude(e.exclude)) &&
@@ -31,12 +42,51 @@ const validConfig = (e: any): e is TshyConfig =>
   validBoolean(e, 'selfLink') &&
   validBoolean(e, 'main')
 
+const match = (e: string, pattern: Minimatch[]): boolean =>
+  pattern.some(m => m.match(e))
+
+const parsePattern = (p: string | string[]): Minimatch[] =>
+  Array.isArray(p)
+    ? p.map(p => new Minimatch(p.replace(/^\.\//, '')))
+    : parsePattern([p])
+
 const getConfig = (
   pkg: Package,
   sources: Set<string>
 ): TshyConfig => {
-  const tshy: TshyConfig = validConfig(pkg.tshy) ? pkg.tshy : {}
-  const ti = tshy as TshyConfig & { imports?: any }
+  const tshy: TshyConfigMaybeGlobExports = validConfig(pkg.tshy)
+    ? pkg.tshy
+    : {}
+  const exportsRaw = tshy.exports
+  if (typeof exportsRaw === 'string' || Array.isArray(exportsRaw)) {
+    // Strip off the `./src` prefix and the extension
+    // exports: "src/**/*.ts" => exports: {"./foo": "./src/foo.ts"}
+    const exp: Exclude<TshyConfig['exports'], undefined> = {}
+    const pattern: string | string[] = exportsRaw
+    const m = parsePattern(pattern)
+    for (const e of sources) {
+      if (!match(e.replace(/^\.\//, ''), m)) continue
+      // index is main, anything else is a subpath
+      const sp = /^\.\/src\/index.([mc]?[jt]s|[jt]sx)$/.test(e)
+        ? '.'
+        : './' +
+          e
+            .replace(/^\.\/src\//, '')
+            .replace(/\.([mc]?[tj]s|[jt]sx)$/, '')
+      exp[sp] = `./${e}`
+    }
+    /* c8 ignore start - should be impossible */
+    if (!validExports(exp)) {
+      console.error('invalid exports pattern, using default exports')
+      delete tshy.exports
+    } else {
+      /* c8 ignore stop */
+      exp['./package.json'] = './package.json'
+      tshy.exports = exp
+    }
+  }
+  const config = tshy as TshyConfig
+  const ti = config as TshyConfig & { imports?: any }
   if (ti.imports) {
     console.debug(
       chalk.cyan.dim('imports') +
@@ -49,8 +99,8 @@ const getConfig = (
     delete ti.imports
   }
   validImports(pkg)
-  pkg.tshy = tshy
-  if (tshy.exports) return tshy
+  pkg.tshy = config
+  if (tshy.exports) return config
   const e: Exclude<TshyConfig['exports'], undefined> = {
     './package.json': './package.json',
   }
@@ -60,8 +110,8 @@ const getConfig = (
       break
     }
   }
-  tshy.exports = e
-  return tshy
+  config.exports = e
+  return config
 }
 
 const config: TshyConfig = getConfig(pkg, sources)

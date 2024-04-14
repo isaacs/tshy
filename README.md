@@ -314,6 +314,76 @@ just be passed through as-is.
 }
 ```
 
+### Glob Exports
+
+You can also specify one or more [glob](http://npm.im/glob)
+patterns to define your exported modules. This is handy if you
+want to export several things as subpath exports to avoid "bucket
+modules".
+
+Anything named `src/index.*` that is matched in this way will be
+used as the main `"."` export. Anything else will have the
+`./src` stripped from the front, and the file extension removed
+from the end. `./package.json` will always be exported, and any
+pattern matches outside of the `./src` folder will be ignored.
+
+```json
+{
+  "tshy": {
+    "exports": "./src/**"
+  }
+}
+```
+
+If you use this config, and you have files at `./src/index.ts`
+and `./src/component/foo.tsx`, then the resulting exports will
+be:
+
+```json
+{
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      }
+    },
+    "./component/foo": {
+      "require": {
+        "types": "./dist/commonjs/component/foo.d.ts",
+        "default": "./dist/commonjs/component/foo.js"
+      },
+      "import": {
+        "types": "./dist/esm/component/foo.d.ts",
+        "default": "./dist/esm/component/foo.js"
+      }
+    },
+    "./package.json": "./package.json"
+  }
+}
+```
+
+You may also specify an array of glob exports, like so:
+
+```json
+{
+  "tshy": {
+    "exports": [
+      "./src/*.ts",
+      "./src/utils/*.ts"
+    ]
+  }
+}
+```
+
+This would export a file at `./src/foo.ts` as `./foo`, and a file
+at `./src/utils/bar.ts` as `./utils/bar`, but would ignore a file
+at `./internal/private.ts`.
+
 ### Package `#imports`
 
 You can use `"imports"` in your package.json, and it will be

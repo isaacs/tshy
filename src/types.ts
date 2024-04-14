@@ -4,8 +4,8 @@ import type {
   Imports,
 } from 'resolve-import'
 
-export type TshyConfig = {
-  exports?: Record<string, TshyExport>
+export type TshyConfigMaybeGlobExports = {
+  exports?: string | string[] | Record<string, TshyExport>
   dialects?: Dialect[]
   selfLink?: boolean
   main?: boolean
@@ -13,6 +13,10 @@ export type TshyConfig = {
   esmDialects?: string[]
   project?: string
   exclude?: string[]
+}
+
+export type TshyConfig = TshyConfigMaybeGlobExports & {
+  exports?: Record<string, TshyExport>
 }
 
 export type Dialect = 'commonjs' | 'esm'
@@ -32,7 +36,7 @@ export type Package = {
   type?: 'module' | 'commonjs'
   bin?: string | Record<string, string>
   exports?: ExportsSubpaths
-  tshy?: TshyConfig
+  tshy?: TshyConfigMaybeGlobExports
   imports?: Imports
   [k: string]: any
 }
