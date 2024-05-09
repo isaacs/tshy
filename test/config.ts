@@ -1,5 +1,9 @@
 import t from 'tap'
-import { Package, TshyConfig, TshyConfigMaybeGlobExports } from '../src/types.js'
+import {
+  Package,
+  TshyConfig,
+  TshyConfigMaybeGlobExports,
+} from '../src/types.js'
 
 const cases: [
   config: undefined | TshyConfigMaybeGlobExports,
@@ -18,28 +22,42 @@ const cases: [
     { exports: './src/*' },
     ['./src/index.ts', './src/foo.ts', './src/utils/bar.ts'],
     true,
-    { exports: {
-      '.': './src/index.ts',
-      './foo': './src/foo.ts',
-    }},
+    {
+      exports: {
+        './package.json': './package.json',
+        '.': './src/index.ts',
+        './foo': './src/foo.ts',
+      },
+    },
   ],
   [
     { exports: 'src/*' },
     ['./src/index.ts', './src/foo.ts', './src/utils/bar.ts'],
     true,
-    { exports: {
-      '.': './src/index.ts',
-      './foo': './src/foo.ts',
-    }},
+    {
+      exports: {
+        './package.json': './package.json',
+        '.': './src/index.ts',
+        './foo': './src/foo.ts',
+      },
+    },
   ],
   [
     { exports: ['src/utils/*.ts', './src/index.*'] },
-    ['./src/index.ts', './src/utils/baz.js', './src/foo.ts', './src/utils/bar.ts'],
+    [
+      './src/index.ts',
+      './src/utils/baz.js',
+      './src/foo.ts',
+      './src/utils/bar.ts',
+    ],
     true,
-    { exports: {
-      '.': './src/index.ts',
-      './utils/bar': './src/utils/bar.ts',
-    }},
+    {
+      exports: {
+        './package.json': './package.json',
+        '.': './src/index.ts',
+        './utils/bar': './src/utils/bar.ts',
+      },
+    },
   ],
 
   [
