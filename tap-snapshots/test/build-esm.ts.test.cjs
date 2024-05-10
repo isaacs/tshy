@@ -22,7 +22,7 @@ Array [
 exports[`test/build-esm.ts > TAP > basic esm build > must match snapshot 2`] = `
 Array [
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -33,7 +33,7 @@ Array [
     },
   ],
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -44,7 +44,7 @@ Array [
     },
   ],
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -73,7 +73,7 @@ Array [
 exports[`test/build-esm.ts > TAP > build failure > must match snapshot 2`] = `
 Array [
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -84,7 +84,7 @@ Array [
     },
   ],
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -95,7 +95,7 @@ Array [
     },
   ],
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
@@ -106,7 +106,7 @@ Array [
     },
   ],
   Array [
-    "/usr/local/bin/node",
+    "{NODE}",
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",

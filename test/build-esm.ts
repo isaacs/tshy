@@ -5,6 +5,8 @@ import t from 'tap'
 const cwd = process.cwd()
 t.afterEach(() => process.chdir(cwd))
 
+t.cleanSnapshot = s => s.split(process.execPath).join('{NODE}')
+
 const spawnSuccess: SpawnSyncReturns<Buffer> = {
   status: 0,
   signal: null,
