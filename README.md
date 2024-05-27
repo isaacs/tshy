@@ -50,7 +50,7 @@ Consider this contrived example:
 // import the class from ESM
 import { SomeClass } from 'module-built-by-tshy'
 import { createRequire } from 'node:module'
-const req = createRequire(import.meta.url)
+const require = createRequire(import.meta.url)
 
 // create an object using the commonjs version
 function getObject() {
