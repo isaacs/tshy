@@ -13,6 +13,7 @@ export type TshyConfigMaybeGlobExports = {
   esmDialects?: string[]
   project?: string
   exclude?: string[]
+  liveDev?: boolean
 }
 
 export type TshyConfig = TshyConfigMaybeGlobExports & {

@@ -171,6 +171,156 @@ Object {
 }
 `
 
+exports[`test/exports.ts > TAP > liveDev > no envs > must match snapshot 1`] = `
+Object {
+  ".": Object {
+    "deno": "./dist/deno/index.ts",
+    "blah": "./dist/blah/index.ts",
+    "import": "./dist/esm/index.ts",
+    "require": "./dist/commonjs/index.ts",
+  },
+  "./package.json": "./package.json",
+  "./foo": Object {
+    "deno": "./dist/deno/foo.mts",
+    "import": "./dist/esm/foo.mts",
+  },
+  "./foo-cjs": Object {
+    "blah": "./dist/blah/foo.cts",
+    "require": "./dist/commonjs/foo.cts",
+  },
+  "./fill": Object {
+    "deno": "./dist/deno/fill.ts",
+    "blah": "./dist/blah/fill.ts",
+    "import": "./dist/esm/fill.ts",
+    "require": "./dist/commonjs/fill.ts",
+  },
+}
+`
+
+exports[`test/exports.ts > TAP > liveDev > pack > must match snapshot 1`] = `
+Object {
+  ".": Object {
+    "deno": Object {
+      "types": "./dist/deno/index.d.ts",
+      "default": "./dist/deno/index.js",
+    },
+    "blah": Object {
+      "types": "./dist/blah/index.d.ts",
+      "default": "./dist/blah/index.js",
+    },
+    "import": Object {
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/index.d.ts",
+      "default": "./dist/commonjs/index.js",
+    },
+  },
+  "./package.json": "./package.json",
+  "./foo": Object {
+    "deno": Object {
+      "types": "./dist/deno/foo.mjs",
+      "default": "./dist/deno/foo.mjs",
+    },
+    "import": Object {
+      "types": "./dist/esm/foo.d.mts",
+      "default": "./dist/esm/foo.mjs",
+    },
+  },
+  "./foo-cjs": Object {
+    "blah": Object {
+      "types": "./dist/blah/foo.cjs",
+      "default": "./dist/blah/foo.cjs",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/foo.d.cts",
+      "default": "./dist/commonjs/foo.cjs",
+    },
+  },
+  "./fill": Object {
+    "deno": Object {
+      "types": "./dist/deno/fill.d.ts",
+      "default": "./dist/deno/fill.js",
+    },
+    "blah": Object {
+      "types": "./dist/blah/fill.d.ts",
+      "default": "./dist/blah/fill.js",
+    },
+    "import": Object {
+      "types": "./dist/esm/fill.d.ts",
+      "default": "./dist/esm/fill.js",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/fill.d.ts",
+      "default": "./dist/commonjs/fill.js",
+    },
+  },
+}
+`
+
+exports[`test/exports.ts > TAP > liveDev > publish > must match snapshot 1`] = `
+Object {
+  ".": Object {
+    "deno": Object {
+      "types": "./dist/deno/index.d.ts",
+      "default": "./dist/deno/index.js",
+    },
+    "blah": Object {
+      "types": "./dist/blah/index.d.ts",
+      "default": "./dist/blah/index.js",
+    },
+    "import": Object {
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/index.d.ts",
+      "default": "./dist/commonjs/index.js",
+    },
+  },
+  "./package.json": "./package.json",
+  "./foo": Object {
+    "deno": Object {
+      "types": "./dist/deno/foo.mjs",
+      "default": "./dist/deno/foo.mjs",
+    },
+    "import": Object {
+      "types": "./dist/esm/foo.d.mts",
+      "default": "./dist/esm/foo.mjs",
+    },
+  },
+  "./foo-cjs": Object {
+    "blah": Object {
+      "types": "./dist/blah/foo.cjs",
+      "default": "./dist/blah/foo.cjs",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/foo.d.cts",
+      "default": "./dist/commonjs/foo.cjs",
+    },
+  },
+  "./fill": Object {
+    "deno": Object {
+      "types": "./dist/deno/fill.d.ts",
+      "default": "./dist/deno/fill.js",
+    },
+    "blah": Object {
+      "types": "./dist/blah/fill.d.ts",
+      "default": "./dist/blah/fill.js",
+    },
+    "import": Object {
+      "types": "./dist/esm/fill.d.ts",
+      "default": "./dist/esm/fill.js",
+    },
+    "require": Object {
+      "types": "./dist/commonjs/fill.d.ts",
+      "default": "./dist/commonjs/fill.js",
+    },
+  },
+}
+`
+
 exports[`test/exports.ts > TAP > setting top level main > invalid main commonjs, no exports > must match snapshot 1`] = `
 Array [
   Array [

@@ -7,9 +7,13 @@ const pkg = {} as unknown as Package
 
 let builtCommonJS = false
 let builtESM = false
+let builtLiveCommonJS = false
+let builtLiveESM = false
 t.beforeEach(() => {
   builtCommonJS = false
   builtESM = false
+  builtLiveCommonJS = false
+  builtLiveESM = false
 })
 
 const logCall = t.captureFn((_msg: string, _args: any[]) => {})
@@ -30,7 +34,13 @@ const mocks = {
   '../dist/esm/build-commonjs.js': {
     buildCommonJS: () => (builtCommonJS = true),
   },
+  '../dist/esm/build-live-commonjs.js': {
+    buildLiveCommonJS: () => (builtLiveCommonJS = true),
+  },
   '../dist/esm/build-esm.js': { buildESM: () => (builtESM = true) },
+  '../dist/esm/build-live-esm.js': {
+    buildLiveESM: () => (builtLiveESM = true),
+  },
   rimraf: { rimrafSync: () => {} },
   '../dist/esm/tsconfig.js': {},
   '../dist/esm/write-package.js': { default: () => {} },
@@ -50,7 +60,45 @@ t.test('default settings', async t => {
   await build()
   t.equal(builtESM, true)
   t.equal(builtCommonJS, true)
+  t.equal(builtLiveESM, false)
+  t.equal(builtLiveCommonJS, false)
   t.matchSnapshot(calls())
+})
+
+t.test('liveDev', async t => {
+  pkg.tshy = { liveDev: true }
+  t.test('no envs', async t => {
+    const { default: build } = await t.mockImport(
+      '../dist/esm/build.js',
+      mocks
+    )
+    await build()
+    t.equal(builtESM, false)
+    t.equal(builtCommonJS, false)
+    t.equal(builtLiveESM, true)
+    t.equal(builtLiveCommonJS, true)
+    t.matchSnapshot(calls())
+  })
+  for (const s of ['pack', 'publish']) {
+    t.test(s, async t => {
+      t.intercept(process, 'env', {
+        value: {
+          ...process.env,
+          npm_command: s,
+        },
+      })
+      const { default: build } = await t.mockImport(
+        '../dist/esm/build.js',
+        mocks
+      )
+      await build()
+      t.equal(builtESM, true)
+      t.equal(builtCommonJS, true)
+      t.equal(builtLiveESM, false)
+      t.equal(builtLiveCommonJS, false)
+      t.matchSnapshot(calls())
+    })
+  }
 })
 
 t.test('build commonjs only', async t => {

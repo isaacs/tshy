@@ -40,7 +40,8 @@ const validConfig = (e: any): e is TshyConfigMaybeGlobExports =>
   (e.exclude === undefined || validExclude(e.exclude)) &&
   validExtraDialects(e) &&
   validBoolean(e, 'selfLink') &&
-  validBoolean(e, 'main')
+  validBoolean(e, 'main') &&
+  validBoolean(e, 'liveDev')
 
 const match = (e: string, pattern: Minimatch[]): boolean =>
   pattern.some(m => m.match(e))

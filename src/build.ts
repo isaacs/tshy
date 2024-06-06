@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import config from './config.js'
 import { syncContentSync } from 'sync-content'
 import bins from './bins.js'
 import { buildCommonJS } from './build-commonjs.js'
@@ -18,14 +19,22 @@ import {
   unlink as unlinkImports,
 } from './unbuilt-imports.js'
 import writePackage from './write-package.js'
+import { buildLiveESM } from './build-live-esm.js'
+import { buildLiveCommonJS } from './build-live-commonjs.js'
 
 export default async () => {
   cleanBuildTmp()
 
   linkSelfDep(pkg, 'src')
   await linkImports(pkg, 'src')
-  if (dialects.includes('esm')) buildESM()
-  if (dialects.includes('commonjs')) buildCommonJS()
+  const liveDev =
+    config.liveDev &&
+    process.env.npm_command !== 'publish' &&
+    process.env.npm_command !== 'pack'
+  const esm = liveDev ? buildLiveESM : buildESM
+  const commonjs = liveDev ? buildLiveCommonJS : buildCommonJS
+  if (dialects.includes('esm')) esm()
+  if (dialects.includes('commonjs')) commonjs()
   await unlinkImports(pkg, 'src')
   unlinkSelfDep(pkg, 'src')
 

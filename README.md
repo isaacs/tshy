@@ -381,6 +381,29 @@ This would export a file at `./src/foo.ts` as `./foo`, and a file
 at `./src/utils/bar.ts` as `./utils/bar`, but would ignore a file
 at `./internal/private.ts`.
 
+### Live Dev
+
+Set `"liveDev": true` in the tshy config in `package.json` to
+build in link mode. In this mode, the files are hard-linked into
+place in the `dist` folder, so that edits are immediately visible.
+
+This is particularly beneficial in monorepo projects, where
+workspaces may be edited in parallel, and so it's handy to have
+changes reflected in real time without a rebuild.
+
+Of course, tools that can't handle TypeScript will have a problem
+with this, so any generic `node` program will not be able to run
+your code. For this reason:
+
+- `liveDev` is always disabled when the `npm_command` environment
+  variable is `'publish'` or `'pack'`. In these situations, your
+  code is being built for public consumption, and must be
+  compiled.
+- Code in dist will not be able to be loaded in the node repl
+  unless you run it with a loader, such as `node --import=tsx`.
+- Because it links files into place, a rebuild _is_ required when
+  a file is added or removed.
+
 ### Package `#imports`
 
 You can use `"imports"` in your package.json, and it will be

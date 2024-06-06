@@ -14,6 +14,11 @@ import { resolveExport } from './resolve-export.js'
 import { Package, TshyConfig, TshyExport } from './types.js'
 const { esmDialects = [], commonjsDialects = [] } = config
 
+const liveDev =
+  config.liveDev &&
+  process.env.npm_command !== 'publish' &&
+  process.env.npm_command !== 'pack'
+
 const getTargetForDialectCondition = <T extends string>(
   s: string | TshyExport | undefined | null,
   dialect: T,
@@ -35,13 +40,17 @@ const getTargetForDialectCondition = <T extends string>(
     const xts = type === 'commonjs' ? '.mts' : '.cts'
     if (s.endsWith(xts)) return undefined
     const pf = dialect === 'commonjs' ? 'cjs' : dialect
+    const rel = relative(
+      resolve('./src'),
+      resolve(polyfills.get(pf)?.map.get(s) ?? s)
+    )
+    const target = liveDev
+      ? rel
+      : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
     return !s || !s.startsWith('./src/')
       ? s
       : dialects.includes(type)
-      ? `./dist/${dialect}/${relative(
-          resolve('./src'),
-          resolve(polyfills.get(pf)?.map.get(s) ?? s)
-        ).replace(/\.([mc]?)tsx?$/, '.$1js')}`
+      ? `./dist/${dialect}/${target}`
       : undefined
   }
   return resolveExport(s, [condition])
@@ -106,10 +115,12 @@ const getExports = (
           polyfills
         )
         if (target) {
-          exp[d] = {
-            types: target.replace(/\.js$/, '.d.ts'),
-            default: target,
-          }
+          exp[d] = liveDev
+            ? target
+            : {
+                types: target.replace(/\.js$/, '.d.ts'),
+                default: target,
+              }
         }
       }
     }
@@ -124,25 +135,31 @@ const getExports = (
           polyfills
         )
         if (target) {
-          exp[d] = {
-            types: target.replace(/\.js$/, '.d.ts'),
-            default: target,
-          }
+          exp[d] = liveDev
+            ? target
+            : {
+                types: target.replace(/\.js$/, '.d.ts'),
+                default: target,
+              }
         }
       }
     }
     // put the default import/require after all the other special ones.
     if (impTarget) {
-      exp.import = {
-        types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
-        default: impTarget,
-      }
+      exp.import = liveDev
+        ? impTarget
+        : {
+            types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
+            default: impTarget,
+          }
     }
     if (reqTarget) {
-      exp.require = {
-        types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
-        default: reqTarget,
-      }
+      exp.require = liveDev
+        ? reqTarget
+        : {
+            types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
+            default: reqTarget,
+          }
     }
   }
   return e

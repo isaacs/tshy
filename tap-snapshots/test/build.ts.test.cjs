@@ -367,11 +367,536 @@ Array [
       "dist",
     ],
   ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
 ]
 `
 
 exports[`test/build.ts > TAP > build commonjs only > must match snapshot 1`] = `
 Array [
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
   Array [
     "self-link.link",
     Array [
@@ -802,6 +1327,261 @@ Array [
       "dist",
     ],
   ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
 ]
 `
 
@@ -882,6 +1662,276 @@ Array [
 
 exports[`test/build.ts > TAP > imports linking > basic > must match snapshot 1`] = `
 Array [
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
   Array [
     "self-link.link",
     Array [
@@ -3219,6 +4269,276 @@ Array [
     "self-link.link",
     Array [
       Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
         "imports": Object {
           "#foo": Object {
             "default": "./lib/foo-browser.js",
@@ -4187,6 +5507,276 @@ Array [
     "self-link.link",
     Array [
       Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "dialects": Array [
+            "esm",
+            "commonjs",
+          ],
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
         "imports": Object {
           "#foo": Object {
             "default": "./lib/foo-browser.js",
@@ -5709,6 +7299,696 @@ Array [
     "imports.save",
     Array [
       "dist/.tshy-link-imports.mjs",
+    ],
+  ],
+]
+`
+
+exports[`test/build.ts > TAP > liveDev > no envs > must match snapshot 1`] = `
+Array [
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+]
+`
+
+exports[`test/build.ts > TAP > liveDev > pack > must match snapshot 1`] = `
+Array [
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+]
+`
+
+exports[`test/build.ts > TAP > liveDev > publish > must match snapshot 1`] = `
+Array [
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "imports.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.unlink",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "src",
+    ],
+  ],
+  Array [
+    "self-link.link",
+    Array [
+      Object {
+        "tshy": Object {
+          "exports": Object {
+            ".": "./src/index.ts",
+            "./package.json": "./package.json",
+          },
+          "liveDev": true,
+        },
+      },
+      "dist",
     ],
   ],
 ]
