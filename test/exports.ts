@@ -1,24 +1,29 @@
-import { ConditionalValue } from 'resolve-import'
-import t from 'tap'
+import { ConditionalValue, ExportsSubpaths } from 'resolve-import'
+import t, { Test } from 'tap'
 import { PolyfillSet } from '../src/polyfills.js'
-import { TshyConfig } from '../src/types.js'
+import { Package, TshyConfig } from '../src/types.js'
 
 // order is relevant in the exports objects we're snapshotting here
 t.compareOptions = { sort: false }
 
-const { getImpTarget, getReqTarget } = (await t.mockImport(
+const { getImpTarget, getReqTarget } = await t.mockImport<
+  typeof import('../src/exports.js')
+>('../src/exports.js', {
+  '../src/dialects.js': { default: ['esm', 'commonjs'] },
+})
+
+const cjs = await t.mockImport<typeof import('../src/exports.js')>(
   '../src/exports.js',
   {
-    '../src/dialects.js': { default: ['esm', 'commonjs'] },
+    '../src/dialects.js': { default: ['commonjs'] },
   }
-)) as typeof import('../src/exports.js')
-
-const cjs = (await t.mockImport('../src/exports.js', {
-  '../src/dialects.js': { default: ['commonjs'] },
-})) as typeof import('../src/exports.js')
-const esm = (await t.mockImport('../src/exports.js', {
-  '../src/dialects.js': { default: ['esm'] },
-})) as typeof import('../src/exports.js')
+)
+const esm = await t.mockImport<typeof import('../src/exports.js')>(
+  '../src/exports.js',
+  {
+    '../src/dialects.js': { default: ['esm'] },
+  }
+)
 
 t.equal(getImpTarget(undefined), undefined)
 t.equal(getImpTarget('foo.cts'), undefined)
@@ -241,8 +246,10 @@ t.test('setting top level main', async t => {
 
   const exits = t.capture(process, 'exit', () => false).args
   const fails: any[][] = []
-  const { setMain } = await t.mockImport('../dist/esm/exports.js', {
-    '../dist/esm/fail.js': {
+  const { setMain } = await t.mockImport<
+    typeof import('../src/exports.js')
+  >('../src/exports.js', {
+    '../src/fail.js': {
       default: (...a: any[]) => fails.push(a),
     },
   })
@@ -250,7 +257,7 @@ t.test('setting top level main', async t => {
     t.test(name, t => {
       const { tshy = {}, type } = pkg
       const { main } = tshy
-      setMain(pkg.tshy, pkg)
+      setMain(pkg.tshy, pkg as Package & { exports: ExportsSubpaths })
       if (ok) {
         t.equal(pkg.main, expect.main)
         t.equal(pkg.types, expect.types)

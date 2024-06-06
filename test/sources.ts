@@ -1,8 +1,6 @@
 import t from 'tap'
 
-const cwd = process.cwd()
-t.after(() => process.chdir(cwd))
-process.chdir(
+t.chdir(
   t.testdir({
     src: {
       dir: {

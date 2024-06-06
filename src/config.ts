@@ -58,7 +58,10 @@ const getConfig = (
     ? pkg.tshy
     : {}
   let exportsConfig = tshy.exports
-  if (typeof exportsConfig === 'string' || Array.isArray(exportsConfig)) {
+  if (
+    typeof exportsConfig === 'string' ||
+    Array.isArray(exportsConfig)
+  ) {
     // Strip off the `./src` prefix and the extension
     // exports: "src/**/*.ts" => exports: {"./foo": "./src/foo.ts"}
     const exp: Exclude<TshyConfig['exports'], undefined> = {}

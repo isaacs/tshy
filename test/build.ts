@@ -90,13 +90,10 @@ t.test('build both', async t => {
 })
 
 t.test('imports linking', async t => {
-  const cwd = process.cwd()
-  t.afterEach(() => process.chdir(cwd))
-
   // make sure one of them doesn't already have a scripts block
   for (const i of ['imports', 'imports-with-star', 'basic']) {
     t.test(i, async t => {
-      process.chdir(
+      t.chdir(
         fileURLToPath(new URL('./fixtures/' + i, import.meta.url))
       )
       const pkg = JSON.parse(readFileSync('package.json', 'utf8'))

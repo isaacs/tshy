@@ -24,7 +24,7 @@ const cases: [pkg: Omit<Package, 'name' | 'version'>, ok: boolean][] =
     [{ imports: { x: 'y' } }, false],
     [{ imports: { '#': 'y' } }, false],
     [{ imports: { '#x': './src/x' } }, true],
-    [{ imports: { '#x': ['./src/x'] }}, false],
+    [{ imports: { '#x': ['./src/x'] } }, false],
   ]
 
 for (const [pkg, ok] of cases) {

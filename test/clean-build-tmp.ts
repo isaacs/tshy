@@ -2,12 +2,10 @@ import { statSync } from 'fs'
 import t from 'tap'
 import cleanBuildTmp from '../src/clean-build-tmp.js'
 import readTypescriptConfig from '../src/read-typescript-config.js'
-const cwd = process.cwd()
-t.afterEach(() => process.chdir(cwd))
 
 t.test('no incremental build, just delete it', t => {
   readTypescriptConfig().options.incremental = false
-  process.chdir(
+  t.chdir(
     t.testdir({
       '.tshy-build': {},
     })
@@ -19,7 +17,7 @@ t.test('no incremental build, just delete it', t => {
 
 t.test('no tsbuildinfo, just delete it', t => {
   readTypescriptConfig().options.incremental = true
-  process.chdir(
+  t.chdir(
     t.testdir({
       '.tshy-build': {},
     })
@@ -31,7 +29,7 @@ t.test('no tsbuildinfo, just delete it', t => {
 
 t.test('remove files not found in src', t => {
   readTypescriptConfig().options.incremental = true
-  process.chdir(
+  t.chdir(
     t.testdir({
       '.tshy-build': {
         '.tshy': { 'esm.tsbuildinfo': '{}' },

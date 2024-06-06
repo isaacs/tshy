@@ -10,7 +10,7 @@ t.test('load package successfully', async t => {
 
 t.test('unsuccessfully fails build', async t => {
   const exits = t.capture(process, 'exit').args
-  process.chdir(t.testdir())
+  t.chdir(t.testdir())
   let failed = false
   await t.mockImport('../dist/esm/package.js', {
     '../dist/esm/fail.js': () => (failed = true),
@@ -21,9 +21,11 @@ t.test('unsuccessfully fails build', async t => {
 
 t.test('fail if the package.json is not an object', async t => {
   const exits = t.capture(process, 'exit').args
-  process.chdir(t.testdir({
-    'package.json': '[null, 1, "asdf"]'
-  }))
+  t.chdir(
+    t.testdir({
+      'package.json': '[null, 1, "asdf"]',
+    })
+  )
   let failed = false
   await t.mockImport('../dist/esm/package.js', {
     '../dist/esm/fail.js': () => (failed = true),

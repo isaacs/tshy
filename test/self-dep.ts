@@ -154,8 +154,6 @@ t.test('already in node_modules, do not create link', t => {
 
   t.plan(cases.length)
 
-  const cwd = process.cwd()
-  t.afterEach(() => process.chdir(cwd))
   for (const [name, d] of cases) {
     t.test(d, async t => {
       // need a separate import for each test, because this gets cached
@@ -164,7 +162,7 @@ t.test('already in node_modules, do not create link', t => {
         '../dist/esm/self-link.js',
         { mkdirp, fs, rimraf }
       )) as typeof import('../dist/esm/self-link.js')
-      process.chdir(resolve(dir, d))
+      t.chdir(resolve(dir, d))
       link({ name, version: '1.2.3' }, 'src')
       unlink({ name, version: '1.2.3' }, 'src')
       const rl = readlinkCalls()

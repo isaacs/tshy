@@ -2,9 +2,7 @@ import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import t from 'tap'
 
-const cwd = process.cwd()
-t.after(() => process.chdir(cwd))
-process.chdir(t.testdir({}))
+t.chdir(t.testdir({}))
 const { default: writePackage } = (await t.mockImport(
   '../dist/esm/write-package.js',
   {

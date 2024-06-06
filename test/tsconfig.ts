@@ -8,8 +8,6 @@ import {
 import { resolve } from 'path'
 import t from 'tap'
 
-const cwd = process.cwd()
-t.after(() => process.chdir(cwd))
 const dir = t.testdir({
   'package.json': JSON.stringify({
     tshy: {
@@ -25,7 +23,7 @@ const dir = t.testdir({
     'index-webpack.mts': '',
   },
 })
-process.chdir(dir)
+t.chdir(dir)
 
 t.test('with tsconfig.json file', async t => {
   await import('../dist/esm/tsconfig.js')

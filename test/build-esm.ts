@@ -2,9 +2,6 @@ import { SpawnSyncReturns } from 'child_process'
 import { readdirSync } from 'fs'
 import t from 'tap'
 
-const cwd = process.cwd()
-t.afterEach(() => process.chdir(cwd))
-
 t.cleanSnapshot = s => s.split(process.execPath).join('{NODE}')
 
 const spawnSuccess: SpawnSyncReturns<Buffer> = {
@@ -40,7 +37,7 @@ const output = () =>
 
 t.test('basic esm build', async t => {
   spawnResult = spawnSuccess
-  process.chdir(
+  t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {
@@ -88,7 +85,7 @@ t.test('basic esm build', async t => {
 
 t.test('build failure', async t => {
   spawnResult = spawnFail
-  process.chdir(
+  t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {

@@ -1,12 +1,15 @@
 import t from 'tap'
 const exits = t.capture(process, 'exit', () => false).args
 const mf = t.captureFn(() => {})
-const fails = (mf).args
-const { default: validExclude } = await t.mockImport('../src/valid-exclude.js', {
-  '../src/fail.js': mf
-}) as typeof import('../src/valid-exclude.js')
+const fails = mf.args
+const { default: validExclude } = (await t.mockImport(
+  '../src/valid-exclude.js',
+  {
+    '../src/fail.js': mf,
+  }
+)) as typeof import('../src/valid-exclude.js')
 
-t.equal(validExclude(['a','b']), true)
+t.equal(validExclude(['a', 'b']), true)
 t.equal(validExclude(['']), true)
 
 t.equal(validExclude([]), false)

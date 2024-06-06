@@ -5,8 +5,6 @@ import { rimrafSync } from 'rimraf'
 import t from 'tap'
 
 t.test('imports linking', async t => {
-  const cwd = process.cwd()
-  t.afterEach(() => process.chdir(cwd))
   const require = createRequire(import.meta.url)
 
   // make sure one of them doesn't already have a scripts block
@@ -32,7 +30,7 @@ t.test('imports linking', async t => {
         rimrafSync(dist)
       })
 
-      process.chdir(
+      t.chdir(
         fileURLToPath(new URL('./fixtures/' + i, import.meta.url))
       )
       await t.mockImport('../dist/esm/index.js')

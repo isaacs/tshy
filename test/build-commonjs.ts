@@ -3,10 +3,9 @@ import { readdirSync } from 'fs'
 import t from 'tap'
 
 const node = process.execPath
-const cwd = process.cwd()
-t.afterEach(() => process.chdir(cwd))
 
-t.cleanSnapshot = s => s.split(node).join('{NODE}').replace(/\\/g, '/')
+t.cleanSnapshot = s =>
+  s.split(node).join('{NODE}').replace(/\\/g, '/')
 
 const spawnSuccess: SpawnSyncReturns<Buffer> = {
   status: 0,
@@ -41,7 +40,7 @@ const output = () =>
 
 t.test('basic commonjs build', async t => {
   spawnResult = spawnSuccess
-  process.chdir(
+  t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {
@@ -89,7 +88,7 @@ t.test('basic commonjs build', async t => {
 
 t.test('build failure', async t => {
   spawnResult = spawnFail
-  process.chdir(
+  t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
         tshy: {
