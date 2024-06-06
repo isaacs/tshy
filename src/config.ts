@@ -57,12 +57,12 @@ const getConfig = (
   const tshy: TshyConfigMaybeGlobExports = validConfig(pkg.tshy)
     ? pkg.tshy
     : {}
-  const exportsRaw = tshy.exports
-  if (typeof exportsRaw === 'string' || Array.isArray(exportsRaw)) {
+  let exportsConfig = tshy.exports
+  if (typeof exportsConfig === 'string' || Array.isArray(exportsConfig)) {
     // Strip off the `./src` prefix and the extension
     // exports: "src/**/*.ts" => exports: {"./foo": "./src/foo.ts"}
     const exp: Exclude<TshyConfig['exports'], undefined> = {}
-    const pattern: string | string[] = exportsRaw
+    const pattern: string | string[] = exportsConfig
     const m = parsePattern(pattern)
     for (const e of sources) {
       if (!match(e.replace(/^\.\//, ''), m)) continue
@@ -79,13 +79,14 @@ const getConfig = (
     if (!validExports(exp)) {
       console.error('invalid exports pattern, using default exports')
       delete tshy.exports
+      exportsConfig = undefined
     } else {
       /* c8 ignore stop */
       exp['./package.json'] = './package.json'
       tshy.exports = exp
     }
   }
-  const config = tshy as TshyConfig
+  const config = { ...tshy } as TshyConfig
   const ti = config as TshyConfig & { imports?: any }
   if (ti.imports) {
     console.debug(
@@ -99,18 +100,23 @@ const getConfig = (
     delete ti.imports
   }
   validImports(pkg)
-  pkg.tshy = config
-  if (tshy.exports) return config
-  const e: Exclude<TshyConfig['exports'], undefined> = {
-    './package.json': './package.json',
-  }
-  for (const i of sources) {
-    if (/^\.\/src\/index\.[^\.]+$/.test(i)) {
-      e['.'] = i
-      break
+  if (!exportsConfig) {
+    const e: Exclude<TshyConfig['exports'], undefined> = {
+      './package.json': './package.json',
     }
+    for (const i of sources) {
+      if (/^\.\/src\/index\.[^\.]+$/.test(i)) {
+        e['.'] = i
+        break
+      }
+    }
+    config.exports = e
+    tshy.exports = e
+    exportsConfig = e
   }
-  config.exports = e
+  // return the filled out config, but leave the package.json
+  // exports as they were, as long as they turned out to be valid.
+  pkg.tshy = { ...tshy, exports: exportsConfig }
   return config
 }
 

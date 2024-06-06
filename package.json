@@ -51,7 +51,7 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "prettier": "^2.8.8",
-    "tap": "^18.7.2",
+    "tap": "^19.2.1",
     "typedoc": "^0.25.13"
   },
   "prettier": {
