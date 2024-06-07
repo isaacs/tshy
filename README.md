@@ -275,13 +275,13 @@ appropriate build target locations, like:
   "exports": {
     "./foo": {
       "import": {
-        "types": "./dist/esm/foo.d.ts",
         "source": "./src/foo.ts",
+        "types": "./dist/esm/foo.d.ts",
         "default": "./dist/esm/foo.js"
       },
       "require": {
-        "types": "./dist/commonjs/foo.d.ts",
         "source": "./src/foo.ts",
+        "types": "./dist/commonjs/foo.d.ts",
         "default": "./dist/commonjs/foo.js"
       }
     }
@@ -346,25 +346,25 @@ be:
   "exports": {
     ".": {
       "require": {
-        "types": "./dist/commonjs/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
-        "types": "./dist/esm/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       }
     },
     "./component/foo": {
       "require": {
-        "types": "./dist/commonjs/component/foo.d.ts",
         "source": "./src/component/foo.ts",
+        "types": "./dist/commonjs/component/foo.d.ts",
         "default": "./dist/commonjs/component/foo.js"
       },
       "import": {
-        "types": "./dist/esm/component/foo.d.ts",
         "source": "./src/component/foo.ts",
+        "types": "./dist/esm/component/foo.d.ts",
         "default": "./dist/esm/component/foo.js"
       }
     },
@@ -610,13 +610,13 @@ will produce:
   "exports": {
     ".": {
       "require": {
-        "types": "./dist/commonjs/index.d.ts",
         "source": "./src/index.js",
+        "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
-        "types": "./dist/esm/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       }
     }
@@ -720,8 +720,8 @@ Will result in:
   "exports": {
     ".": {
       "deno": {
-        "types": "./dist/deno/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/deno/index.d.ts",
         "default": "./dist/deno/index.js"
       },
       "browser": {
@@ -730,18 +730,18 @@ Will result in:
         "default": "./dist/browser/index.js"
       },
       "webpack": {
-        "types": "./dist/webpack/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/webpack/index.d.ts",
         "default": "./dist/webpack/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
-        "types": "./dist/esm/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       }
     }
@@ -775,28 +775,28 @@ example:
   "exports": {
     ".": {
       "deno": {
-        "types": "./dist/deno/index.d.ts",
         "source": "./src/index-deno.mts",
+        "types": "./dist/deno/index.d.ts",
         "default": "./dist/deno/index.js"
       },
       "browser": {
+        "source": "./src/index-browser.mts",
         "types": "./dist/browser/index.d.ts",
-        "default": "./src/index-browser.mts",
         "default": "./dist/browser/index.js"
       },
       "webpack": {
-        "types": "./dist/webpack/index.d.ts",
         "source": "./src/index-webpack.cts",
+        "types": "./dist/webpack/index.d.ts",
         "default": "./dist/webpack/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/index.d.ts",
         "source": "./src/index-cjs.cts",
+        "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
-        "types": "./dist/esm/index.d.ts",
         "source": "./src/index.ts",
+        "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       }
     }
