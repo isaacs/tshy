@@ -1,3 +1,8 @@
+# 1.15
+
+- Add `liveDev` option
+- Add `"source"` export condition
+
 # 1.14
 
 - Do not fail if sourcemaps are not generated
