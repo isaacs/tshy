@@ -276,10 +276,12 @@ appropriate build target locations, like:
     "./foo": {
       "import": {
         "types": "./dist/esm/foo.d.ts",
+        "source": "./src/foo.ts",
         "default": "./dist/esm/foo.js"
       },
       "require": {
         "types": "./dist/commonjs/foo.d.ts",
+        "source": "./src/foo.ts",
         "default": "./dist/commonjs/foo.js"
       }
     }
@@ -345,20 +347,24 @@ be:
     ".": {
       "require": {
         "types": "./dist/commonjs/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/esm/index.js"
       }
     },
     "./component/foo": {
       "require": {
         "types": "./dist/commonjs/component/foo.d.ts",
+        "source": "./src/component/foo.ts",
         "default": "./dist/commonjs/component/foo.js"
       },
       "import": {
         "types": "./dist/esm/component/foo.d.ts",
+        "source": "./src/component/foo.ts",
         "default": "./dist/esm/component/foo.js"
       }
     },
@@ -403,6 +409,8 @@ your code. For this reason:
   unless you run it with a loader, such as `node --import=tsx`.
 - Because it links files into place, a rebuild _is_ required when
   a file is added or removed.
+
+See also: "Loading from Source", below.
 
 ### Package `#imports`
 
@@ -597,10 +605,12 @@ will produce:
     ".": {
       "require": {
         "types": "./dist/commonjs/index.d.ts",
+        "source": "./src/index.js",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/esm/index.js"
       }
     }
@@ -705,22 +715,27 @@ Will result in:
     ".": {
       "deno": {
         "types": "./dist/deno/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/deno/index.js"
       },
       "browser": {
         "types": "./dist/browser/index.d.ts",
+        "default": "./src/index.ts",
         "default": "./dist/browser/index.js"
       },
       "webpack": {
         "types": "./dist/webpack/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/webpack/index.js"
       },
       "require": {
         "types": "./dist/commonjs/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
+        "source": "./src/index.ts",
         "default": "./dist/esm/index.js"
       }
     }
@@ -743,6 +758,44 @@ src/index-cjs.cts      # cjs variant for default commonjs
 src/index-browser.mts  # esm variant for the browser
 src/index-deno.mts     # esm variant for deno
 src/index-webpack.cts  # cjs variant for webpack
+```
+
+If dialect overrides are used, then the `"source"` export
+condition will refer to the original source for the override. For
+example:
+
+```json
+{
+  "exports": {
+    ".": {
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "source": "./src/index-deno.mts",
+        "default": "./dist/deno/index.js"
+      },
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./src/index-browser.mts",
+        "default": "./dist/browser/index.js"
+      },
+      "webpack": {
+        "types": "./dist/webpack/index.d.ts",
+        "source": "./src/index-webpack.cts",
+        "default": "./dist/webpack/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "source": "./src/index-cjs.cts",
+        "default": "./dist/commonjs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "source": "./src/index.ts",
+        "default": "./dist/esm/index.js"
+      }
+    }
+  }
+}
 ```
 
 Note that the `commonjs` override uses the abbreviated `cjs`
@@ -800,6 +853,39 @@ provided for you.
 
 Then the `tsconfig.json` file will be used as the default project
 for code hints in VSCode, neovim, tests, etc.
+
+### Loading from Source
+
+If you are using tshy in a monorepo environment, you can
+configure TypeScript (and other tools) to resolve to the _source_
+files rather than built artifacts by telling them to use the
+`"source"` export condition.
+
+For example, in editors such as VS Code and neovim/CoC that use
+the TypeScript language services, you can give them a `tsconfig`
+that contains this:
+
+```json
+{
+  "compilerOptions": {
+    "customConditions": ["source"]
+  }
+}
+```
+
+If you are loading your program with a custom Node.js importer
+like [`tsx`](https://npm.im/tsx) that can load TypeScript
+directly, you can specify it like this:
+
+```bash
+node --import=tsx --conditions=source ./script.ts
+```
+
+Other TypeScript-aware tools may have other mechanisms for
+specifying export conditions. Refer to their documentation for
+more information.
+
+See also: "Live Dev", above.
 
 ### Custom `project`
 

@@ -107,6 +107,8 @@ const getExports = (
     const exp: ConditionalValueObject = (e[sub] = {})
     if (impTarget) {
       for (const d of esmDialects) {
+        const source = s && (polyfills.get(d)?.map.get(s) ?? s)
+
         const target = getTargetForDialectCondition(
           s,
           d,
@@ -116,9 +118,13 @@ const getExports = (
         )
         if (target) {
           exp[d] = liveDev
-            ? target
+            ? {
+                source,
+                default: target,
+              }
             : {
                 types: target.replace(/\.js$/, '.d.ts'),
+                source,
                 default: target,
               }
         }
@@ -127,6 +133,7 @@ const getExports = (
 
     if (reqTarget) {
       for (const d of commonjsDialects) {
+        const source = s && (polyfills.get(d)?.map.get(s) ?? s)
         const target = getTargetForDialectCondition(
           s,
           d,
@@ -136,9 +143,13 @@ const getExports = (
         )
         if (target) {
           exp[d] = liveDev
-            ? target
+            ? {
+                source,
+                default: target,
+              }
             : {
                 types: target.replace(/\.js$/, '.d.ts'),
+                source,
                 default: target,
               }
         }
@@ -147,17 +158,25 @@ const getExports = (
     // put the default import/require after all the other special ones.
     if (impTarget) {
       exp.import = liveDev
-        ? impTarget
+        ? {
+            source: s,
+            default: impTarget,
+          }
         : {
             types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
+            source: s,
             default: impTarget,
           }
     }
     if (reqTarget) {
       exp.require = liveDev
-        ? reqTarget
+        ? {
+            source: s,
+            default: reqTarget,
+          }
         : {
             types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
+            source: s,
             default: reqTarget,
           }
     }
