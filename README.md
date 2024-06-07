@@ -410,6 +410,12 @@ your code. For this reason:
 - Because it links files into place, a rebuild _is_ required when
   a file is added or removed.
 
+**Note**: If a package uses Node.js `Worker` scripts or bins that
+are written in TS and need to be compiled, then `liveDev` will
+not work, and should not be used. Additionally, any dependencies
+of those modules also cannot use `liveDev`, unless a loader such
+as `tsx` is used when run.
+
 See also: "Loading from Source", below.
 
 ### Package `#imports`
