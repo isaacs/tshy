@@ -19,7 +19,7 @@
     "resolve-import": "^1.4.5",
     "rimraf": "^5.0.1",
     "sync-content": "^1.0.2",
-    "typescript": "^5.4.5",
+    "typescript": "5",
     "walk-up-path": "^3.0.1"
   },
   "scripts": {
@@ -52,7 +52,7 @@
     "@types/node": "^20.12.7",
     "prettier": "^2.8.8",
     "tap": "^19.2.1",
-    "typedoc": "^0.25.13"
+    "typedoc": "^0.26.2"
   },
   "prettier": {
     "semi": false,
