@@ -23,6 +23,7 @@
     "walk-up-path": "^3.0.1"
   },
   "scripts": {
+    "preversion": "npm test",
     "postversion": "npm publish",
     "prepublishOnly": "git push origin --follow-tags",
     "prepare": "tsc -p .tshy/esm.json && bash scripts/fixup.sh",
