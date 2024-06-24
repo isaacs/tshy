@@ -5,7 +5,7 @@ export const isDialect = (d: any): d is Dialect =>
   d === 'commonjs' || d === 'esm'
 
 export default (
-  d: any
+  d: any,
 ): d is Exclude<TshyConfig['dialects'], undefined> => {
   if (
     !!d &&
@@ -18,7 +18,7 @@ export default (
 
   fail(
     `tshy.dialects must be an array including "esm" and/or "commonjs", ` +
-      `got: ${JSON.stringify(d)}`
+      `got: ${JSON.stringify(d)}`,
   )
   return process.exit(1)
 }

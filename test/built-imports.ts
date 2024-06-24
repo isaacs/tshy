@@ -4,7 +4,7 @@ import { Package } from '../src/types.js'
 
 const cases: [
   pkg: Omit<Package, 'name' | 'version'>,
-  expect: Package['imports']
+  expect: Package['imports'],
 ][] = [
   [{}, undefined],
   [{ tshy: {} }, undefined],

@@ -11,7 +11,7 @@ import * as tshyConsole from './console.js'
 const pjData = (): string => {
   try {
     return JSON.stringify(
-      JSON.parse(readFileSync('./package.json', 'utf8'))
+      JSON.parse(readFileSync('./package.json', 'utf8')),
     )
     /* c8 ignore start */
   } catch {
@@ -40,7 +40,7 @@ export const src = resolve('./src')
 export const rootPJ = resolve('./package.json')
 export const targets = [src, rootPJ]
 export const bin = fileURLToPath(
-  new URL('./index.js', import.meta.url)
+  new URL('./index.js', import.meta.url),
 )
 
 export default () => {

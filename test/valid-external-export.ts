@@ -16,6 +16,6 @@ for (const [exp, ok] of cases) {
   t.equal(
     validExternalExport(exp),
     ok,
-    JSON.stringify(exp) + ' ' + ok
+    JSON.stringify(exp) + ' ' + ok,
   )
 }

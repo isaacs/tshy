@@ -10,7 +10,7 @@ const { default: validExtraDialects } = (await t.mockImport(
   '../src/valid-extra-dialects.js',
   {
     '../src/fail.js': mockFail,
-  }
+  },
 )) as typeof import('../src/valid-extra-dialects.js')
 
 const cases: [config: TshyConfig, ok: boolean][] = [

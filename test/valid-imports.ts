@@ -9,7 +9,7 @@ const { default: validImports } = (await t.mockImport(
     '../src/fail.js': {
       default: (m: string) => (failed = m),
     },
-  }
+  },
 )) as typeof import('../src/valid-imports.js')
 
 const exits = t.capture(process, 'exit').args

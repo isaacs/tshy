@@ -2,7 +2,7 @@ import t from 'tap'
 
 t.test('load package successfully', async t => {
   const { default: pkg } = await t.mockImport(
-    '../dist/esm/package.js'
+    '../dist/esm/package.js',
   )
   t.equal(pkg.name, 'tshy')
   t.equal(pkg.type, 'module')
@@ -24,7 +24,7 @@ t.test('fail if the package.json is not an object', async t => {
   t.chdir(
     t.testdir({
       'package.json': '[null, 1, "asdf"]',
-    })
+    }),
   )
   let failed = false
   await t.mockImport('../dist/esm/package.js', {

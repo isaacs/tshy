@@ -13,7 +13,7 @@ const readPkg = (): Package => {
     const res = parse(readFileSync('package.json', 'utf8'))
     if (isPackage(res)) return res
     throw new Error(
-      'Invalid package.json contents: ' + stringify(res)
+      'Invalid package.json contents: ' + stringify(res),
     )
   } catch (er) {
     fail('failed to read package.json', er as Error)

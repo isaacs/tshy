@@ -14,6 +14,6 @@ export default () => {
   return (parsedTsConfig = ts.parseJsonConfigFileContent(
     readResult.config,
     ts.sys,
-    process.cwd()
+    process.cwd(),
   ))
 }

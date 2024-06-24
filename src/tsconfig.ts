@@ -46,14 +46,14 @@ const recommended: Record<string, any> = {
 
 const build = (): Record<string, any> => ({
   extends:
-    config.project === undefined
-      ? '../tsconfig.json'
-      : join('..', config.project),
+    config.project === undefined ?
+      '../tsconfig.json'
+    : join('..', config.project),
   compilerOptions: {
     target:
-      readTypescriptConfig().options.target === undefined
-        ? 'es2022'
-        : undefined,
+      readTypescriptConfig().options.target === undefined ?
+        'es2022'
+      : undefined,
     rootDir: '../src',
     module: 'nodenext',
     moduleResolution: 'nodenext',
@@ -102,7 +102,7 @@ mkdirpSync('.tshy')
 const writeConfig = (name: string, data: Record<string, any>) =>
   writeFileSync(
     `.tshy/${name}.json`,
-    JSON.stringify(data, null, 2) + '\n'
+    JSON.stringify(data, null, 2) + '\n',
   )
 
 console.debug(chalk.cyan.dim('writing tsconfig files...'))

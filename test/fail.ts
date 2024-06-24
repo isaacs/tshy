@@ -1,7 +1,7 @@
 import t from 'tap'
 
 t.capture(process, 'exit', (...a: any[]) =>
-  calls.push(['process.exit', a])
+  calls.push(['process.exit', a]),
 )
 const calls: [string, any[]][] = []
 

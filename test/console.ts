@@ -8,7 +8,7 @@ t.beforeEach(t => t.intercept(process, 'env', { value: { ...env } }))
 t.test('no verbosity setting', async t => {
   delete process.env.TSHY_VERBOSE
   const console = (await t.mockImport(
-    '../dist/esm/console.js'
+    '../dist/esm/console.js',
   )) as typeof import('../dist/esm/console.js')
   console.log('hello')
   console.debug('debug')
@@ -23,7 +23,7 @@ t.test('no verbosity setting', async t => {
 t.test('verbose=1', async t => {
   process.env.TSHY_VERBOSE = '1'
   const console = (await t.mockImport(
-    '../dist/esm/console.js'
+    '../dist/esm/console.js',
   )) as typeof import('../dist/esm/console.js')
   console.log('hello')
   console.debug('debug')
@@ -38,7 +38,7 @@ t.test('verbose=1', async t => {
 t.test('verbose=2', async t => {
   process.env.TSHY_VERBOSE = '2'
   const console = (await t.mockImport(
-    '../dist/esm/console.js'
+    '../dist/esm/console.js',
   )) as typeof import('../dist/esm/console.js')
   console.log('hello')
   console.debug('debug')

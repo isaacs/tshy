@@ -6,7 +6,7 @@ const { default: validExports } = (await t.mockImport(
   '../dist/esm/valid-exports.js',
   {
     '../dist/esm/fail.js': (m: string) => (failed = m),
-  }
+  },
 )) as typeof import('../dist/esm/valid-exports.js')
 
 t.beforeEach(() => (failed = undefined))

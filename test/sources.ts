@@ -9,7 +9,7 @@ t.chdir(
       },
       'file.ts': '',
     },
-  })
+  }),
 )
 
 const { default: sources } = await import('../dist/esm/sources.js')

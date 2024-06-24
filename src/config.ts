@@ -47,17 +47,16 @@ const match = (e: string, pattern: Minimatch[]): boolean =>
   pattern.some(m => m.match(e))
 
 const parsePattern = (p: string | string[]): Minimatch[] =>
-  Array.isArray(p)
-    ? p.map(p => new Minimatch(p.replace(/^\.\//, '')))
-    : parsePattern([p])
+  Array.isArray(p) ?
+    p.map(p => new Minimatch(p.replace(/^\.\//, '')))
+  : parsePattern([p])
 
 const getConfig = (
   pkg: Package,
-  sources: Set<string>
+  sources: Set<string>,
 ): TshyConfig => {
-  const tshy: TshyConfigMaybeGlobExports = validConfig(pkg.tshy)
-    ? pkg.tshy
-    : {}
+  const tshy: TshyConfigMaybeGlobExports =
+    validConfig(pkg.tshy) ? pkg.tshy : {}
   let exportsConfig = tshy.exports
   if (
     typeof exportsConfig === 'string' ||
@@ -71,12 +70,13 @@ const getConfig = (
     for (const e of sources) {
       if (!match(e.replace(/^\.\//, ''), m)) continue
       // index is main, anything else is a subpath
-      const sp = /^\.\/src\/index.([mc]?[jt]s|[jt]sx)$/.test(e)
-        ? '.'
-        : './' +
+      const sp =
+        /^\.\/src\/index.([mc]?[jt]s|[jt]sx)$/.test(e) ? '.' : (
+          './' +
           e
             .replace(/^\.\/src\//, '')
             .replace(/\.([mc]?[tj]s|[jt]sx)$/, '')
+        )
       exp[sp] = `./${e}`
     }
     /* c8 ignore start - should be impossible */
@@ -95,7 +95,7 @@ const getConfig = (
   if (ti.imports) {
     console.debug(
       chalk.cyan.dim('imports') +
-        ' moving from tshy config to top level'
+        ' moving from tshy config to top level',
     )
     pkg.imports = {
       ...pkg.imports,

@@ -39,13 +39,10 @@ const cleanRemovedOutputs = (path: string, root: string) => {
     }
 
     const inputSearch =
-      ext === '.js' || ext === '.d.ts'
-        ? ['.tsx', '.ts']
-        : ext === '.mjs' || ext === '.d.mts'
-        ? ['.mts']
-        : ext === '.cjs' || ext === '.d.cts'
-        ? ['.cts']
-        : []
+      ext === '.js' || ext === '.d.ts' ? ['.tsx', '.ts']
+      : ext === '.mjs' || ext === '.d.mts' ? ['.mts']
+      : ext === '.cjs' || ext === '.d.cts' ? ['.cts']
+      : []
     inputSearch.push(ext)
     let del = true
     for (const ext of inputSearch) {

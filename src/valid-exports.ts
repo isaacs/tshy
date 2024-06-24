@@ -4,13 +4,13 @@ import { TshyConfig } from './types.js'
 import validExternalExport from './valid-external-export.js'
 
 export default (
-  e: any
+  e: any,
 ): e is Exclude<TshyConfig['exports'], undefined> => {
   if (!e || typeof e !== 'object' || Array.isArray(e)) return false
   for (const [sub, exp] of Object.entries(e)) {
     if (sub !== '.' && !sub.startsWith('./')) {
       fail(
-        `tshy.exports key must be "." or start with "./", got: ${sub}`
+        `tshy.exports key must be "." or start with "./", got: ${sub}`,
       )
       return process.exit(1)
     }
@@ -24,7 +24,7 @@ export default (
     if (typeof exp !== 'object') {
       fail(
         `tshy.exports ${sub} value must be valid package.json exports ` +
-          `value, got: ${JSON.stringify(exp)}`
+          `value, got: ${JSON.stringify(exp)}`,
       )
       return process.exit(1)
     }
@@ -35,7 +35,7 @@ export default (
       fail(
         `tshy.exports ${sub} unbuilt exports must not be in ./src, ` +
           `and exports in src must be string values. ` +
-          `got: ${JSON.stringify(exp)}`
+          `got: ${JSON.stringify(exp)}`,
       )
       return process.exit(1)
     }

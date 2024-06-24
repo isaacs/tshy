@@ -55,7 +55,7 @@ const mocks = {
 t.test('default settings', async t => {
   const { default: build } = await t.mockImport(
     '../dist/esm/build.js',
-    mocks
+    mocks,
   )
   await build()
   t.equal(builtESM, true)
@@ -70,7 +70,7 @@ t.test('liveDev', async t => {
   t.test('no envs', async t => {
     const { default: build } = await t.mockImport(
       '../dist/esm/build.js',
-      mocks
+      mocks,
     )
     await build()
     t.equal(builtESM, false)
@@ -89,7 +89,7 @@ t.test('liveDev', async t => {
       })
       const { default: build } = await t.mockImport(
         '../dist/esm/build.js',
-        mocks
+        mocks,
       )
       await build()
       t.equal(builtESM, true)
@@ -105,7 +105,7 @@ t.test('build commonjs only', async t => {
   pkg.tshy = { dialects: ['commonjs'] }
   const { default: build } = await t.mockImport(
     '../dist/esm/build.js',
-    mocks
+    mocks,
   )
   await build()
   t.equal(builtESM, false)
@@ -117,7 +117,7 @@ t.test('build esm only', async t => {
   pkg.tshy = { dialects: ['esm'] }
   const { default: build } = await t.mockImport(
     '../dist/esm/build.js',
-    mocks
+    mocks,
   )
   await build()
   t.equal(builtESM, true)
@@ -129,7 +129,7 @@ t.test('build both', async t => {
   pkg.tshy = { dialects: ['esm', 'commonjs'] }
   const { default: build } = await t.mockImport(
     '../dist/esm/build.js',
-    mocks
+    mocks,
   )
   await build()
   t.equal(builtESM, true)
@@ -142,7 +142,7 @@ t.test('imports linking', async t => {
   for (const i of ['imports', 'imports-with-star', 'basic']) {
     t.test(i, async t => {
       t.chdir(
-        fileURLToPath(new URL('./fixtures/' + i, import.meta.url))
+        fileURLToPath(new URL('./fixtures/' + i, import.meta.url)),
       )
       const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
       const { default: build } = await t.mockImport(
@@ -159,7 +159,7 @@ t.test('imports linking', async t => {
               return i.startsWith('imports')
             },
           },
-        }
+        },
       )
       await build()
       t.matchSnapshot(calls())

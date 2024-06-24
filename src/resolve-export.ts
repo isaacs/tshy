@@ -1,6 +1,6 @@
 export const resolveExport = (
   exp: any,
-  conditions: string[]
+  conditions: string[],
 ): string | undefined | null => {
   if (typeof exp === 'string') return exp
   if (typeof exp !== 'object') return undefined

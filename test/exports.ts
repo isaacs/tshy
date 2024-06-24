@@ -16,13 +16,13 @@ const cjs = await t.mockImport<typeof import('../src/exports.js')>(
   '../src/exports.js',
   {
     '../src/dialects.js': { default: ['commonjs'] },
-  }
+  },
 )
 const esm = await t.mockImport<typeof import('../src/exports.js')>(
   '../src/exports.js',
   {
     '../src/dialects.js': { default: ['esm'] },
-  }
+  },
 )
 
 t.equal(getImpTarget(undefined), undefined)
@@ -65,7 +65,7 @@ t.equal(cjs.getReqTarget('foo.mts', p), undefined)
 t.equal(cjs.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
 t.equal(
   cjs.getReqTarget('./src/foo.cts', p),
-  './dist/commonjs/foo.cjs'
+  './dist/commonjs/foo.cjs',
 )
 t.equal(cjs.getReqTarget({ import: './foo.mts' }, p), undefined)
 t.equal(cjs.getReqTarget('./src/foo.mts', p), undefined)
@@ -79,7 +79,7 @@ t.equal(esm.getReqTarget({ import: './foo.mts' }, p), undefined)
 t.equal(esm.getReqTarget('./src/foo.mts', p), undefined)
 t.equal(
   cjs.getReqTarget('./src/fill-cjs.cts', p),
-  './dist/commonjs/fill.js'
+  './dist/commonjs/fill.js',
 )
 
 t.test('setting top level main', async t => {
@@ -97,7 +97,7 @@ t.test('setting top level main', async t => {
       main?: string
       types?: string
     },
-    boolean
+    boolean,
   ][] = [
     [
       'main defaults true',
@@ -307,7 +307,7 @@ t.test('extra dialects', async t => {
                   './src/foo-blah.cts',
                 ]),
               },
-            }
+            },
           )) as typeof import('../dist/esm/exports.js')
           t.matchSnapshot(extraDialects)
         })
@@ -347,7 +347,7 @@ t.test('liveDev', async t => {
           'fill.ts': '',
           'fill-cjs.cts': '',
         },
-      })
+      }),
     )
     return await t.mockImport<typeof import('../src/exports.js')>(
       '../src/exports.js',
@@ -364,7 +364,7 @@ t.test('liveDev', async t => {
             './src/fill-cjs.cts',
           ]),
         },
-      }
+      },
     )
   }
   t.test('no envs', async t => {
@@ -381,13 +381,13 @@ t.test('liveDev', async t => {
     t.equal(ld.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
     t.equal(
       ld.getReqTarget('./src/foo.cts'),
-      './dist/commonjs/foo.cts'
+      './dist/commonjs/foo.cts',
     )
     t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
     t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
     t.equal(
       ld.getReqTarget('./src/fill-cjs.cts', p),
-      './dist/commonjs/fill.ts'
+      './dist/commonjs/fill.ts',
     )
     t.matchSnapshot(pkg.exports)
     delete pkg.exports
@@ -411,24 +411,24 @@ t.test('liveDev', async t => {
       t.equal(ld.getImpTarget('./src/foo.mts'), './dist/esm/foo.mjs')
       t.equal(
         ld.getImpTarget('./src/index.ts'),
-        './dist/esm/index.js'
+        './dist/esm/index.js',
       )
       t.equal(ld.getReqTarget(undefined, p), undefined)
       t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
       t.equal(ld.getReqTarget('foo.mts', p), undefined)
       t.equal(
         ld.getReqTarget({ require: './foo.cts' }, p),
-        './foo.cts'
+        './foo.cts',
       )
       t.equal(
         ld.getReqTarget('./src/foo.cts'),
-        './dist/commonjs/foo.cjs'
+        './dist/commonjs/foo.cjs',
       )
       t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
       t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
       t.equal(
         ld.getReqTarget('./src/fill-cjs.cts', p),
-        './dist/commonjs/fill.js'
+        './dist/commonjs/fill.js',
       )
       t.matchSnapshot(pkg.exports)
       delete pkg.exports

@@ -10,13 +10,13 @@ export default (pkg: Package): Package['imports'] => {
   return Object.fromEntries(
     Object.entries(imports).map(([k, v]) => [
       k,
-      typeof v === 'string' && v.startsWith('./src/')
-        ? './' +
-          v
-            .substring('./src/'.length)
-            .replace(/\.([cm]?)ts$/, '.$1js')
-            .replace(/\.tsx$/, '.js')
-        : v,
-    ])
+      typeof v === 'string' && v.startsWith('./src/') ?
+        './' +
+        v
+          .substring('./src/'.length)
+          .replace(/\.([cm]?)ts$/, '.$1js')
+          .replace(/\.tsx$/, '.js')
+      : v,
+    ]),
   )
 }

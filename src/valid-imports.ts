@@ -9,7 +9,7 @@ export default (pkg: Package) => {
   if (Array.isArray(imports) || typeof imports !== 'object') {
     fail(
       'invalid imports object, must be Record<string, Import>, ' +
-        `got: ${JSON.stringify(imports)}`
+        `got: ${JSON.stringify(imports)}`,
     )
     return process.exit(1)
   }
@@ -24,7 +24,7 @@ export default (pkg: Package) => {
       fail(
         `unbuilt package.imports ${i} must not be in ./src, ` +
           'and imports in ./src must be string values. got: ' +
-          JSON.stringify(v)
+          JSON.stringify(v),
       )
       return process.exit(1)
     }

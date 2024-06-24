@@ -5,7 +5,7 @@ type C = 'import' | 'require' | 'types'
 const cases: [
   exp: any,
   m: C | C[],
-  expect: string | null | undefined
+  expect: string | null | undefined,
 ][] = [
   [null, 'import', null],
   [null, 'require', null],
@@ -55,6 +55,6 @@ for (const [exp, m, expect] of cases) {
   t.equal(
     resolveExport(exp, cond),
     expect,
-    `${m} ${JSON.stringify(exp)}`
+    `${m} ${JSON.stringify(exp)}`,
   )
 }

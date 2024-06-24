@@ -27,11 +27,11 @@ export const buildLiveCommonJS = () => {
     for (const [override, orig] of pf?.map.entries() ?? []) {
       const stemFrom = resolve(
         `.tshy-build/${d}`,
-        relative(resolve('src'), resolve(override))
+        relative(resolve('src'), resolve(override)),
       ).replace(/\.cts$/, '')
       const stemTo = resolve(
         `.tshy-build/${d}`,
-        relative(resolve('src'), resolve(orig))
+        relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
       ifExist.unlink(`${stemTo}.js.map`)
       ifExist.unlink(`${stemTo}.d.ts.map`)

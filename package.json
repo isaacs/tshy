@@ -50,11 +50,12 @@
   ],
   "devDependencies": {
     "@types/node": "^20.12.7",
-    "prettier": "^2.8.8",
+    "prettier": "^3.3.2",
     "tap": "^19.2.1",
     "typedoc": "^0.26.2"
   },
   "prettier": {
+    "experimentalTernaries": true,
     "semi": false,
     "printWidth": 70,
     "tabWidth": 2,

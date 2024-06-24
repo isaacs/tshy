@@ -4,7 +4,7 @@ import { TshyConfig } from './types.js'
 
 const arrayOverlap = (
   a: string[] | undefined,
-  b: string[] | undefined
+  b: string[] | undefined,
 ): string | false => {
   if (!a || !b) return false
   for (const av of a) {
@@ -17,7 +17,7 @@ const arrayOverlap = (
 
 const validExtraDialectSet = (
   e: string[],
-  which: 'commonjs' | 'esm'
+  which: 'commonjs' | 'esm',
 ) => {
   for (const d of e) {
     if (typeof d !== 'string') {
@@ -57,7 +57,7 @@ export default ({ commonjsDialects, esmDialects }: TshyConfig) => {
   if (overlap) {
     fail(
       'commonjsDialects and esmDialects must be unique, ' +
-        `found ${overlap} in both lists`
+        `found ${overlap} in both lists`,
     )
     return process.exit(1)
   }

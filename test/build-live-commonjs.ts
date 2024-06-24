@@ -3,7 +3,7 @@ import t from 'tap'
 
 const output = () =>
   readdirSync('.tshy-build/commonjs').sort((a, b) =>
-    a.localeCompare(b, 'en')
+    a.localeCompare(b, 'en'),
   )
 
 t.test('commonjs live dev build', async t => {
@@ -24,7 +24,7 @@ t.test('commonjs live dev build', async t => {
         'blah-blah.cts': '',
         'blah-cjs.cts': '',
       },
-    })
+    }),
   )
   const { buildLiveCommonJS } = await t.mockImport<
     typeof import('../src/build-live-commonjs.js')

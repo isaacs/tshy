@@ -36,7 +36,7 @@ t.test('with tsconfig.json file', async t => {
   ]) {
     t.matchSnapshot(
       JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
-      f + ' generate everything'
+      f + ' generate everything',
     )
   }
 
@@ -47,12 +47,12 @@ t.test('with tsconfig.json file', async t => {
         yolo: '🍑',
         this_data: 'is preserved',
       },
-    })
+    }),
   )
   unlinkSync(resolve(dir, '.tshy/build.json'))
   writeFileSync(
     resolve(dir, '.tshy/esm.json'),
-    'not even json, this gets clobbered'
+    'not even json, this gets clobbered',
   )
 
   await t.mockImport('../dist/esm/tsconfig.js')
@@ -67,7 +67,7 @@ t.test('with tsconfig.json file', async t => {
   ]) {
     t.matchSnapshot(
       JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
-      f
+      f,
     )
   }
 })
@@ -75,7 +75,7 @@ t.test('with tsconfig.json file', async t => {
 t.test('with custom project tsconfig name', async t => {
   renameSync(
     resolve(dir, 'tsconfig.json'),
-    resolve(dir, 'custom.json')
+    resolve(dir, 'custom.json'),
   )
 
   writeFileSync(
@@ -86,7 +86,7 @@ t.test('with custom project tsconfig name', async t => {
         esmDialects: ['deno'],
         commonjsDialects: ['webpack'],
       },
-    })
+    }),
   )
 
   await t.mockImport('../dist/esm/tsconfig.js')
@@ -105,7 +105,7 @@ t.test('with custom project tsconfig name', async t => {
   ]) {
     t.matchSnapshot(
       JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
-      f
+      f,
     )
   }
 })

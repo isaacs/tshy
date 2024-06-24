@@ -19,10 +19,10 @@ t.test('imports linking', async t => {
     t.test(i, async t => {
       // keep the pjs unmodified
       const f = fileURLToPath(
-        new URL(`./fixtures/${i}/package.json`, import.meta.url)
+        new URL(`./fixtures/${i}/package.json`, import.meta.url),
       )
       const dist = fileURLToPath(
-        new URL(`./fixtures/${i}/dist`, import.meta.url)
+        new URL(`./fixtures/${i}/dist`, import.meta.url),
       )
       const pj = JSON.parse(readFileSync(f, 'utf8'))
       t.teardown(() => {
@@ -31,29 +31,29 @@ t.test('imports linking', async t => {
       })
 
       t.chdir(
-        fileURLToPath(new URL('./fixtures/' + i, import.meta.url))
+        fileURLToPath(new URL('./fixtures/' + i, import.meta.url)),
       )
       await t.mockImport('../dist/esm/index.js')
       const logs = t.capture(console, 'log').args
       const { test: testESM } = await import(
         `./fixtures/${i}/dist/esm/index.js`
       )
-      const {
-        test: testCJS,
-      } = require(`./fixtures/${i}/dist/commonjs/index.js`)
+      const { test: testCJS } = require(
+        `./fixtures/${i}/dist/commonjs/index.js`,
+      )
       await testESM()
       t.strictSame(
         logs(),
-        i.startsWith('basic')
-          ? [['hello']]
-          : [['pkg exports', 'node esm'], ['node esm']]
+        i.startsWith('basic') ?
+          [['hello']]
+        : [['pkg exports', 'node esm'], ['node esm']],
       )
       await testCJS()
       t.strictSame(
         logs(),
-        i.startsWith('basic')
-          ? [['hello']]
-          : [['pkg exports', 'node esm'], ['node cjs']]
+        i.startsWith('basic') ?
+          [['hello']]
+        : [['pkg exports', 'node esm'], ['node cjs']],
       )
     })
   }

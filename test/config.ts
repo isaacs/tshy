@@ -11,7 +11,7 @@ t.test('basic parsing cases', t => {
     config: undefined | TshyConfigMaybeGlobExports,
     sources: string[],
     ok: boolean,
-    expect: TshyConfig
+    expect: TshyConfig,
   ][] = [
     [
       undefined,

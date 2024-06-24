@@ -35,7 +35,7 @@ const spawnSync = t.captureFn((...a: any[]) => {
 
 const output = () =>
   readdirSync('.tshy-build/commonjs').sort((a, b) =>
-    a.localeCompare(b, 'en')
+    a.localeCompare(b, 'en'),
   )
 
 t.test('basic commonjs build', async t => {
@@ -66,7 +66,7 @@ t.test('basic commonjs build', async t => {
           export const u = String(pathToFileURL(__filename))
         `,
       },
-    })
+    }),
   )
   let buildFailed = false
   const { buildCommonJS } = (await t.mockImport(
@@ -78,7 +78,7 @@ t.test('basic commonjs build', async t => {
           buildFailed = true
         },
       },
-    }
+    },
   )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, false)
@@ -109,7 +109,7 @@ t.test('build failure', async t => {
           export const u = pathToFileURL(__filename)
         `,
       },
-    })
+    }),
   )
   let buildFailed = false
   const { buildCommonJS } = (await t.mockImport(
@@ -121,7 +121,7 @@ t.test('build failure', async t => {
           buildFailed = true
         },
       },
-    }
+    },
   )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, true)

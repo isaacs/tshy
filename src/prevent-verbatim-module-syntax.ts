@@ -29,7 +29,7 @@ or
     "dialects": ["commonjs"]
   }
 }
-`
+`,
     )
     console.print()
     process.exit(1)

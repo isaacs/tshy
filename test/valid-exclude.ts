@@ -6,7 +6,7 @@ const { default: validExclude } = (await t.mockImport(
   '../src/valid-exclude.js',
   {
     '../src/fail.js': mf,
-  }
+  },
 )) as typeof import('../src/valid-exclude.js')
 
 t.equal(validExclude(['a', 'b']), true)

@@ -48,7 +48,7 @@ t.match(
         map: new Map([['./src/foo-blah.cts', './src/foo.ts']]),
       },
     ],
-  ])
+  ]),
 )
 
 t.matchSnapshot(inspect(polyfills.default))

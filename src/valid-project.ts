@@ -13,7 +13,7 @@ export default (p: any): p is TshyConfig['project'] => {
 
   fail(
     `tshy.project must point to a tsconfig file on disk, ` +
-      `got: ${JSON.stringify(p)}`
+      `got: ${JSON.stringify(p)}`,
   )
   return process.exit(1)
 }

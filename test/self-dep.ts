@@ -9,7 +9,7 @@ const mkdirp = {
 const mkdirpCalls = t.capture(
   mkdirp,
   'mkdirpSync',
-  mkdirp.mkdirpSync
+  mkdirp.mkdirpSync,
 ).args
 
 import * as FS from 'node:fs'
@@ -36,12 +36,12 @@ const rimraf = {
 const rimrafCalls = t.capture(
   rimraf,
   'rimrafSync',
-  rimraf.rimrafSync
+  rimraf.rimrafSync,
 ).args
 
 const { link, unlink } = (await t.mockImport(
   '../dist/esm/self-link.js',
-  { mkdirp, fs, rimraf, path }
+  { mkdirp, fs, rimraf, path },
 )) as typeof import('../dist/esm/self-link.js')
 
 t.test('no pkg name, nothing to do', t => {
@@ -56,11 +56,11 @@ t.test('no pkg name, nothing to do', t => {
 t.test('no selfLink, nothing to do', t => {
   link(
     { name: 'name', tshy: { selfLink: false } } as Package,
-    'some/path'
+    'some/path',
   )
   unlink(
     { name: 'name', tshy: { selfLink: false } } as Package,
-    'some/path'
+    'some/path',
   )
   t.strictSame(symlinkCalls(), [], 'no symlinks')
   t.strictSame(rimrafCalls(), [], 'no rimrafs')
@@ -93,8 +93,8 @@ t.test('throw both times, but self-link is required', t => {
   t.throws(() =>
     link(
       { name: 'name', version: '1.2.3', tshy: { selfLink: true } },
-      'some/path'
-    )
+      'some/path',
+    ),
   )
   t.matchSnapshot(symlinkCalls(), 'symlinks')
   t.matchSnapshot(rimrafCalls(), 'rimrafs')
@@ -125,7 +125,7 @@ t.test('already in node_modules, do not create link', t => {
   const readlinkCalls = t.capture(
     fs,
     'readlinkSync',
-    fs.readlinkSync
+    fs.readlinkSync,
   ).args
 
   const dir = t.testdir({
@@ -160,7 +160,7 @@ t.test('already in node_modules, do not create link', t => {
       // to save extra readlink and walkUp calls.
       const { link, unlink } = (await t.mockImport(
         '../dist/esm/self-link.js',
-        { mkdirp, fs, rimraf }
+        { mkdirp, fs, rimraf },
       )) as typeof import('../dist/esm/self-link.js')
       t.chdir(resolve(dir, d))
       link({ name, version: '1.2.3' }, 'src')
@@ -170,7 +170,7 @@ t.test('already in node_modules, do not create link', t => {
         t.strictSame(
           rl.pop(),
           [resolve(dir, 'node_modules', name)],
-          'found link'
+          'found link',
         )
       } else {
         t.strictSame(rl, [], 'did not need to check for links')

@@ -46,14 +46,14 @@ let spawnResult: SpawnResult = spawnOK
 const mockSpawn = (
   cmd: string,
   args: string[],
-  options: SpawnOptions
+  options: SpawnOptions,
 ) => {
   t.equal(cmd, process.execPath)
   t.strictSame(args, [bin])
   t.strictSame(options, { stdio: 'inherit' })
   const child = new EventEmitter()
   setTimeout(() =>
-    child.emit('close', spawnResult.code, spawnResult.signal)
+    child.emit('close', spawnResult.code, spawnResult.signal),
   )
   return child
 }
@@ -76,7 +76,7 @@ t.test('build whenever changes happen', async t => {
         spawn: mockSpawn,
       },
       chokidar: mockChokidar,
-    }
+    },
   )) as typeof import('../dist/esm/watch.js')
   watch()
   // immediately trigger changes to the pj and other stuff
@@ -99,7 +99,7 @@ t.test('build failure', async t => {
         spawn: mockSpawn,
       },
       chokidar: mockChokidar,
-    }
+    },
   )) as typeof import('../dist/esm/watch.js')
   watch()
   await new Promise<void>(r => setTimeout(r, 100))

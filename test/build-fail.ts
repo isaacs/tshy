@@ -1,7 +1,7 @@
 import { SpawnSyncReturns } from 'node:child_process'
 import t from 'tap'
 t.capture(process, 'exit', (...a: any[]) =>
-  calls.push(['process.exit', a])
+  calls.push(['process.exit', a]),
 )
 const calls: [string, any[]][] = []
 const { default: buildFail } = (await t.mockImport(
@@ -24,7 +24,7 @@ const { default: buildFail } = (await t.mockImport(
     '../dist/esm/console.js': {
       error: (...a: any[]) => calls.push(['console.error', a]),
     },
-  }
+  },
 )) as typeof import('../src/build-fail.js')
 
 buildFail({

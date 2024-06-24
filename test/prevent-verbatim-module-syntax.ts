@@ -24,7 +24,7 @@ t.test('is set, many worries', t => {
   t.matchSnapshot(
     errs()
       .map(s => s.join(''))
-      .join('\n')
+      .join('\n'),
   )
   t.strictSame(logs(), [])
   t.end()

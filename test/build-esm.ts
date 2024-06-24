@@ -32,7 +32,7 @@ const spawnSync = t.captureFn((...a: any[]) => {
 
 const output = () =>
   readdirSync('.tshy-build/esm').sort((a, b) =>
-    a.localeCompare(b, 'en')
+    a.localeCompare(b, 'en'),
   )
 
 t.test('basic esm build', async t => {
@@ -63,7 +63,7 @@ t.test('basic esm build', async t => {
           export const u = pathToFileURL(__filename)
         `,
       },
-    })
+    }),
   )
   let buildFailed = false
   const { buildESM } = (await t.mockImport(
@@ -75,7 +75,7 @@ t.test('basic esm build', async t => {
           buildFailed = true
         },
       },
-    }
+    },
   )) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, false)
@@ -106,7 +106,7 @@ t.test('build failure', async t => {
           export const u = pathToFileURL(__filename)
         `,
       },
-    })
+    }),
   )
   let buildFailed = false
   const { buildESM } = (await t.mockImport(
@@ -118,7 +118,7 @@ t.test('build failure', async t => {
           buildFailed = true
         },
       },
-    }
+    },
   )) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, true)

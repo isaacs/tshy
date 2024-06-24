@@ -7,14 +7,14 @@ const { default: link } = (await t.mockImport(
   {
     chalk: { default: { level: 3, red: { bold: (s: string) => s } } },
     '../dist/esm/fail.js': fail,
-  }
+  },
 )) as typeof import('../dist/esm/usage.js')
 const { default: noLink } = (await t.mockImport(
   '../dist/esm/usage.js',
   {
     chalk: { default: { level: 0, red: { bold: (s: string) => s } } },
     '../dist/esm/fail.js': fail,
-  }
+  },
 )) as typeof import('../dist/esm/usage.js')
 
 const exits = t.capture(process, 'exit').args
@@ -29,7 +29,7 @@ t.test('no error', async t => {
     t.matchSnapshot(
       logs()
         .map(s => s.join(''))
-        .join('\n')
+        .join('\n'),
     )
   })
   t.test('no link', async t => {
@@ -39,7 +39,7 @@ t.test('no error', async t => {
     t.matchSnapshot(
       logs()
         .map(s => s.join(''))
-        .join('\n')
+        .join('\n'),
     )
   })
 })
@@ -52,7 +52,7 @@ t.test('with error', async t => {
     t.matchSnapshot(
       errs()
         .map(s => s.join(''))
-        .join('\n')
+        .join('\n'),
     )
   })
   t.test('no link', async t => {
@@ -62,7 +62,7 @@ t.test('with error', async t => {
     t.matchSnapshot(
       errs()
         .map(s => s.join(''))
-        .join('\n')
+        .join('\n'),
     )
   })
 })

@@ -32,7 +32,7 @@ ${links.map(l => `  ${JSON.stringify(l)},\n`).join('')}]
 const e = (er) => { if (er.code !== 'EEXIST') throw er }
 for (const d of dirs) mkdirSync(d, { recursive: true })
 Promise.all(links.map(([dest, src]) => symlink(src, dest).catch(e)))
-`
+`,
   )
   return true
 }
@@ -42,7 +42,7 @@ let targets: undefined | string[] = undefined
 // a target in ./src
 const getTargets = async (imports: Record<string, any>) => {
   const conds = getAllConditionalValues(imports).filter(
-    c => !c.startsWith('./src/')
+    c => !c.startsWith('./src/'),
   )
   if (!conds.some(c => c.includes('*'))) {
     // fast path
@@ -78,7 +78,7 @@ const saveSet = new Map<string, string>()
 export const link = async (
   pkg: Package,
   dir: string,
-  save = false
+  save = false,
 ) => {
   const { imports } = pkg
   if (!imports) return
@@ -91,12 +91,12 @@ export const link = async (
     const l = t.replace(/^\.\//, '')
     const df = dirname(l)
     const dfrel =
-      df === '.'
-        ? ''
-        : df
-            .split('/')
-            .map(() => '../')
-            .join('')
+      df === '.' ? '' : (
+        df
+          .split('/')
+          .map(() => '../')
+          .join('')
+      )
     const dest = dir + '/' + l
     const src = rel + '/' + dfrel + l
     if (save) saveSet.set(dest, src)
@@ -108,7 +108,7 @@ export const link = async (
           if (!save && d) dirsMade.add(d)
           return rimraf(dest)
         })
-        .then(() => symlink(src, dest))
+        .then(() => symlink(src, dest)),
     )
   }
   await Promise.all(lps)

@@ -11,13 +11,13 @@ const { default: writePackage } = (await t.mockImport(
         name: 'some package',
       },
     },
-  }
+  },
 )) as typeof import('../dist/esm/write-package.js')
 
 writePackage()
 t.strictSame(
   JSON.parse(
-    readFileSync(resolve(t.testdirName, 'package.json'), 'utf8')
+    readFileSync(resolve(t.testdirName, 'package.json'), 'utf8'),
   ),
-  { name: 'some package' }
+  { name: 'some package' },
 )

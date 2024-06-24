@@ -3,7 +3,7 @@ import t from 'tap'
 
 const output = () =>
   readdirSync('.tshy-build/esm').sort((a, b) =>
-    a.localeCompare(b, 'en')
+    a.localeCompare(b, 'en'),
   )
 
 t.test('esm live dev build', async t => {
@@ -24,7 +24,7 @@ t.test('esm live dev build', async t => {
         'blah-blah.mts': '',
         'blah-cjs.cts': '',
       },
-    })
+    }),
   )
   const { buildLiveESM } = await t.mockImport<
     typeof import('../src/build-live-esm.js')

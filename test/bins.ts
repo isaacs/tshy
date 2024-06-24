@@ -8,7 +8,7 @@ t.test('no bin, no chmod', async t => {
     {
       '../dist/esm/package.js': { default: {} },
       'node:fs': { chmodSync },
-    }
+    },
   )) as typeof import('../dist/esm/bins.js')
   bins()
   t.strictSame(chmodSync.args(), [])
@@ -21,7 +21,7 @@ t.test('chmod bin string', async t => {
     {
       '../dist/esm/package.js': { default: { bin: './bin.js' } },
       'node:fs': { chmodSync },
-    }
+    },
   )) as typeof import('../dist/esm/bins.js')
   bins()
   t.strictSame(chmodSync.args(), [[resolve('./bin.js'), 0o755]])
@@ -36,7 +36,7 @@ t.test('chmod bin object', async t => {
         default: { bin: { a: './a.js', b: './b.js' } },
       },
       'node:fs': { chmodSync },
-    }
+    },
   )
   bins()
   t.strictSame(chmodSync.args(), [

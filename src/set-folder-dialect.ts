@@ -16,7 +16,7 @@ const writeDialectPJ = (d: string, mode?: Dialect) => {
   }
   writeFileSync(
     `${d}/package.json`,
-    JSON.stringify(v, null, 2) + '\n'
+    JSON.stringify(v, null, 2) + '\n',
   )
 }
 

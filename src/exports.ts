@@ -22,17 +22,13 @@ const liveDev =
 const getTargetForDialectCondition = <T extends string>(
   s: string | TshyExport | undefined | null,
   dialect: T,
-  condition: T extends 'esm'
-    ? 'import'
-    : T extends 'commonjs'
-    ? 'require'
-    : T,
-  type: T extends 'esm'
-    ? 'esm'
-    : T extends 'commonjs'
-    ? 'commonjs'
-    : 'esm' | 'commonjs',
-  polyfills: Map<string, PolyfillSet> = new Map()
+  condition: T extends 'esm' ? 'import'
+  : T extends 'commonjs' ? 'require'
+  : T,
+  type: T extends 'esm' ? 'esm'
+  : T extends 'commonjs' ? 'commonjs'
+  : 'esm' | 'commonjs',
+  polyfills: Map<string, PolyfillSet> = new Map(),
 ): string | undefined | null => {
   if (s === undefined) return undefined
   if (typeof s === 'string') {
@@ -42,40 +38,39 @@ const getTargetForDialectCondition = <T extends string>(
     const pf = dialect === 'commonjs' ? 'cjs' : dialect
     const rel = relative(
       resolve('./src'),
-      resolve(polyfills.get(pf)?.map.get(s) ?? s)
+      resolve(polyfills.get(pf)?.map.get(s) ?? s),
     )
-    const target = liveDev
-      ? rel
-      : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
-    return !s || !s.startsWith('./src/')
-      ? s
-      : dialects.includes(type)
-      ? `./dist/${dialect}/${target}`
+    const target =
+      liveDev ? rel : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
+    return (
+      !s || !s.startsWith('./src/') ? s
+      : dialects.includes(type) ? `./dist/${dialect}/${target}`
       : undefined
+    )
   }
   return resolveExport(s, [condition])
 }
 
 export const getImpTarget = (
   s: string | TshyExport | undefined | null,
-  polyfills: Map<string, PolyfillSet> = new Map()
+  polyfills: Map<string, PolyfillSet> = new Map(),
 ) =>
   getTargetForDialectCondition(s, 'esm', 'import', 'esm', polyfills)
 
 export const getReqTarget = (
   s: string | TshyExport | undefined | null,
-  polyfills: Map<string, PolyfillSet> = new Map()
+  polyfills: Map<string, PolyfillSet> = new Map(),
 ) =>
   getTargetForDialectCondition(
     s,
     'commonjs',
     'require',
     'commonjs',
-    polyfills
+    polyfills,
   )
 
 const getExports = (
-  c: TshyConfig
+  c: TshyConfig,
 ): Record<string, ConditionalValue> => {
   // by this time it always exports, will get the default if missing
   /* c8 ignore start */
@@ -114,11 +109,12 @@ const getExports = (
           d,
           d,
           'esm',
-          polyfills
+          polyfills,
         )
         if (target) {
-          exp[d] = liveDev
-            ? {
+          exp[d] =
+            liveDev ?
+              {
                 source,
                 default: target,
               }
@@ -139,11 +135,12 @@ const getExports = (
           d,
           d,
           'commonjs',
-          polyfills
+          polyfills,
         )
         if (target) {
-          exp[d] = liveDev
-            ? {
+          exp[d] =
+            liveDev ?
+              {
                 source,
                 default: target,
               }
@@ -157,8 +154,9 @@ const getExports = (
     }
     // put the default import/require after all the other special ones.
     if (impTarget) {
-      exp.import = liveDev
-        ? {
+      exp.import =
+        liveDev ?
+          {
             source: s,
             default: impTarget,
           }
@@ -169,8 +167,9 @@ const getExports = (
           }
     }
     if (reqTarget) {
-      exp.require = liveDev
-        ? {
+      exp.require =
+        liveDev ?
+          {
             source: s,
             default: reqTarget,
           }
@@ -186,7 +185,7 @@ const getExports = (
 
 export const setMain = (
   c: TshyConfig | undefined,
-  pkg: Package & { exports: ExportsSubpaths }
+  pkg: Package & { exports: ExportsSubpaths },
 ) => {
   const mod = resolveExport(pkg.exports['.'], ['require'])
   const main = c?.main ?? !!mod

@@ -8,6 +8,6 @@ import { fileURLToPath } from 'url'
 export default fileURLToPath(
   new URL(
     '../bin/tsc',
-    await resolveImport('typescript', import.meta.url)
-  )
+    await resolveImport('typescript', import.meta.url),
+  ),
 )

@@ -8,7 +8,7 @@ t.test('no incremental build, just delete it', t => {
   t.chdir(
     t.testdir({
       '.tshy-build': {},
-    })
+    }),
   )
   cleanBuildTmp()
   t.throws(() => statSync('.tshy-build'))
@@ -20,7 +20,7 @@ t.test('no tsbuildinfo, just delete it', t => {
   t.chdir(
     t.testdir({
       '.tshy-build': {},
-    })
+    }),
   )
   cleanBuildTmp()
   t.throws(() => statSync('.tshy-build'))
@@ -68,7 +68,7 @@ t.test('remove files not found in src', t => {
           'b.ts': '',
         },
       },
-    })
+    }),
   )
   cleanBuildTmp()
   t.throws(() => statSync('.tshy-build/dist/esm/x.js.map'))
