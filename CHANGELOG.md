@@ -1,3 +1,7 @@
+# 1.16
+
+- Upgrade to TypeScript 5.5
+
 # 1.15
 
 - Add `liveDev` option
