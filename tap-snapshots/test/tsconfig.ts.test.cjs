@@ -24,6 +24,7 @@ Object {
   },
   "exclude": Array [
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -31,6 +32,7 @@ Object {
     "../src/**/*.ts",
     "../src/**/*.cts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -41,13 +43,15 @@ Object {
     "outDir": "../.tshy-build/deno",
   },
   "exclude": Array [
-    ".././src/index-cjs.cts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -58,14 +62,16 @@ Object {
     "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
-    ".././src/index-cjs.cts",
-    ".././src/index-deno.mts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -77,6 +83,7 @@ Object {
   },
   "exclude": Array [
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/index-cjs.cts",
     "../src/index-deno.mts",
   ],
@@ -85,6 +92,7 @@ Object {
     "../src/**/*.ts",
     "../src/**/*.cts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -127,8 +135,9 @@ Object {
     "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
+    "../src/**/*.test.ts",
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -136,6 +145,7 @@ Object {
     "../src/**/*.ts",
     "../src/**/*.cts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -146,8 +156,9 @@ Object {
     "outDir": "../.tshy-build/commonjs",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
+    "../src/**/*.test.ts",
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -155,6 +166,7 @@ Object {
     "../src/**/*.ts",
     "../src/**/*.cts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -165,14 +177,16 @@ Object {
     "outDir": "../.tshy-build/deno",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
-    ".././src/index-cjs.cts",
+    "../src/**/*.test.ts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -183,15 +197,17 @@ Object {
     "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
-    ".././src/index-cjs.cts",
-    ".././src/index-deno.mts",
+    "../src/**/*.test.ts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -202,15 +218,17 @@ Object {
     "outDir": "../.tshy-build/esm",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
-    ".././src/index-cjs.cts",
-    ".././src/index-deno.mts",
+    "../src/**/*.test.ts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
   ],
   "extends": "./build.json",
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `
@@ -221,8 +239,9 @@ Object {
     "outDir": "../.tshy-build/webpack",
   },
   "exclude": Array [
-    ".././src/**/*.test.ts",
+    "../src/**/*.test.ts",
     "../src/**/*.mts",
+    "../src/package.json",
     "../src/index-cjs.cts",
     "../src/index-deno.mts",
   ],
@@ -231,6 +250,7 @@ Object {
     "../src/**/*.ts",
     "../src/**/*.cts",
     "../src/**/*.tsx",
+    "../src/**/*.json",
   ],
 }
 `

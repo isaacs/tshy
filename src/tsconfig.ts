@@ -23,7 +23,7 @@ const {
   exclude = [],
 } = config
 
-const relativeExclude = exclude.map(e => `../${e}`)
+const relativeExclude = exclude.map(e => `../${e.replace(/^\.\//, '')}`)
 
 const recommended: Record<string, any> = {
   compilerOptions: {
@@ -61,7 +61,11 @@ const build = (): Record<string, any> => ({
 })
 
 const commonjs = (dialect: string): Record<string, any> => {
-  const exclude = [...relativeExclude, '../src/**/*.mts']
+  const exclude = [
+    ...relativeExclude,
+    '../src/**/*.mts',
+    '../src/package.json',
+  ]
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
     for (const f of pf.map.keys()) {
@@ -70,7 +74,12 @@ const commonjs = (dialect: string): Record<string, any> => {
   }
   return {
     extends: './build.json',
-    include: ['../src/**/*.ts', '../src/**/*.cts', '../src/**/*.tsx'],
+    include: [
+      '../src/**/*.ts',
+      '../src/**/*.cts',
+      '../src/**/*.tsx',
+      '../src/**/*.json',
+    ],
     exclude,
     compilerOptions: {
       outDir:
@@ -81,17 +90,25 @@ const commonjs = (dialect: string): Record<string, any> => {
 }
 
 const esm = (dialect: string): Record<string, any> => {
-  const exclude: string[] = [...relativeExclude]
+  const exclude: string[] = [
+    ...relativeExclude,
+    '../src/package.json',
+  ]
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
     for (const f of pf.map.keys()) {
-      exclude.push(`../${f}`)
+      exclude.push(`../${f.replace(/^\.\//, '')}`)
     }
   }
   return {
     extends: './build.json',
-    include: ['../src/**/*.ts', '../src/**/*.mts', '../src/**/*.tsx'],
-    exclude: exclude,
+    include: [
+      '../src/**/*.ts',
+      '../src/**/*.mts',
+      '../src/**/*.tsx',
+      '../src/**/*.json',
+    ],
+    exclude,
     compilerOptions: {
       outDir: '../.tshy-build/' + dialect,
     },
