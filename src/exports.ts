@@ -119,8 +119,8 @@ const getExports = (
                 default: target,
               }
             : {
-                source,
                 types: target.replace(/\.js$/, '.d.ts'),
+                source,
                 default: target,
               }
         }
@@ -145,8 +145,8 @@ const getExports = (
                 default: target,
               }
             : {
-                source,
                 types: target.replace(/\.js$/, '.d.ts'),
+                source,
                 default: target,
               }
         }
@@ -161,8 +161,8 @@ const getExports = (
             default: impTarget,
           }
         : {
-            source: s,
             types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
+            source: s,
             default: impTarget,
           }
     }
@@ -174,8 +174,8 @@ const getExports = (
             default: reqTarget,
           }
         : {
-            source: s,
             types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
+            source: s,
             default: reqTarget,
           }
     }
