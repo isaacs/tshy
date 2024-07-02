@@ -9,6 +9,7 @@ export type TshyConfigMaybeGlobExports = {
   dialects?: Dialect[]
   selfLink?: boolean
   main?: boolean
+  module?: boolean
   commonjsDialects?: string[]
   esmDialects?: string[]
   project?: string
