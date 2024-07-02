@@ -417,6 +417,14 @@ Array [
 ]
 `
 
+exports[`test/exports.ts > TAP > setting top level main > invalid module esm, no exports > must match snapshot 1`] = `
+Array [
+  Array [
+    "could not resolve exports['.'] for tshy.module 'import'",
+  ],
+]
+`
+
 exports[`test/exports.ts > TAP > setting top level main > main explicit true, no commonjs module > must match snapshot 1`] = `
 Array [
   Array [

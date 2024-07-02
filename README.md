@@ -561,7 +561,7 @@ If the `selfLink` config is not explicitly set, and creating the
 symlink fails (common on Windows systems where `fs.symlink()` may
 require elevated permissions), then the error will be ignored.
 
-### Old Style Exports
+### Old Style Exports (top-level `main`, `module`, `types`)
 
 Versions of node prior to 12.10.0, published in early to mid
 2016, did not have support for `exports` as a means for defining
@@ -573,6 +573,12 @@ If there is a `commonjs` export of the `"."` subpath, and the
 `tshy.main` field in package.json is not set to `false`, then
 tshy will use that to set the `main` and `types` fields, for
 compatibility with these tools.
+
+Similarly, some tools rely on a top-level `module` field, which
+is the ESM equivalent to `"main"`. If there is an `esm` export of
+the `"."` subpath, and the `tshy.module` field in package.json is
+not set to `false`, then tshy will use that to set the `module`
+field, for compatibility with these tools.
 
 **Warning: relying on top-level main/types will likely cause
 incorrect types to be loaded in some scenarios.**
@@ -587,6 +593,11 @@ If the `commonjs` dialect is not built, or if a `"."` export is
 not created, or if the `"."` export does not support the
 `commonjs` dialect, and `main` is explicitly set to `true`, then
 the build will fail.
+
+If the `esm` dialect is not built, or if a `"."` export is not
+created, or if the `"."` export does not support the `esm`
+dialect, and `module` is explicitly set to `true`, then the build
+will fail.
 
 For example, this config:
 
@@ -605,6 +616,7 @@ will produce:
 ```json
 {
   "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
   "exports": {

@@ -90,11 +90,13 @@ t.test('setting top level main', async t => {
       tshy?: TshyConfig
       exports: Record<string, ConditionalValue>
       main?: string
+      module?: string
       types?: string
       type?: string
     },
     {
       main?: string
+      module?: string
       types?: string
     },
     boolean,
@@ -206,6 +208,58 @@ t.test('setting top level main', async t => {
       false,
     ],
     [
+      'module defaults true',
+      {
+        exports: {
+          '.': {
+            require: { types: './r.d.ts', default: './r.js' },
+            import: { types: './i.d.ts', default: './i.js' },
+          },
+        },
+      },
+      { main: './r.js', types: './r.d.ts', module: './i.js' },
+      true,
+    ],
+    [
+      'module explicit true',
+      {
+        tshy: { module: true },
+        exports: {
+          '.': {
+            require: { types: './r.d.ts', default: './r.js' },
+            import: { types: './i.d.ts', default: './i.js' },
+          },
+        },
+      },
+      { main: './r.js', types: './r.d.ts', module: './i.js' },
+      true,
+    ],
+    [
+      'module explicit false, removes',
+      {
+        tshy: { module: false },
+        main: './r.js',
+        types: './r.d.ts',
+        exports: {
+          '.': {
+            require: { types: './r.d.ts', default: './r.js' },
+            import: { types: './i.d.ts', default: './i.js' },
+          },
+        },
+      },
+      { main: './r.js', types: './r.d.ts' },
+      true,
+    ],
+    [
+      'invalid module esm, no exports',
+      {
+        tshy: { module: true },
+        exports: {},
+      },
+      {},
+      false,
+    ],
+    [
       'type defaults module',
       {
         exports: {},
@@ -232,7 +286,7 @@ t.test('setting top level main', async t => {
       true,
     ],
     [
-      'invalide type',
+      'invalid type',
       {
         type: 'invalid type',
         exports: {},

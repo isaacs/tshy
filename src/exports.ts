@@ -207,10 +207,24 @@ export const setMain = (
     delete pkg.types
   }
   pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
+
+  // Set the package module to exports["."]
+  const importMod = resolveExport(pkg.exports['.'], ['import'])
+  const module = c?.module ?? !!importMod
+  if (module) {
+    if (!importMod) {
+      fail(`could not resolve exports['.'] for tshy.module 'import'`)
+      return process.exit(1)
+    }
+
+    pkg.module = importMod
+  } else {
+    if (c && c.module !== false) delete c.module
+    delete pkg.module
+  }
 }
 
-// These are all defined by exports, so it's just confusing otherwise
-delete pkg.module
 pkg.exports = getExports(config)
+
 setMain(config, pkg as Package & { exports: ExportsSubpaths })
 export default pkg.exports
