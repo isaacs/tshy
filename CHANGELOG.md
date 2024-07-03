@@ -1,3 +1,8 @@
+# 1.17
+
+- Add `module` field if a top-level `esm` export exists for
+  subpath `"."`, and `tshy.module` is not set to false.
+
 # 1.16
 
 - Upgrade to TypeScript 5.5
