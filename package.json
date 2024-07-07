@@ -1,6 +1,6 @@
 {
   "name": "tshy",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "description": "TypeScript HYbridizer - Hybrid (CommonJS/ESM) TypeScript node package builder",
   "author": "Isaac Z. Schlueter <i@izs.me> (https://izs.me)",
   "license": "BlueOak-1.0.0",
