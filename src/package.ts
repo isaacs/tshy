@@ -8,10 +8,14 @@ import { Package } from './types.js'
 const isPackage = (pkg: JSONResult): pkg is Package =>
   !!pkg && typeof pkg === 'object' && !Array.isArray(pkg)
 
-const readPkg = (): Package => {
+const readPkg = (): Package & { type: 'commonjs' | 'module' } => {
   try {
     const res = parse(readFileSync('package.json', 'utf8'))
-    if (isPackage(res)) return res
+    if (isPackage(res)) {
+      return Object.assign(res, {
+        type: res.type === 'commonjs' ? 'commonjs' : 'module'
+      })
+    }
     throw new Error(
       'Invalid package.json contents: ' + stringify(res),
     )

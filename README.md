@@ -915,17 +915,13 @@ Other TypeScript-aware tools may have other mechanisms for
 specifying export conditions. Refer to their documentation for
 more information.
 
+Note that `sourceDialects` are _only_ added to exports whose type
+matches the top-level `package.json` `type` field. For example,
+if the `package.json` includes `"type": "module"`, then
+`sourceDialects` export conditions will only be added for the
+`import` condition, not the `require` condition.
+
 See also: "Live Dev", above.
-
-#### Why not just use `"source"` as the target?
-
-Tshy always builds the `"source"` target referencing the location
-of the TypeScript file that was built. However, this can cause
-problems if tools use this to resolve into dependencies, which
-may not ship their TypeScript source.
-
-But if you can configure your tools to _only_ use this import
-condition outside of `node_modules`, then it's safe to use.
 
 ### Custom `project`
 

@@ -8,6 +8,16 @@ t.test('load package successfully', async t => {
   t.equal(pkg.type, 'module')
 })
 
+t.test('respect package.type', async t => {
+  t.chdir(t.testdir({
+    'package.json': JSON.stringify({ type: 'commonjs' }),
+  }))
+  const { default: pkg } = await t.mockImport(
+    '../dist/esm/package.js',
+  )
+  t.equal(pkg.type, 'commonjs')
+})
+
 t.test('unsuccessfully fails build', async t => {
   const exits = t.capture(process, 'exit').args
   t.chdir(t.testdir())

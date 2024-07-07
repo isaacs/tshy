@@ -334,160 +334,197 @@ t.test('extra dialects', async t => {
       const esmDialects = ['deno', 'no-overrides']
       const commonjsDialects = ['blah']
       for (const extras of [true, false]) {
-        t.test(`extras=${extras}`, async t => {
-          const { default: extraDialects } = (await t.mockImport(
-            '../dist/esm/exports.js',
-            {
-              '../dist/esm/package.js': {
-                default: {
-                  tshy: {
-                    ...(extras && { esmDialects, commonjsDialects }),
-                    sourceDialects: ['my-source'],
-                    dialects,
-                    exports: {
-                      '.': './src/index.ts',
-                      './foo': './src/foo.ts',
+        for (const pkgType of ['commonjs', 'module']) {
+          t.test(`extras=${extras} type=${pkgType}`, async t => {
+            const { default: extraDialects } = (await t.mockImport(
+              '../dist/esm/exports.js',
+              {
+                '../dist/esm/package.js': {
+                  default: {
+                    type: pkgType,
+                    tshy: {
+                      ...(extras && {
+                        esmDialects,
+                        commonjsDialects,
+                      }),
+                      sourceDialects: ['my-source'],
+                      dialects,
+                      exports: {
+                        '.': './src/index.ts',
+                        './foo': './src/foo.ts',
+                      },
                     },
                   },
                 },
-              },
 
-              '../dist/esm/sources.js': {
-                default: new Set([
-                  './src/index.ts',
-                  './src/index-blah.cts',
-                  './src/index-cjs.cts',
-                  './src/index-deno.mts',
-                  './src/foo.ts',
-                  './src/foo-blah.cts',
-                ]),
+                '../dist/esm/sources.js': {
+                  default: new Set([
+                    './src/index.ts',
+                    './src/index-blah.cts',
+                    './src/index-cjs.cts',
+                    './src/index-deno.mts',
+                    './src/foo.ts',
+                    './src/foo-blah.cts',
+                  ]),
+                },
               },
-            },
-          )) as typeof import('../dist/esm/exports.js')
-          t.matchSnapshot(extraDialects)
-        })
+            )) as typeof import('../dist/esm/exports.js')
+            t.matchSnapshot(extraDialects)
+          })
+        }
       }
     })
   }
+
   t.end()
 })
 
 t.test('liveDev', async t => {
-  const pkg: Package = {
-    name: 'x',
-    version: '1.2.3',
-    tshy: {
-      liveDev: true,
-      dialects: ['commonjs', 'esm'],
-      esmDialects: ['deno'],
-      commonjsDialects: ['blah'],
-      exports: {
-        '.': './src/index.ts',
-        './package.json': './package.json',
-        './foo': './src/foo.mts',
-        './foo-cjs': './src/foo.cts',
-        './fill': './src/fill.ts',
-      },
-    },
-  }
-  const getLiveDev = async (t: Test) => {
-    t.chdir(
-      t.testdir({
-        'package.json': JSON.stringify(pkg),
-        src: {
-          'index.ts': '',
-          'foo.mts': '',
-          'foo-deno.mts': '',
-          'foo.cts': '',
-          'fill.ts': '',
-          'fill-cjs.cts': '',
+  for (const pkgType of ['commonjs', 'module'] as const) {
+    t.test(pkgType, async t => {
+      const pkg: Package = {
+        name: 'x',
+        version: '1.2.3',
+        type: pkgType,
+        tshy: {
+          liveDev: true,
+          dialects: ['commonjs', 'esm'],
+          esmDialects: ['deno'],
+          commonjsDialects: ['blah'],
+          exports: {
+            '.': './src/index.ts',
+            './package.json': './package.json',
+            './foo': './src/foo.mts',
+            './foo-cjs': './src/foo.cts',
+            './fill': './src/fill.ts',
+          },
         },
-      }),
-    )
-    return await t.mockImport<typeof import('../src/exports.js')>(
-      '../src/exports.js',
-      {
-        '../src/config.js': { default: pkg.tshy },
-        '../src/package.js': { default: pkg },
-        '../src/dialects.js': { default: ['commonjs', 'esm'] },
-        '../src/sources.js': {
-          default: new Set([
-            './src/index.ts',
-            './src/foo.mts',
-            './src/foo.cts',
-            './src/fill.ts',
-            './src/fill-cjs.cts',
-          ]),
-        },
-      },
-    )
-  }
-  t.test('no envs', async t => {
-    const ld = await getLiveDev(t)
-    t.equal(ld.getImpTarget('foo.cts'), undefined)
-    t.equal(ld.getImpTarget({ require: './foo.cts' }), undefined)
-    t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
-    t.equal(ld.getImpTarget({ import: './foo.mts' }), './foo.mts')
-    t.equal(ld.getImpTarget('./src/foo.mts'), './dist/esm/foo.mts')
-    t.equal(ld.getImpTarget('./src/index.ts'), './dist/esm/index.ts')
-    t.equal(ld.getReqTarget(undefined, p), undefined)
-    t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
-    t.equal(ld.getReqTarget('foo.mts', p), undefined)
-    t.equal(ld.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
-    t.equal(
-      ld.getReqTarget('./src/foo.cts'),
-      './dist/commonjs/foo.cts',
-    )
-    t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
-    t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
-    t.equal(
-      ld.getReqTarget('./src/fill-cjs.cts', p),
-      './dist/commonjs/fill.ts',
-    )
-    t.matchSnapshot(pkg.exports)
-    delete pkg.exports
-    t.end()
-  })
+      }
+      const getLiveDev = async (t: Test) => {
+        t.chdir(
+          t.testdir({
+            'package.json': JSON.stringify(pkg),
+            src: {
+              'index.ts': '',
+              'foo.mts': '',
+              'foo-deno.mts': '',
+              'foo.cts': '',
+              'fill.ts': '',
+              'fill-cjs.cts': '',
+            },
+          }),
+        )
+        return await t.mockImport<typeof import('../src/exports.js')>(
+          '../src/exports.js',
+          {
+            '../src/config.js': { default: pkg.tshy },
+            '../src/package.js': { default: pkg },
+            '../src/dialects.js': { default: ['commonjs', 'esm'] },
+            '../src/sources.js': {
+              default: new Set([
+                './src/index.ts',
+                './src/foo.mts',
+                './src/foo.cts',
+                './src/fill.ts',
+                './src/fill-cjs.cts',
+              ]),
+            },
+          },
+        )
+      }
 
-  for (const c of ['publish', 'pack']) {
-    t.test(c, async t => {
-      t.intercept(process, 'env', {
-        value: {
-          ...process.env,
-          npm_command: c,
-        },
+      t.test('no envs', async t => {
+        const ld = await getLiveDev(t)
+        t.equal(ld.getImpTarget('foo.cts'), undefined)
+        t.equal(ld.getImpTarget({ require: './foo.cts' }), undefined)
+        t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
+        t.equal(ld.getImpTarget({ import: './foo.mts' }), './foo.mts')
+        t.equal(
+          ld.getImpTarget('./src/foo.mts'),
+          './dist/esm/foo.mts',
+        )
+        t.equal(
+          ld.getImpTarget('./src/index.ts'),
+          './dist/esm/index.ts',
+        )
+        t.equal(ld.getReqTarget(undefined, p), undefined)
+        t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
+        t.equal(ld.getReqTarget('foo.mts', p), undefined)
+        t.equal(
+          ld.getReqTarget({ require: './foo.cts' }, p),
+          './foo.cts',
+        )
+        t.equal(
+          ld.getReqTarget('./src/foo.cts'),
+          './dist/commonjs/foo.cts',
+        )
+        t.equal(
+          ld.getReqTarget({ import: './foo.mts' }, p),
+          undefined,
+        )
+        t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
+        t.equal(
+          ld.getReqTarget('./src/fill-cjs.cts', p),
+          './dist/commonjs/fill.ts',
+        )
+        t.matchSnapshot(pkg.exports)
+        delete pkg.exports
+        t.end()
       })
-      const ld = await getLiveDev(t)
-      // should be the same as not having liveDev: true
-      t.equal(ld.getImpTarget('foo.cts'), undefined)
-      t.equal(ld.getImpTarget({ require: './foo.cts' }), undefined)
-      t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
-      t.equal(ld.getImpTarget({ import: './foo.mts' }), './foo.mts')
-      t.equal(ld.getImpTarget('./src/foo.mts'), './dist/esm/foo.mjs')
-      t.equal(
-        ld.getImpTarget('./src/index.ts'),
-        './dist/esm/index.js',
-      )
-      t.equal(ld.getReqTarget(undefined, p), undefined)
-      t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
-      t.equal(ld.getReqTarget('foo.mts', p), undefined)
-      t.equal(
-        ld.getReqTarget({ require: './foo.cts' }, p),
-        './foo.cts',
-      )
-      t.equal(
-        ld.getReqTarget('./src/foo.cts'),
-        './dist/commonjs/foo.cjs',
-      )
-      t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
-      t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
-      t.equal(
-        ld.getReqTarget('./src/fill-cjs.cts', p),
-        './dist/commonjs/fill.js',
-      )
-      t.matchSnapshot(pkg.exports)
-      delete pkg.exports
+
+      for (const c of ['publish', 'pack']) {
+        t.test(c, async t => {
+          t.intercept(process, 'env', {
+            value: {
+              ...process.env,
+              npm_command: c,
+            },
+          })
+          const ld = await getLiveDev(t)
+          // should be the same as not having liveDev: true
+          t.equal(ld.getImpTarget('foo.cts'), undefined)
+          t.equal(
+            ld.getImpTarget({ require: './foo.cts' }),
+            undefined,
+          )
+          t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
+          t.equal(
+            ld.getImpTarget({ import: './foo.mts' }),
+            './foo.mts',
+          )
+          t.equal(
+            ld.getImpTarget('./src/foo.mts'),
+            './dist/esm/foo.mjs',
+          )
+          t.equal(
+            ld.getImpTarget('./src/index.ts'),
+            './dist/esm/index.js',
+          )
+          t.equal(ld.getReqTarget(undefined, p), undefined)
+          t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
+          t.equal(ld.getReqTarget('foo.mts', p), undefined)
+          t.equal(
+            ld.getReqTarget({ require: './foo.cts' }, p),
+            './foo.cts',
+          )
+          t.equal(
+            ld.getReqTarget('./src/foo.cts'),
+            './dist/commonjs/foo.cjs',
+          )
+          t.equal(
+            ld.getReqTarget({ import: './foo.mts' }, p),
+            undefined,
+          )
+          t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
+          t.equal(
+            ld.getReqTarget('./src/fill-cjs.cts', p),
+            './dist/commonjs/fill.js',
+          )
+          t.matchSnapshot(pkg.exports)
+          delete pkg.exports
+        })
+      }
+      t.end()
     })
   }
-  t.end()
 })

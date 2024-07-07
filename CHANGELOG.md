@@ -1,3 +1,10 @@
+# 2.0
+
+- No longer create a `source` export automatically
+- Limit custom `sourceDialects` exports to only those that match
+  the package type. For example, do not export source under a
+  `require` condition if the package.json is `"type": "module"`.
+
 # 1.18
 
 - Add `sourceDialects`

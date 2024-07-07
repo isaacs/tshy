@@ -71,6 +71,7 @@ export const getReqTarget = (
 
 const getExports = (
   c: TshyConfig,
+  pkgType: 'commonjs' | 'module',
 ): Record<string, ConditionalValue> => {
   // by this time it always exports, will get the default if missing
   /* c8 ignore start */
@@ -118,13 +119,15 @@ const getExports = (
           exp[d] =
             liveDev ?
               {
-                source,
-                ...getSourceDialects(source, c),
+                ...(pkgType === 'commonjs' ?
+                  getSourceDialects(source, c)
+                : {}),
                 default: target,
               }
             : {
-                source,
-                ...getSourceDialects(source, c),
+                ...(pkgType === 'commonjs' ?
+                  getSourceDialects(source, c)
+                : {}),
                 types: target.replace(/\.js$/, '.d.ts'),
                 default: target,
               }
@@ -146,29 +149,32 @@ const getExports = (
           exp[d] =
             liveDev ?
               {
-                source,
-                ...getSourceDialects(source, c),
+                ...(pkgType === 'module' ?
+                  getSourceDialects(source, c)
+                : {}),
                 default: target,
               }
             : {
-                source,
-                ...getSourceDialects(source, c),
+                ...(pkgType === 'module' ?
+                  getSourceDialects(source, c)
+                : {}),
                 types: target.replace(/\.js$/, '.d.ts'),
                 default: target,
               }
         }
       }
     }
+
     // put the default import/require after all the other special ones.
     if (impTarget) {
       exp.import =
         liveDev ?
           {
-            source: s,
+            ...(pkgType === 'module' ? getSourceDialects(s, c) : {}),
             default: impTarget,
           }
         : {
-            source: s,
+            ...(pkgType === 'module' ? getSourceDialects(s, c) : {}),
             types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
             default: impTarget,
           }
@@ -177,11 +183,11 @@ const getExports = (
       exp.require =
         liveDev ?
           {
-            source: s,
+            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
             default: reqTarget,
           }
         : {
-            source: s,
+            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
             types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
             default: reqTarget,
           }
@@ -200,6 +206,7 @@ export const setMain = (
   c: TshyConfig | undefined,
   pkg: Package & { exports: ExportsSubpaths },
 ) => {
+  pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
   const mod = resolveExport(pkg.exports['.'], ['require'])
   const main = c?.main ?? !!mod
   if (main) {
@@ -219,7 +226,6 @@ export const setMain = (
     delete pkg.main
     delete pkg.types
   }
-  pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
 
   // Set the package module to exports["."]
   const importMod = resolveExport(pkg.exports['.'], ['import'])
@@ -237,7 +243,7 @@ export const setMain = (
   }
 }
 
-pkg.exports = getExports(config)
+pkg.exports = getExports(config, pkg.type)
 
 setMain(config, pkg as Package & { exports: ExportsSubpaths })
 export default pkg.exports
