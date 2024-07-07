@@ -21,10 +21,18 @@ Array [
 ]
 `
 
+exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["blah"],"sourceDialects":["blah"]} > failure message 1`] = `
+Array [
+  Array [
+    "esmDialects and sourceDialects must be unique, found blah in both lists",
+  ],
+]
+`
+
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["cjs"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain cjs",
+    "tshy.esmDialects must not contain \\"cjs\\"",
   ],
 ]
 `
@@ -32,7 +40,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["commonjs"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain commonjs",
+    "tshy.esmDialects must not contain \\"commonjs\\"",
   ],
 ]
 `
@@ -40,7 +48,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["default"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain default",
+    "tshy.esmDialects must not contain \\"default\\"",
   ],
 ]
 `
@@ -48,7 +56,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["import"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain import",
+    "tshy.esmDialects must not contain \\"import\\"",
   ],
 ]
 `
@@ -56,7 +64,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["node"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain node",
+    "tshy.esmDialects must not contain \\"node\\"",
   ],
 ]
 `
@@ -64,7 +72,15 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["require"]} > failure message 1`] = `
 Array [
   Array [
-    "esm must not contain require",
+    "tshy.esmDialects must not contain \\"require\\"",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["source"]} > failure message 1`] = `
+Array [
+  Array [
+    "tshy.esmDialects must not contain \\"source\\"",
   ],
 ]
 `
@@ -73,6 +89,22 @@ exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":[123]} > failure me
 Array [
   Array [
     "esm must be an array of strings, got: 123",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"sourceDialects":["blah"],"commonjsDialects":["blah"]} > failure message 1`] = `
+Array [
+  Array [
+    "commonjsDialects and sourceDialects must be unique, found blah in both lists",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"sourceDialects":["source"]} > failure message 1`] = `
+Array [
+  Array [
+    "tshy.sourceDialects must not contain \\"source\\"",
   ],
 ]
 `

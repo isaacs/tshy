@@ -1,3 +1,7 @@
+# 1.18
+
+- Add `sourceDialects`
+
 # 1.17
 
 - Add `module` field if a top-level `esm` export exists for

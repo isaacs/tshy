@@ -342,6 +342,7 @@ t.test('extra dialects', async t => {
                 default: {
                   tshy: {
                     ...(extras && { esmDialects, commonjsDialects }),
+                    sourceDialects: ['my-source'],
                     dialects,
                     exports: {
                       '.': './src/index.ts',

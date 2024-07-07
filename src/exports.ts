@@ -91,6 +91,9 @@ const getExports = (
       continue
     }
 
+    /* c8 ignore next - already guarded */
+    if (s === null) continue
+
     const impTarget = getImpTarget(s, polyfills)
     const reqTarget = getReqTarget(s, polyfills)
 
@@ -116,10 +119,12 @@ const getExports = (
             liveDev ?
               {
                 source,
+                ...getSourceDialects(source, c),
                 default: target,
               }
             : {
                 source,
+                ...getSourceDialects(source, c),
                 types: target.replace(/\.js$/, '.d.ts'),
                 default: target,
               }
@@ -142,10 +147,12 @@ const getExports = (
             liveDev ?
               {
                 source,
+                ...getSourceDialects(source, c),
                 default: target,
               }
             : {
                 source,
+                ...getSourceDialects(source, c),
                 types: target.replace(/\.js$/, '.d.ts'),
                 default: target,
               }
@@ -181,6 +188,12 @@ const getExports = (
     }
   }
   return e
+}
+
+const getSourceDialects = (source: string, c: TshyConfig) => {
+  const { sourceDialects } = c
+  if (!sourceDialects) return {}
+  return Object.fromEntries(sourceDialects.map(s => [s, source]))
 }
 
 export const setMain = (

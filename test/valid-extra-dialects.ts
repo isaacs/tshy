@@ -19,12 +19,18 @@ const cases: [config: TshyConfig, ok: boolean][] = [
   [{ esmDialects: ['blah'] }, true],
   [{ esmDialects: ['blah'], commonjsDialects: ['blah'] }, false],
   [{ esmDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
+  [{ sourceDialects: ['blah'], commonjsDialects: ['blah'] }, false],
+  [{ sourceDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
+  [{ esmDialects: ['blah'], sourceDialects: ['blah'] }, false],
+  [{ esmDialects: ['blah'], sourceDialects: ['bloo'] }, true],
   [{ esmDialects: ['default'] }, false],
   [{ esmDialects: ['import'] }, false],
   [{ esmDialects: ['require'] }, false],
   [{ esmDialects: ['node'] }, false],
   [{ esmDialects: ['commonjs'] }, false],
   [{ esmDialects: ['cjs'] }, false],
+  [{ esmDialects: ['source'] }, false],
+  [{ sourceDialects: ['source'] }, false],
   //@ts-expect-error
   [{ esmDialects: [123] }, false],
   //@ts-expect-error

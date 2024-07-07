@@ -23,7 +23,9 @@ const {
   exclude = [],
 } = config
 
-const relativeExclude = exclude.map(e => `../${e.replace(/^\.\//, '')}`)
+const relativeExclude = exclude.map(
+  e => `../${e.replace(/^\.\//, '')}`,
+)
 
 const recommended: Record<string, any> = {
   compilerOptions: {

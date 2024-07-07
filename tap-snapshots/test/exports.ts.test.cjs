@@ -29,6 +29,7 @@ Object {
   ".": Object {
     "blah": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/blah/index.d.ts",
       "default": "./dist/blah/index.js",
     },
@@ -41,6 +42,7 @@ Object {
   "./foo": Object {
     "blah": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/blah/foo.d.ts",
       "default": "./dist/blah/foo.js",
     },
@@ -77,11 +79,13 @@ Object {
   ".": Object {
     "deno": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/deno/index.d.ts",
       "default": "./dist/deno/index.js",
     },
     "no-overrides": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/no-overrides/index.d.ts",
       "default": "./dist/no-overrides/index.js",
     },
@@ -94,11 +98,13 @@ Object {
   "./foo": Object {
     "deno": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/deno/foo.d.ts",
       "default": "./dist/deno/foo.js",
     },
     "no-overrides": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/no-overrides/foo.d.ts",
       "default": "./dist/no-overrides/foo.js",
     },
@@ -145,16 +151,19 @@ Object {
   ".": Object {
     "deno": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/deno/index.d.ts",
       "default": "./dist/deno/index.js",
     },
     "no-overrides": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/no-overrides/index.d.ts",
       "default": "./dist/no-overrides/index.js",
     },
     "blah": Object {
       "source": "./src/index.ts",
+      "my-source": "./src/index.ts",
       "types": "./dist/blah/index.d.ts",
       "default": "./dist/blah/index.js",
     },
@@ -172,16 +181,19 @@ Object {
   "./foo": Object {
     "deno": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/deno/foo.d.ts",
       "default": "./dist/deno/foo.js",
     },
     "no-overrides": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/no-overrides/foo.d.ts",
       "default": "./dist/no-overrides/foo.js",
     },
     "blah": Object {
       "source": "./src/foo.ts",
+      "my-source": "./src/foo.ts",
       "types": "./dist/blah/foo.d.ts",
       "default": "./dist/blah/foo.js",
     },

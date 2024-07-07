@@ -8,16 +8,14 @@ const arrayOverlap = (
 ): string | false => {
   if (!a || !b) return false
   for (const av of a) {
-    if (b.includes(av)) {
-      return av
-    }
+    if (b.includes(av)) return av
   }
   return false
 }
 
 const validExtraDialectSet = (
   e: string[],
-  which: 'commonjs' | 'esm',
+  which: 'commonjs' | 'esm' | 'source',
 ) => {
   for (const d of e) {
     if (typeof d !== 'string') {
@@ -31,17 +29,28 @@ const validExtraDialectSet = (
       d === 'require' ||
       d === 'import' ||
       d === 'node' ||
+      d === 'source' ||
       d === 'default'
     ) {
-      fail(`${which} must not contain ${d}`)
+      fail(
+        `tshy.${which}Dialects must not contain ${JSON.stringify(d)}`,
+      )
       return process.exit(1)
     }
   }
   return true
 }
 
-export default ({ commonjsDialects, esmDialects }: TshyConfig) => {
-  if (commonjsDialects === undefined && esmDialects === undefined) {
+export default ({
+  commonjsDialects,
+  esmDialects,
+  sourceDialects,
+}: TshyConfig) => {
+  if (
+    commonjsDialects === undefined &&
+    esmDialects === undefined &&
+    sourceDialects === undefined
+  ) {
     return true
   }
   if (
@@ -53,11 +62,31 @@ export default ({ commonjsDialects, esmDialects }: TshyConfig) => {
   if (esmDialects && !validExtraDialectSet(esmDialects, 'esm')) {
     return false
   }
-  const overlap = arrayOverlap(commonjsDialects, esmDialects)
-  if (overlap) {
+  if (
+    sourceDialects &&
+    !validExtraDialectSet(sourceDialects, 'source')
+  ) {
+    return false
+  }
+  for (const [aname, bname, a, b] of [
+    [
+      'commonjsDialects',
+      'esmDialects',
+      commonjsDialects,
+      esmDialects,
+    ],
+    [
+      'commonjsDialects',
+      'sourceDialects',
+      commonjsDialects,
+      sourceDialects,
+    ],
+    ['esmDialects', 'sourceDialects', esmDialects, sourceDialects],
+  ] as const) {
+    const overlap = arrayOverlap(a, b)
+    if (!overlap) continue
     fail(
-      'commonjsDialects and esmDialects must be unique, ' +
-        `found ${overlap} in both lists`,
+      `${aname} and ${bname} must be unique, found ${overlap} in both lists`,
     )
     return process.exit(1)
   }

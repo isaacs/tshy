@@ -874,10 +874,12 @@ for code hints in VSCode, neovim, tests, etc.
 
 ### Loading from Source
 
-If you are using tshy in a monorepo environment, you can
-configure TypeScript (and other tools) to resolve to the _source_
-files rather than built artifacts by telling them to use the
-`"source"` export condition.
+To facilitate jumping directly to source definitions in some
+tools, you can define custom `"sourceDialects"` which will be
+resolved to the original TypeScript source. These custom dialects
+can then be configured to allow build tools (such as tsc) and
+editors (such as VS Code and neovim/CoC) to jump directly to
+source definitions.
 
 For example, in editors such as VS Code and neovim/CoC that use
 the TypeScript language services, you can give them a `tsconfig`
@@ -886,7 +888,17 @@ that contains this:
 ```json
 {
   "compilerOptions": {
-    "customConditions": ["source"]
+    "customConditions": ["@my-project/source"]
+  }
+}
+```
+
+And then add this to your `package.json` file:
+
+```json
+{
+  "tshy": {
+    "sourceDialects": ["@my-project/source"]
   }
 }
 ```
@@ -896,7 +908,7 @@ like [`tsx`](https://npm.im/tsx) that can load TypeScript
 directly, you can specify it like this:
 
 ```bash
-node --import=tsx --conditions=source ./script.ts
+node --import=tsx --conditions=@my-project/source ./script.ts
 ```
 
 Other TypeScript-aware tools may have other mechanisms for
@@ -904,6 +916,16 @@ specifying export conditions. Refer to their documentation for
 more information.
 
 See also: "Live Dev", above.
+
+#### Why not just use `"source"` as the target?
+
+Tshy always builds the `"source"` target referencing the location
+of the TypeScript file that was built. However, this can cause
+problems if tools use this to resolve into dependencies, which
+may not ship their TypeScript source.
+
+But if you can configure your tools to _only_ use this import
+condition outside of `node_modules`, then it's safe to use.
 
 ### Custom `project`
 
