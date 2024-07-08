@@ -5,6 +5,7 @@ import readTypescriptConfig from '../src/read-typescript-config.js'
 
 t.test('no incremental build, just delete it', t => {
   readTypescriptConfig().options.incremental = false
+  readTypescriptConfig().options.composite = false
   t.chdir(
     t.testdir({
       '.tshy-build': {},
@@ -17,6 +18,7 @@ t.test('no incremental build, just delete it', t => {
 
 t.test('no tsbuildinfo, just delete it', t => {
   readTypescriptConfig().options.incremental = true
+  readTypescriptConfig().options.composite = true
   t.chdir(
     t.testdir({
       '.tshy-build': {},
@@ -28,7 +30,7 @@ t.test('no tsbuildinfo, just delete it', t => {
 })
 
 t.test('remove files not found in src', t => {
-  readTypescriptConfig().options.incremental = true
+  readTypescriptConfig().options.composite = true
   t.chdir(
     t.testdir({
       '.tshy-build': {

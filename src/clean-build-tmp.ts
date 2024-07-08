@@ -63,7 +63,10 @@ const cleanRemovedOutputs = (path: string, root: string) => {
 
 export default () => {
   const config = readTypescriptConfig()
-  if (config.options.incremental !== true) {
+  if (
+    config.options.incremental !== true &&
+    config.options.composite !== true
+  ) {
     return rimrafSync('.tshy-build')
   }
 
