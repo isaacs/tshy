@@ -4,6 +4,8 @@
 - Limit custom `sourceDialects` exports to only those that match
   the package type. For example, do not export source under a
   `require` condition if the package.json is `"type": "module"`.
+- Treat `composite` and `incremental` the same, since `composite`
+  implies `incremental`.
 
 # 1.18
 
