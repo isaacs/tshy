@@ -1,3 +1,7 @@
+# 3.0
+
+- Drop support for nodes before 20
+
 # 2.0
 
 - No longer create a `source` export automatically
