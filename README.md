@@ -233,6 +233,18 @@ namespace like `mything.SomeType`.
 But in almost all cases, it's much simpler to just use named
 exports exclusively.
 
+## Very Old Module Resolution Algorithms
+
+Before Node.js v12 and in some other old module resolution
+implementations the exports field is not respected, making it
+impossible to load CJS code with require and ESM code with
+import.
+
+The entire point of tshy is to build hybrid (ESM and CJS)
+packages. tshy does not and never will support targeting
+platforms like Node.js v10 that do not respect the package.json
+exports field.
+
 ## Configuration
 
 Mostly, this just uses opinionated convention, and so there is
