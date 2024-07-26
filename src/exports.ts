@@ -183,11 +183,15 @@ const getExports = (
       exp.require =
         liveDev ?
           {
-            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
+            ...(pkgType === 'commonjs' ?
+              getSourceDialects(s, c)
+            : {}),
             default: reqTarget,
           }
         : {
-            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
+            ...(pkgType === 'commonjs' ?
+              getSourceDialects(s, c)
+            : {}),
             types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
             default: reqTarget,
           }

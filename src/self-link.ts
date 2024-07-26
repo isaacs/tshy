@@ -1,8 +1,6 @@
 // link the package folder into ./target/node_modules/<pkgname>
-import { readlinkSync, symlinkSync } from 'fs'
-import { mkdirpSync } from 'mkdirp'
+import { mkdirSync, readlinkSync, rmSync, symlinkSync } from 'fs'
 import { dirname, relative, resolve, sep } from 'path'
-import { rimrafSync } from 'rimraf'
 import { walkUp } from 'walk-up-path'
 import { Package } from './types.js'
 
@@ -47,12 +45,12 @@ export const link = (pkg: Package, where: string) => {
   const dest = resolve(where, 'node_modules', pkg.name)
   const dir = dirname(dest)
   const src = relative(dir, process.cwd())
-  const made = mkdirpSync(dir)
+  const made = mkdirSync(dir, { recursive: true })
   if (made) dirsMade.set(dest, made)
   try {
     symlinkSync(src, dest)
   } catch {
-    rimrafSync(dest)
+    rmSync(dest, { recursive: true, force: true })
     let threw = true
     try {
       symlinkSync(src, dest)
@@ -73,7 +71,7 @@ export const unlink = (pkg: Package, where: string) => {
     return
   }
   const dest = resolve(where, 'node_modules', pkg.name)
-  rimrafSync(dest)
+  rmSync(dest, { recursive: true, force: true })
   const made = dirsMade.get(dest)
-  if (made) rimrafSync(made)
+  if (made) rmSync(made, { recursive: true, force: true })
 }

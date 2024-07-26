@@ -14,10 +14,8 @@
     "chokidar": "^3.6.0",
     "foreground-child": "^3.1.1",
     "minimatch": "^10.0.0",
-    "mkdirp": "^3.0.1",
     "polite-json": "^5.0.0",
     "resolve-import": "^2.0.0",
-    "rimraf": "^6.0.0",
     "sync-content": "^2.0.1",
     "typescript": "^5.5.3",
     "walk-up-path": "^4.0.0"

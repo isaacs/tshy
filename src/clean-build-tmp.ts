@@ -5,9 +5,8 @@
 // then find and remove any files here that do not have a matching
 // source file in ./src
 
-import { readdirSync } from 'fs'
+import { readdirSync, rmSync } from 'fs'
 import { parse } from 'path'
-import { rimrafSync } from 'rimraf'
 import * as console from './console.js'
 import readTypescriptConfig from './read-typescript-config.js'
 
@@ -21,7 +20,7 @@ const cleanRemovedOutputs = (path: string, root: string) => {
   } catch {}
   // directory was removed
   if (!sources) {
-    return rimrafSync(`${root}/${path}`)
+    return rmSync(`${root}/${path}`, { recursive: true, force: true })
   }
   for (const e of entries) {
     const outputFile = `${path}/${e.name}`
@@ -53,10 +52,8 @@ const cleanRemovedOutputs = (path: string, root: string) => {
     }
     if (del) {
       console.debug('removing output file', outputFile)
-      rimrafSync([
-        `${root}/${outputFile}`,
-        `${root}/${outputFile}.map`,
-      ])
+      rmSync(`${root}/${outputFile}`, { force: true })
+      rmSync(`${root}/${outputFile}.map`, { force: true })
     }
   }
 }
@@ -67,7 +64,7 @@ export default () => {
     config.options.incremental !== true &&
     config.options.composite !== true
   ) {
-    return rimrafSync('.tshy-build')
+    return rmSync('.tshy-build', { recursive: true, force: true })
   }
 
   let buildInfos: string[] | undefined = undefined
@@ -75,7 +72,7 @@ export default () => {
     buildInfos = readdirSync('.tshy-build/.tshy')
   } catch {}
   if (!buildInfos?.length) {
-    return rimrafSync('.tshy-build')
+    return rmSync('.tshy-build', { recursive: true, force: true })
   }
 
   // delete anything that has been removed from src.

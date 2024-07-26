@@ -1,7 +1,7 @@
 import chalk from 'chalk'
-import { mkdirpSync } from 'mkdirp'
 import {
   existsSync,
+  mkdirSync,
   readdirSync,
   unlinkSync,
   writeFileSync,
@@ -117,7 +117,7 @@ const esm = (dialect: string): Record<string, any> => {
   }
 }
 
-mkdirpSync('.tshy')
+mkdirSync('.tshy', { recursive: true })
 const writeConfig = (name: string, data: Record<string, any>) =>
   writeFileSync(
     `.tshy/${name}.json`,

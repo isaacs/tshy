@@ -9,9 +9,11 @@ t.test('load package successfully', async t => {
 })
 
 t.test('respect package.type', async t => {
-  t.chdir(t.testdir({
-    'package.json': JSON.stringify({ type: 'commonjs' }),
-  }))
+  t.chdir(
+    t.testdir({
+      'package.json': JSON.stringify({ type: 'commonjs' }),
+    }),
+  )
   const { default: pkg } = await t.mockImport(
     '../dist/esm/package.js',
   )

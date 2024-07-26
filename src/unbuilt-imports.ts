@@ -1,15 +1,13 @@
 // this is the thing that supports top-level package.json imports
 // via symlinks, not the tshy.imports which are just config.
 import { writeFileSync } from 'fs'
-import { symlink } from 'fs/promises'
-import { mkdirp } from 'mkdirp'
+import { mkdir, rm, symlink } from 'fs/promises'
 import { dirname, relative, resolve, sep } from 'path'
 import {
   getAllConditionalValues,
   getUniqueConditionSets,
   resolveAllLocalImports,
 } from 'resolve-import'
-import { rimraf } from 'rimraf'
 import { fileURLToPath } from 'url'
 import * as console from './console.js'
 import { Package } from './types.js'
@@ -101,12 +99,12 @@ export const link = async (
     const src = rel + '/' + dfrel + l
     if (save) saveSet.set(dest, src)
     lps.push(
-      mkdirp(dirname(dest))
+      mkdir(dirname(dest), { recursive: true })
         .then(d => {
           // if we aren't saving, then this is a transient link
           // save the dirs created so that we can clean them up
           if (!save && d) dirsMade.add(d)
-          return rimraf(dest)
+          return rm(dest, { recursive: true, force: true })
         })
         .then(() => symlink(src, dest)),
     )
@@ -126,8 +124,10 @@ export const unlink = async (pkg: Package, dir: string) => {
   const lps: Promise<any>[] = []
   for (const t of targets) {
     const dest = resolve(dir, t)
-    lps.push(rimraf(dest))
+    lps.push(rm(dest, { recursive: true, force: true }))
   }
-  for (const d of dirsMade) lps.push(rimraf(d))
+  for (const d of dirsMade) {
+    lps.push(rm(d, { recursive: true, force: true }))
+  }
   await Promise.all(lps)
 }

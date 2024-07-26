@@ -1,6 +1,5 @@
 import chalk from 'chalk'
-import { writeFileSync } from 'fs'
-import { rimrafSync } from 'rimraf'
+import { rmSync, writeFileSync } from 'fs'
 import * as console from './console.js'
 import getImports from './built-imports.js'
 import pkg from './package.js'
@@ -8,7 +7,7 @@ import { Dialect } from './types.js'
 
 const writeDialectPJ = (d: string, mode?: Dialect) => {
   if (!mode) {
-    return rimrafSync(`${d}/package.json`)
+    return rmSync(`${d}/package.json`, { force: true })
   }
   const v: { type: string; imports?: Record<string, any> } = {
     type: mode === 'commonjs' ? 'commonjs' : 'module',

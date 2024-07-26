@@ -13,7 +13,7 @@ const readPkg = (): Package & { type: 'commonjs' | 'module' } => {
     const res = parse(readFileSync('package.json', 'utf8'))
     if (isPackage(res)) {
       return Object.assign(res, {
-        type: res.type === 'commonjs' ? 'commonjs' : 'module'
+        type: res.type === 'commonjs' ? 'commonjs' : 'module',
       })
     }
     throw new Error(

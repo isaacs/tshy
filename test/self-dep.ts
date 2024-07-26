@@ -2,16 +2,6 @@ import { posix as path, resolve } from 'node:path'
 import t from 'tap'
 import { Package } from '../src/types.js'
 
-let mkdirpMade: undefined | string = undefined
-const mkdirp = {
-  mkdirpSync: () => mkdirpMade,
-}
-const mkdirpCalls = t.capture(
-  mkdirp,
-  'mkdirpSync',
-  mkdirp.mkdirpSync,
-).args
-
 import * as FS from 'node:fs'
 let symlinkThrow: Error | undefined = undefined
 let symlinkThrowAgain: Error | undefined = undefined
@@ -27,29 +17,24 @@ const fs = {
     }
   },
   readlinkSync: FS.readlinkSync,
+  mkdirSync: FS.mkdirSync,
+  rmSync: FS.rmSync,
 }
 const symlinkCalls = t.capture(fs, 'symlinkSync', fs.symlinkSync).args
-
-const rimraf = {
-  rimrafSync: () => {},
-}
-const rimrafCalls = t.capture(
-  rimraf,
-  'rimrafSync',
-  rimraf.rimrafSync,
-).args
+const mkdirSyncCalls = t.capture(fs, 'mkdirSync', fs.mkdirSync).args
+const rmSyncCalls = t.capture(fs, 'rmSync', fs.rmSync).args
 
 const { link, unlink } = (await t.mockImport(
   '../dist/esm/self-link.js',
-  { mkdirp, fs, rimraf, path },
+  { fs, path },
 )) as typeof import('../dist/esm/self-link.js')
 
 t.test('no pkg name, nothing to do', t => {
   link({} as Package, 'some/path')
   unlink({} as Package, 'some/path')
   t.strictSame(symlinkCalls(), [], 'no symlinks')
-  t.strictSame(rimrafCalls(), [], 'no rimrafs')
-  t.strictSame(mkdirpCalls(), [], 'no mkdirps')
+  t.strictSame(rmSyncCalls(), [], 'no rmSyncs')
+  t.strictSame(mkdirSyncCalls(), [], 'no mkdirSyncs')
   t.end()
 })
 
@@ -63,8 +48,8 @@ t.test('no selfLink, nothing to do', t => {
     'some/path',
   )
   t.strictSame(symlinkCalls(), [], 'no symlinks')
-  t.strictSame(rimrafCalls(), [], 'no rimrafs')
-  t.strictSame(mkdirpCalls(), [], 'no mkdirps')
+  t.strictSame(rmSyncCalls(), [], 'no rmSyncs')
+  t.strictSame(mkdirSyncCalls(), [], 'no mkdirSyncs')
   t.end()
 })
 
@@ -72,8 +57,8 @@ t.test('try one more time if it fails', t => {
   symlinkThrow = new Error('eexist')
   link({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
-  t.matchSnapshot(rimrafCalls(), 'rimrafs')
-  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.matchSnapshot(rmSyncCalls(), 'rmSyncs')
+  t.matchSnapshot(mkdirSyncCalls(), 'mkdirSyncs')
   t.end()
 })
 
@@ -82,8 +67,8 @@ t.test('throw both times, but accept if best-effort', t => {
   symlinkThrowAgain = new Error('EPERM')
   link({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
-  t.matchSnapshot(rimrafCalls(), 'rimrafs')
-  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.matchSnapshot(rmSyncCalls(), 'rmSyncs')
+  t.matchSnapshot(mkdirSyncCalls(), 'mkdirSyncs')
   t.end()
 })
 
@@ -97,8 +82,8 @@ t.test('throw both times, but self-link is required', t => {
     ),
   )
   t.matchSnapshot(symlinkCalls(), 'symlinks')
-  t.matchSnapshot(rimrafCalls(), 'rimrafs')
-  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.matchSnapshot(rmSyncCalls(), 'rmSyncs')
+  t.matchSnapshot(mkdirSyncCalls(), 'mkdirSyncs')
   t.end()
 })
 
@@ -106,18 +91,17 @@ t.test('link, but no dirs made', t => {
   link({ name: 'name', version: '1.2.3' }, 'some/path')
   unlink({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
-  t.matchSnapshot(rimrafCalls(), 'rimrafs')
-  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.matchSnapshot(rmSyncCalls(), 'rmSyncs')
+  t.matchSnapshot(mkdirSyncCalls(), 'mkdirSyncs')
   t.end()
 })
 
 t.test('made dir, clean up', t => {
-  mkdirpMade = 'some'
   link({ name: 'name', version: '1.2.3' }, 'some/path')
   unlink({ name: 'name', version: '1.2.3' }, 'some/path')
   t.matchSnapshot(symlinkCalls(), 'symlinks')
-  t.matchSnapshot(rimrafCalls(), 'rimrafs')
-  t.matchSnapshot(mkdirpCalls(), 'mkdirps')
+  t.matchSnapshot(rmSyncCalls(), 'rmSyncs')
+  t.matchSnapshot(mkdirSyncCalls(), 'mkdirSyncs')
   t.end()
 })
 
@@ -160,7 +144,7 @@ t.test('already in node_modules, do not create link', t => {
       // to save extra readlink and walkUp calls.
       const { link, unlink } = (await t.mockImport(
         '../dist/esm/self-link.js',
-        { mkdirp, fs, rimraf },
+        { fs },
       )) as typeof import('../dist/esm/self-link.js')
       t.chdir(resolve(dir, d))
       link({ name, version: '1.2.3' }, 'src')
@@ -176,8 +160,8 @@ t.test('already in node_modules, do not create link', t => {
         t.strictSame(rl, [], 'did not need to check for links')
       }
       t.strictSame(symlinkCalls(), [])
-      t.strictSame(mkdirpCalls(), [])
-      t.strictSame(rimrafCalls(), [])
+      t.strictSame(mkdirSyncCalls(), [])
+      t.strictSame(rmSyncCalls(), [])
       t.end()
     })
   }

@@ -41,7 +41,6 @@ const mocks = {
   '../dist/esm/build-live-esm.js': {
     buildLiveESM: () => (builtLiveESM = true),
   },
-  rimraf: { rimrafSync: () => {} },
   '../dist/esm/tsconfig.js': {},
   '../dist/esm/write-package.js': { default: () => {} },
   'sync-content': { syncContentSync: () => {} },

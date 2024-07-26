@@ -5,18 +5,32 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/self-dep.ts > TAP > link, but no dirs made > mkdirps 1`] = `
+exports[`test/self-dep.ts > TAP > link, but no dirs made > mkdirSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules",
+    Object {
+      "recursive": true,
+    },
   ],
 ]
 `
 
-exports[`test/self-dep.ts > TAP > link, but no dirs made > rimrafs 1`] = `
+exports[`test/self-dep.ts > TAP > link, but no dirs made > rmSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules/name",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
+  ],
+  Array [
+    "{CWD}/some",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
 ]
 `
@@ -30,21 +44,32 @@ Array [
 ]
 `
 
-exports[`test/self-dep.ts > TAP > made dir, clean up > mkdirps 1`] = `
+exports[`test/self-dep.ts > TAP > made dir, clean up > mkdirSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules",
+    Object {
+      "recursive": true,
+    },
   ],
 ]
 `
 
-exports[`test/self-dep.ts > TAP > made dir, clean up > rimrafs 1`] = `
+exports[`test/self-dep.ts > TAP > made dir, clean up > rmSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules/name",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
   Array [
-    "some",
+    "{CWD}/some",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
 ]
 `
@@ -58,18 +83,25 @@ Array [
 ]
 `
 
-exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > mkdirps 1`] = `
+exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > mkdirSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules",
+    Object {
+      "recursive": true,
+    },
   ],
 ]
 `
 
-exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > rimrafs 1`] = `
+exports[`test/self-dep.ts > TAP > throw both times, but accept if best-effort > rmSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules/name",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
 ]
 `
@@ -87,18 +119,25 @@ Array [
 ]
 `
 
-exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > mkdirps 1`] = `
+exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > mkdirSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules",
+    Object {
+      "recursive": true,
+    },
   ],
 ]
 `
 
-exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > rimrafs 1`] = `
+exports[`test/self-dep.ts > TAP > throw both times, but self-link is required > rmSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules/name",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
 ]
 `
@@ -116,18 +155,25 @@ Array [
 ]
 `
 
-exports[`test/self-dep.ts > TAP > try one more time if it fails > mkdirps 1`] = `
+exports[`test/self-dep.ts > TAP > try one more time if it fails > mkdirSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules",
+    Object {
+      "recursive": true,
+    },
   ],
 ]
 `
 
-exports[`test/self-dep.ts > TAP > try one more time if it fails > rimrafs 1`] = `
+exports[`test/self-dep.ts > TAP > try one more time if it fails > rmSyncs 1`] = `
 Array [
   Array [
     "{CWD}/some/path/node_modules/name",
+    Object {
+      "force": true,
+      "recursive": true,
+    },
   ],
 ]
 `

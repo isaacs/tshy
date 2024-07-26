@@ -1,7 +1,6 @@
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
-import { rimrafSync } from 'rimraf'
 import t from 'tap'
 
 t.test('imports linking', async t => {
@@ -27,7 +26,7 @@ t.test('imports linking', async t => {
       const pj = JSON.parse(readFileSync(f, 'utf8'))
       t.teardown(() => {
         writeFileSync(f, JSON.stringify(pj, null, 2) + '\n')
-        rimrafSync(dist)
+        rmSync(dist, { recursive: true, force: true })
       })
 
       t.chdir(
