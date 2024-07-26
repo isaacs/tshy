@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import { rmSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { relative, resolve } from 'node:path/posix'
 import buildFail from './build-fail.js'
@@ -37,8 +38,8 @@ export const buildCommonJS = () => {
       ).replace(/\.tsx?$/, '')
       const stemToPath = `${stemTo}.js.map`
       const stemToDtsPath = `${stemTo}.d.ts.map`
-      ifExist.unlink(stemToPath)
-      ifExist.unlink(stemToDtsPath)
+      rmSync(stemToPath, { force: true })
+      rmSync(stemToDtsPath, { force: true })
       ifExist.rename(`${stemFrom}.cjs`, `${stemTo}.js`)
       ifExist.rename(`${stemFrom}.d.cts`, `${stemTo}.d.ts`)
     }

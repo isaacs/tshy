@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { linkSync, mkdirSync } from 'node:fs'
+import { linkSync, mkdirSync, rmSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { relative, resolve } from 'node:path/posix'
 import config from './config.js'
@@ -33,8 +33,8 @@ export const buildLiveCommonJS = () => {
         `.tshy-build/${d}`,
         relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
-      ifExist.unlink(`${stemTo}.js.map`)
-      ifExist.unlink(`${stemTo}.d.ts.map`)
+      rmSync(`${stemTo}.js.map`, { force: true })
+      rmSync(`${stemTo}.d.ts.map`, { force: true })
       ifExist.rename(`${stemFrom}.cjs`, `${stemTo}.js`)
       ifExist.rename(`${stemFrom}.d.cts`, `${stemTo}.d.ts`)
     }

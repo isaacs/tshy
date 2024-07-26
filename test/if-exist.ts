@@ -1,4 +1,4 @@
-import { readdirSync } from 'fs'
+import { readdirSync, rmSync } from 'fs'
 import t from 'tap'
 import ifExist from '../src/if-exist.js'
 
@@ -7,12 +7,12 @@ const dir = t.testdir({
   b: 'b',
 })
 
-ifExist.unlink(dir + '/x')
+rmSync(dir + '/x', { recursive: true, force: true })
 ifExist.rename(dir + '/x', dir + '/z')
 
 t.strictSame(new Set(readdirSync(dir)), new Set(['a', 'b']))
 
-ifExist.unlink(dir + '/a')
+rmSync(dir + '/a', { recursive: true, force: true })
 ifExist.rename(dir + '/b', dir + '/c')
 
 t.strictSame(readdirSync(dir), ['c'])
