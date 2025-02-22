@@ -296,7 +296,7 @@ just be passed through as-is.
   "tshy": {
     "exports": {
       ".": "./src/my-built-module.ts",
-      "./package.json": "./package.json"
+      "./package.json": "./package.json",
       "./thing": {
         "import": "./lib/thing.mjs",
         "require": "./lib/thing.cjs",
