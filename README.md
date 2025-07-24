@@ -190,7 +190,7 @@ You can tell TypeScript to do a true default export for CommonJS
 by using `export = <whatever>`. However:
 
 - This is not compatible with an ESM build.
-- You cannot export types along with it.
+- It's much harder to export types along with it. (You have to declare a namespace of the same name as whatever you're exporting; see [here](https://www.typescriptlang.org/play/?module=1#code/HYQwtgpgzgDiDGEAEBRAHuGAbZBvAUEkhGjAPYBOALkgJbBUQUBmCy6mOA8jFbWcChJcAX3xj88AVBocw2CAC4kACjK9+g5XIUA6Hdw3SAlEgC8APiQA3MrQAm51acvCRAbnz4S5ak4MQ7kA) for an example.)
 
 In general, when publishing TypeScript packages as both CommonJS
 and ESM, it is a good idea to avoid default exports for any
