@@ -12,6 +12,8 @@ import {
   srcPJ,
   targets,
 } from '../dist/esm/watch.js'
+import { writeFileSync } from 'fs'
+import { basename, resolve } from 'path'
 
 t.cleanSnapshot = s => s.replace(/\\/g, '/')
 
@@ -33,6 +35,7 @@ const errs = t.capture(console, 'error').args
 const mockChalk = {
   green: chalk.green,
   cyan: { dim: chalk.cyan.dim },
+  red: chalk.red,
 }
 
 type SpawnResult = {
@@ -61,14 +64,28 @@ const mockSpawn = (
 const mockWatcher = new EventEmitter()
 const mockChokidar = {
   watch: (watchTargets: string[], watchOptions: WatchOptions) => {
-    t.strictSame(watchTargets, targets)
+    t.strictSame(
+      new Set(watchTargets.map(w => basename(w))),
+      new Set(['src', 'package.json']),
+    )
     t.match(watchOptions, options)
     return mockWatcher
   },
 }
 
 t.test('build whenever changes happen', async t => {
-  const { default: watch } = (await t.mockImport(
+  t.chdir(
+    t.testdir({
+      'package.json': JSON.stringify({}),
+      src: { 'index.ts': 'export {}' },
+    }),
+  )
+  const {
+    default: watch,
+    rootPJ,
+    src,
+    srcPJ,
+  } = await t.mockImport<typeof import('../dist/esm/watch.js')>(
     '../dist/esm/watch.js',
     {
       chalk: mockChalk,
@@ -77,37 +94,54 @@ t.test('build whenever changes happen', async t => {
       },
       chokidar: mockChokidar,
     },
-  )) as typeof import('../dist/esm/watch.js')
+  )
   watch()
+  if (!t.equal(rootPJ, resolve(t.testdirName, 'package.json'))) {
+    throw new Error(
+      'do not proceed, will break actual package.json file',
+    )
+  }
   // immediately trigger changes to the pj and other stuff
-  mockWatcher.emit('all', 'change', srcPJ)
+  // this does not trigger a change, because it hasn't changed
   mockWatcher.emit('all', 'change', rootPJ)
-  mockWatcher.emit('all', 'change', 'src/x.ts')
-  // that last one should trigger a rebuild
+  // this is ignored
+  mockWatcher.emit('all', 'addDir', src)
+  // this is ignored
+  mockWatcher.emit('all', 'change', srcPJ)
+  // this one should trigger a rebuild
+  mockWatcher.emit('all', 'change', 'src/index.ts')
   await new Promise<void>(r => setTimeout(r, 100))
   t.matchSnapshot(logs())
   t.matchSnapshot(errs())
+  // now edit the rootPJ and trigger again
+  writeFileSync(
+    rootPJ,
+    JSON.stringify({
+      name: 'this is new',
+      tshy: {},
+    }),
+  )
+  mockWatcher.emit('all', 'change', rootPJ)
 })
 
 t.test('build failure', async t => {
   spawnResult = spawnExitCode
-  const { default: watch } = (await t.mockImport(
-    '../dist/esm/watch.js',
-    {
-      chalk: mockChalk,
-      child_process: {
-        spawn: mockSpawn,
-      },
-      chokidar: mockChokidar,
+  const { default: watch } = await t.mockImport<
+    typeof import('../dist/esm/watch.js')
+  >('../dist/esm/watch.js', {
+    chalk: mockChalk,
+    child_process: {
+      spawn: mockSpawn,
     },
-  )) as typeof import('../dist/esm/watch.js')
+    chokidar: mockChokidar,
+  })
   watch()
   await new Promise<void>(r => setTimeout(r, 100))
-  t.matchSnapshot(logs())
-  t.matchSnapshot(errs())
-  spawnResult = spawnOK
+  t.matchSnapshot(logs(), 'logs before change')
+  t.matchSnapshot(errs(), 'errs before change')
   mockWatcher.emit('all', 'change', 'src/x.ts')
   await new Promise<void>(r => setTimeout(r, 100))
-  t.matchSnapshot(logs())
-  t.matchSnapshot(errs())
+  t.matchSnapshot(logs(), 'logs after change')
+  t.matchSnapshot(errs(), 'errs after change')
+  spawnResult = spawnOK
 })

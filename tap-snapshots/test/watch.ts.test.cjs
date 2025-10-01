@@ -5,15 +5,54 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/watch.ts > TAP > build failure > must match snapshot 1`] = `
+exports[`test/watch.ts > TAP > build failure > errs after change 1`] = `
+Array [
+  Array [
+    "/u001b[36m/u001b[2mchange/u001b[22m/u001b[39m",
+    "{CWD}/.tap/fixtures/test-watch.ts-build-whenever-changes-happen/package.json",
+  ],
+  Array [
+    "/u001b[36m/u001b[2mchange/u001b[22m/u001b[39m",
+    "src/x.ts",
+  ],
+  Array [
+    "/u001b[31mbuild failure/u001b[39m",
+    Object {
+      "code": 1,
+      "signal": null,
+    },
+  ],
+  Array [
+    "/u001b[36m/u001b[2mchange/u001b[22m/u001b[39m",
+    "src/x.ts",
+  ],
+  Array [
+    "/u001b[31mbuild failure/u001b[39m",
+    Object {
+      "code": 1,
+      "signal": null,
+    },
+  ],
+]
+`
+
+exports[`test/watch.ts > TAP > build failure > errs before change 1`] = `
+Array [
+  Array [
+    "/u001b[31mbuild failure/u001b[39m",
+    Object {
+      "code": 1,
+      "signal": null,
+    },
+  ],
+]
+`
+
+exports[`test/watch.ts > TAP > build failure > logs after change 1`] = `
 Array []
 `
 
-exports[`test/watch.ts > TAP > build failure > must match snapshot 2`] = `
-Array []
-`
-
-exports[`test/watch.ts > TAP > build failure > must match snapshot 3`] = `
+exports[`test/watch.ts > TAP > build failure > logs before change 1`] = `
 Array [
   Array [
     "/u001b[32mbuild success/u001b[39m",
@@ -22,18 +61,7 @@ Array [
       "signal": null,
     },
   ],
-  Array [
-    "/u001b[32mbuild success/u001b[39m",
-    Object {
-      "code": 0,
-      "signal": null,
-    },
-  ],
 ]
-`
-
-exports[`test/watch.ts > TAP > build failure > must match snapshot 4`] = `
-Array []
 `
 
 exports[`test/watch.ts > TAP > build whenever changes happen > must match snapshot 1`] = `

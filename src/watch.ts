@@ -52,13 +52,21 @@ export default () => {
     needRebuild = false
     const child = spawn(process.execPath, [bin], { stdio: 'inherit' })
     child.on('close', (code, signal) => {
-      if (code || signal) tshyConsole.error({ code, signal })
+      if (code || signal) {
+        tshyConsole.error(chalk.red('build failure'), { code, signal })
+        tshyConsole.print()
+      }
       else console.log(chalk.green('build success'), { code, signal })
       if (needRebuild) build()
       else building = false
     })
   }
   watcher.on('all', (ev, path) => {
+    // prevent infinite looping on the src dir in liveDev mode
+    if (ev === 'addDir' && path === src) {
+      return
+    }
+
     const r = resolve(path)
     if (r === srcPJ) return
     if (r === rootPJ) {
@@ -75,5 +83,6 @@ export default () => {
     tshyConsole.debug(chalk.cyan.dim(ev), path)
     build()
   })
+  lastPJData = pjData()
   build()
 }
