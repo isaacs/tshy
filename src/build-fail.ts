@@ -7,7 +7,13 @@ import { unlink as unlinkImports } from './unbuilt-imports.js'
 import { unlink as unlinkSelfDep } from './self-link.js'
 import pkg from './package.js'
 
-export default (res: SpawnSyncReturns<Buffer>) => {
+export interface BuildResult {
+  esmDialect: string
+  code: number
+  signal?: NodeJS.Signals | null
+}
+
+export default (res: SpawnSyncReturns<Buffer> | BuildResult) => {
   setFolderDialect('src')
   unlinkImports(pkg, 'src')
   unlinkSelfDep(pkg, 'src')
