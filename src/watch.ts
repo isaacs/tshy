@@ -2,7 +2,7 @@
 // are changed/added/removed, run the build
 import chalk from 'chalk'
 import { spawn } from 'child_process'
-import { watch, WatchOptions } from 'chokidar'
+import { watch, ChokidarOptions } from 'chokidar'
 import { readFileSync } from 'fs'
 import { resolve, sep } from 'path'
 import { fileURLToPath } from 'url'
@@ -21,7 +21,7 @@ const pjData = (): string => {
 }
 let lastPJData: string = 'null'
 
-export const options: WatchOptions = {
+export const options: ChokidarOptions = {
   persistent: true,
   ignoreInitial: true,
   ignorePermissionErrors: true,
