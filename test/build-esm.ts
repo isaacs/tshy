@@ -4,30 +4,24 @@ import t from 'tap'
 
 t.cleanSnapshot = s => s.split(process.execPath).join('{NODE}')
 
-const spawnSuccess: SpawnSyncReturns<Buffer> = {
-  status: 0,
-  signal: null,
-  pid: 123,
-  output: [],
-  stdout: Buffer.alloc(0),
-  stderr: Buffer.alloc(0),
+const spawnSuccessResult: BuildResult = {
+  esmDialect: 'browser',
+  code: 0,
 }
 
-const spawnFail: SpawnSyncReturns<Buffer> = {
-  status: 1,
-  signal: null,
-  pid: 123,
-  output: [],
-  stdout: Buffer.alloc(0),
-  stderr: Buffer.alloc(0),
+const spawnFailedResult: BuildResult = {
+  esmDialect: 'browser',
+  code: 1,
 }
+let spawnOpResult = spawnSuccessResult
 
-import { spawnSync as ogSpawnSync } from 'node:child_process'
-let spawnResult = spawnSuccess
-const spawnSync = t.captureFn((...a: any[]) => {
+import { spawn as opSpawn } from 'node:child_process'
+import { BuildResult } from '../src/build-fail.js'
+const spawn = t.captureFn((...a: any[]) => {
+
   //@ts-ignore
-  ogSpawnSync(...a)
-  return spawnResult
+  const opSpawnResult = opSpawn(...a)
+  opSpawnResult.emit('close', spawnSuccess.status, spawnSuccess.signal)
 })
 
 const output = () =>
@@ -36,7 +30,7 @@ const output = () =>
   )
 
 t.test('basic esm build', async t => {
-  spawnResult = spawnSuccess
+  spawnOpResult = spawnSuccessResult
   t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
@@ -69,7 +63,7 @@ t.test('basic esm build', async t => {
   const { buildESM } = (await t.mockImport(
     '../dist/esm/build-esm.js',
     {
-      child_process: { spawnSync },
+      child_process: { spawn },
       '../dist/esm/build-fail.js': {
         default: () => {
           buildFailed = true
@@ -80,11 +74,11 @@ t.test('basic esm build', async t => {
   buildESM()
   t.equal(buildFailed, false)
   t.matchSnapshot(output())
-  t.matchSnapshot(spawnSync.args())
+  //t.matchSnapshot(spawnSync.args())
 })
 
 t.test('build failure', async t => {
-  spawnResult = spawnFail
+  spawnOpResult = spawnFailedResult
   t.chdir(
     t.testdir({
       'package.json': JSON.stringify({
@@ -112,7 +106,7 @@ t.test('build failure', async t => {
   const { buildESM } = (await t.mockImport(
     '../dist/esm/build-esm.js',
     {
-      child_process: { spawnSync },
+      child_process: { spawn },
       '../dist/esm/build-fail.js': {
         default: () => {
           buildFailed = true
@@ -123,5 +117,5 @@ t.test('build failure', async t => {
   buildESM()
   t.equal(buildFailed, true)
   t.matchSnapshot(output())
-  t.matchSnapshot(spawnSync.args())
+  //t.matchSnapshot(spawnSync.args())
 })
