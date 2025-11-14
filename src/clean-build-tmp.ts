@@ -7,11 +7,11 @@
 
 import { readdirSync } from 'fs'
 import { parse } from 'path'
-import { rimrafSync } from 'rimraf'
+import { rimraf } from 'rimraf'
 import * as console from './console.js'
 import readTypescriptConfig from './read-typescript-config.js'
 
-const cleanRemovedOutputs = (path: string, root: string) => {
+const cleanRemovedOutputs = async (path: string, root: string) => {
   const entries = readdirSync(`${root}/${path}`, {
     withFileTypes: true,
   })
@@ -21,12 +21,12 @@ const cleanRemovedOutputs = (path: string, root: string) => {
   } catch {}
   // directory was removed
   if (!sources) {
-    return rimrafSync(`${root}/${path}`)
+    return await rimraf(`${root}/${path}`)
   }
   for (const e of entries) {
     const outputFile = `${path}/${e.name}`
     if (e.isDirectory()) {
-      cleanRemovedOutputs(outputFile, root)
+      await cleanRemovedOutputs(outputFile, root)
       continue
     }
     let { ext, name } = parse(outputFile)
@@ -53,7 +53,7 @@ const cleanRemovedOutputs = (path: string, root: string) => {
     }
     if (del) {
       console.debug('removing output file', outputFile)
-      rimrafSync([
+      await rimraf([
         `${root}/${outputFile}`,
         `${root}/${outputFile}.map`,
       ])
@@ -61,13 +61,13 @@ const cleanRemovedOutputs = (path: string, root: string) => {
   }
 }
 
-export default () => {
+export default async () => {
   const config = readTypescriptConfig()
   if (
     config.options.incremental !== true &&
     config.options.composite !== true
   ) {
-    return rimrafSync('.tshy-build')
+    return await rimraf('.tshy-build')
   }
 
   let buildInfos: string[] | undefined = undefined
@@ -75,12 +75,12 @@ export default () => {
     buildInfos = readdirSync('.tshy-build/.tshy')
   } catch {}
   if (!buildInfos?.length) {
-    return rimrafSync('.tshy-build')
+    return await rimraf('.tshy-build')
   }
 
   // delete anything that has been removed from src.
   for (const dialect of readdirSync('.tshy-build')) {
     if (dialect === '.tshy') continue
-    cleanRemovedOutputs('.', `.tshy-build/${dialect}`)
+    await cleanRemovedOutputs('.', `.tshy-build/${dialect}`)
   }
 }

@@ -3,7 +3,7 @@ import t from 'tap'
 import cleanBuildTmp from '../src/clean-build-tmp.js'
 import readTypescriptConfig from '../src/read-typescript-config.js'
 
-t.test('no incremental build, just delete it', t => {
+t.test('no incremental build, just delete it', async t => {
   readTypescriptConfig().options.incremental = false
   readTypescriptConfig().options.composite = false
   t.chdir(
@@ -11,12 +11,12 @@ t.test('no incremental build, just delete it', t => {
       '.tshy-build': {},
     }),
   )
-  cleanBuildTmp()
+  await cleanBuildTmp()
   t.throws(() => statSync('.tshy-build'))
   t.end()
 })
 
-t.test('no tsbuildinfo, just delete it', t => {
+t.test('no tsbuildinfo, just delete it', async t => {
   readTypescriptConfig().options.incremental = true
   readTypescriptConfig().options.composite = true
   t.chdir(
@@ -24,12 +24,12 @@ t.test('no tsbuildinfo, just delete it', t => {
       '.tshy-build': {},
     }),
   )
-  cleanBuildTmp()
+  await cleanBuildTmp()
   t.throws(() => statSync('.tshy-build'))
   t.end()
 })
 
-t.test('remove files not found in src', t => {
+t.test('remove files not found in src', async t => {
   readTypescriptConfig().options.composite = true
   t.chdir(
     t.testdir({
@@ -72,7 +72,7 @@ t.test('remove files not found in src', t => {
       },
     }),
   )
-  cleanBuildTmp()
+  await cleanBuildTmp()
   t.throws(() => statSync('.tshy-build/dist/esm/x.js.map'))
   t.throws(() => statSync('.tshy-build/dist/esm/x.d.ts'))
   t.end()

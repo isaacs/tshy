@@ -53,10 +53,14 @@ export default () => {
     const child = spawn(process.execPath, [bin], { stdio: 'inherit' })
     child.on('close', (code, signal) => {
       if (code || signal) {
-        tshyConsole.error(chalk.red('build failure'), { code, signal })
+        tshyConsole.error(chalk.red('build failure'), {
+          code,
+          signal,
+        })
         tshyConsole.print()
+      } else {
+        console.log(chalk.green('build success'), { code, signal })
       }
-      else console.log(chalk.green('build success'), { code, signal })
       if (needRebuild) build()
       else building = false
     })

@@ -23,7 +23,7 @@ import { buildLiveESM } from './build-live-esm.js'
 import { buildLiveCommonJS } from './build-live-commonjs.js'
 
 export default async () => {
-  cleanBuildTmp()
+  await cleanBuildTmp()
 
   linkSelfDep(pkg, 'src')
   await linkImports(pkg, 'src')
@@ -42,7 +42,7 @@ export default async () => {
   syncContentSync('.tshy-build', 'dist')
   console.debug(chalk.cyan.dim('cleaning build temp dir'))
 
-  cleanBuildTmp()
+  await cleanBuildTmp()
 
   linkSelfDep(pkg, 'dist')
 
