@@ -1,3 +1,10 @@
+# 3.1
+
+- Improve resilience against file locking when removing
+  `.tshy-build` temp dir on Windows
+- Use the `tsc` binary from the project-local `typescript`
+  dependency, if present. (But still do not require it.)
+
 # 3.0
 
 - Drop support for nodes before 20
