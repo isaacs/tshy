@@ -65,18 +65,12 @@ t.test('with tsconfig.json file', async t => {
     '.tshy/deno.json',
     '.tshy/webpack.json',
   ]) {
-    t.matchSnapshot(
-      JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
-      f,
-    )
+    t.matchSnapshot(JSON.parse(readFileSync(resolve(dir, f), 'utf8')), f)
   }
 })
 
 t.test('with custom project tsconfig name', async t => {
-  renameSync(
-    resolve(dir, 'tsconfig.json'),
-    resolve(dir, 'custom.json'),
-  )
+  renameSync(resolve(dir, 'tsconfig.json'), resolve(dir, 'custom.json'))
 
   writeFileSync(
     resolve(dir, 'package.json'),
@@ -103,9 +97,6 @@ t.test('with custom project tsconfig name', async t => {
     '.tshy/deno.json',
     '.tshy/webpack.json',
   ]) {
-    t.matchSnapshot(
-      JSON.parse(readFileSync(resolve(dir, f), 'utf8')),
-      f,
-    )
+    t.matchSnapshot(JSON.parse(readFileSync(resolve(dir, f), 'utf8')), f)
   }
 })

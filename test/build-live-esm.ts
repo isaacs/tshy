@@ -2,9 +2,7 @@ import { readdirSync } from 'fs'
 import t from 'tap'
 
 const output = () =>
-  readdirSync('.tshy-build/esm').sort((a, b) =>
-    a.localeCompare(b, 'en'),
-  )
+  readdirSync('.tshy-build/esm').sort((a, b) => a.localeCompare(b, 'en'))
 
 t.test('esm live dev build', async t => {
   t.chdir(

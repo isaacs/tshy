@@ -53,10 +53,7 @@ const cleanRemovedOutputs = async (path: string, root: string) => {
     }
     if (del) {
       console.debug('removing output file', outputFile)
-      await rimraf([
-        `${root}/${outputFile}`,
-        `${root}/${outputFile}.map`,
-      ])
+      await rimraf([`${root}/${outputFile}`, `${root}/${outputFile}.map`])
     }
   }
 }

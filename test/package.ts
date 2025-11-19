@@ -1,9 +1,7 @@
 import t from 'tap'
 
 t.test('load package successfully', async t => {
-  const { default: pkg } = await t.mockImport(
-    '../dist/esm/package.js',
-  )
+  const { default: pkg } = await t.mockImport('../dist/esm/package.js')
   t.equal(pkg.name, 'tshy')
   t.equal(pkg.type, 'module')
 })
@@ -14,9 +12,7 @@ t.test('respect package.type', async t => {
       'package.json': JSON.stringify({ type: 'commonjs' }),
     }),
   )
-  const { default: pkg } = await t.mockImport(
-    '../dist/esm/package.js',
-  )
+  const { default: pkg } = await t.mockImport('../dist/esm/package.js')
   t.equal(pkg.type, 'commonjs')
 })
 

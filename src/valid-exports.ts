@@ -9,9 +9,7 @@ export default (
   if (!e || typeof e !== 'object' || Array.isArray(e)) return false
   for (const [sub, exp] of Object.entries(e)) {
     if (sub !== '.' && !sub.startsWith('./')) {
-      fail(
-        `tshy.exports key must be "." or start with "./", got: ${sub}`,
-      )
+      fail(`tshy.exports key must be "." or start with "./", got: ${sub}`)
       return process.exit(1)
     }
 

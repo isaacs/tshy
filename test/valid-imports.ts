@@ -14,18 +14,17 @@ const { default: validImports } = (await t.mockImport(
 
 const exits = t.capture(process, 'exit').args
 
-const cases: [pkg: Omit<Package, 'name' | 'version'>, ok: boolean][] =
-  [
-    [{}, true],
-    [{ imports: 'asdf' }, false],
-    [{ imports: [] }, false],
-    [{ imports: { '#x': {} } }, true],
-    [{ imports: { '#x': 'y' } }, true],
-    [{ imports: { x: 'y' } }, false],
-    [{ imports: { '#': 'y' } }, false],
-    [{ imports: { '#x': './src/x' } }, true],
-    [{ imports: { '#x': ['./src/x'] } }, false],
-  ]
+const cases: [pkg: Omit<Package, 'name' | 'version'>, ok: boolean][] = [
+  [{}, true],
+  [{ imports: 'asdf' }, false],
+  [{ imports: [] }, false],
+  [{ imports: { '#x': {} } }, true],
+  [{ imports: { '#x': 'y' } }, true],
+  [{ imports: { x: 'y' } }, false],
+  [{ imports: { '#': 'y' } }, false],
+  [{ imports: { '#x': './src/x' } }, true],
+  [{ imports: { '#x': ['./src/x'] } }, false],
+]
 
 for (const [pkg, ok] of cases) {
   t.test(JSON.stringify({ pkg }), t => {

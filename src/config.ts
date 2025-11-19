@@ -51,17 +51,11 @@ const parsePattern = (p: string | string[]): Minimatch[] =>
     p.map(p => new Minimatch(p.replace(/^\.\//, '')))
   : parsePattern([p])
 
-const getConfig = (
-  pkg: Package,
-  sources: Set<string>,
-): TshyConfig => {
+const getConfig = (pkg: Package, sources: Set<string>): TshyConfig => {
   const tshy: TshyConfigMaybeGlobExports =
     validConfig(pkg.tshy) ? pkg.tshy : {}
   let exportsConfig = tshy.exports
-  if (
-    typeof exportsConfig === 'string' ||
-    Array.isArray(exportsConfig)
-  ) {
+  if (typeof exportsConfig === 'string' || Array.isArray(exportsConfig)) {
     // Strip off the `./src` prefix and the extension
     // exports: "src/**/*.ts" => exports: {"./foo": "./src/foo.ts"}
     const exp: Exclude<TshyConfig['exports'], undefined> = {}
@@ -73,9 +67,7 @@ const getConfig = (
       const sp =
         /^\.\/src\/index.([mc]?[jt]s|[jt]sx)$/.test(e) ? '.' : (
           './' +
-          e
-            .replace(/^\.\/src\//, '')
-            .replace(/\.([mc]?[tj]s|[jt]sx)$/, '')
+          e.replace(/^\.\/src\//, '').replace(/\.([mc]?[tj]s|[jt]sx)$/, '')
         )
       exp[sp] = `./${e}`
     }
@@ -94,8 +86,7 @@ const getConfig = (
   const ti = config as TshyConfig & { imports?: any }
   if (ti.imports) {
     console.debug(
-      chalk.cyan.dim('imports') +
-        ' moving from tshy config to top level',
+      chalk.cyan.dim('imports') + ' moving from tshy config to top level',
     )
     pkg.imports = {
       ...pkg.imports,

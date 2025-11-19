@@ -6,11 +6,7 @@ let mkdirpMade: undefined | string = undefined
 const mkdirp = {
   mkdirpSync: () => mkdirpMade,
 }
-const mkdirpCalls = t.capture(
-  mkdirp,
-  'mkdirpSync',
-  mkdirp.mkdirpSync,
-).args
+const mkdirpCalls = t.capture(mkdirp, 'mkdirpSync', mkdirp.mkdirpSync).args
 
 import * as FS from 'node:fs'
 let symlinkThrow: Error | undefined = undefined
@@ -33,16 +29,14 @@ const symlinkCalls = t.capture(fs, 'symlinkSync', fs.symlinkSync).args
 const rimraf = {
   rimrafSync: () => {},
 }
-const rimrafCalls = t.capture(
-  rimraf,
-  'rimrafSync',
-  rimraf.rimrafSync,
-).args
+const rimrafCalls = t.capture(rimraf, 'rimrafSync', rimraf.rimrafSync).args
 
-const { link, unlink } = (await t.mockImport(
-  '../dist/esm/self-link.js',
-  { mkdirp, fs, rimraf, path },
-)) as typeof import('../dist/esm/self-link.js')
+const { link, unlink } = (await t.mockImport('../dist/esm/self-link.js', {
+  mkdirp,
+  fs,
+  rimraf,
+  path,
+})) as typeof import('../dist/esm/self-link.js')
 
 t.test('no pkg name, nothing to do', t => {
   link({} as Package, 'some/path')
@@ -54,10 +48,7 @@ t.test('no pkg name, nothing to do', t => {
 })
 
 t.test('no selfLink, nothing to do', t => {
-  link(
-    { name: 'name', tshy: { selfLink: false } } as Package,
-    'some/path',
-  )
+  link({ name: 'name', tshy: { selfLink: false } } as Package, 'some/path')
   unlink(
     { name: 'name', tshy: { selfLink: false } } as Package,
     'some/path',
@@ -122,11 +113,7 @@ t.test('made dir, clean up', t => {
 })
 
 t.test('already in node_modules, do not create link', t => {
-  const readlinkCalls = t.capture(
-    fs,
-    'readlinkSync',
-    fs.readlinkSync,
-  ).args
+  const readlinkCalls = t.capture(fs, 'readlinkSync', fs.readlinkSync).args
 
   const dir = t.testdir({
     node_modules: {

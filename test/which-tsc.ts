@@ -3,10 +3,7 @@ import tsc from '../src/which-tsc.js'
 import { accessSync, constants } from 'node:fs'
 import { resolve } from 'node:path'
 
-t.doesNotThrow(
-  () => accessSync(tsc, constants.R_OK),
-  'tsc is readable',
-)
+t.doesNotThrow(() => accessSync(tsc, constants.R_OK), 'tsc is readable')
 
 t.test('resolve from current project if present', async t => {
   t.chdir(

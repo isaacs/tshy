@@ -2,20 +2,14 @@ import t from 'tap'
 
 import fail from '../dist/esm/fail.js'
 
-const { default: link } = (await t.mockImport(
-  '../dist/esm/usage.js',
-  {
-    chalk: { default: { level: 3, red: { bold: (s: string) => s } } },
-    '../dist/esm/fail.js': fail,
-  },
-)) as typeof import('../dist/esm/usage.js')
-const { default: noLink } = (await t.mockImport(
-  '../dist/esm/usage.js',
-  {
-    chalk: { default: { level: 0, red: { bold: (s: string) => s } } },
-    '../dist/esm/fail.js': fail,
-  },
-)) as typeof import('../dist/esm/usage.js')
+const { default: link } = (await t.mockImport('../dist/esm/usage.js', {
+  chalk: { default: { level: 3, red: { bold: (s: string) => s } } },
+  '../dist/esm/fail.js': fail,
+})) as typeof import('../dist/esm/usage.js')
+const { default: noLink } = (await t.mockImport('../dist/esm/usage.js', {
+  chalk: { default: { level: 0, red: { bold: (s: string) => s } } },
+  '../dist/esm/fail.js': fail,
+})) as typeof import('../dist/esm/usage.js')
 
 const exits = t.capture(process, 'exit').args
 const errs = t.capture(console, 'error').args

@@ -141,9 +141,7 @@ t.test('imports linking', async t => {
   // make sure one of them doesn't already have a scripts block
   for (const i of ['imports', 'imports-with-star', 'basic']) {
     t.test(i, async t => {
-      t.chdir(
-        fileURLToPath(new URL('./fixtures/' + i, import.meta.url)),
-      )
+      t.chdir(fileURLToPath(new URL('./fixtures/' + i, import.meta.url)))
       const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
       const { default: build } = await t.mockImport(
         '../dist/esm/build.js',
@@ -152,8 +150,7 @@ t.test('imports linking', async t => {
           '../dist/esm/package.js': { default: pkg },
           '../dist/esm/unbuilt-imports.js': {
             link: async (...a: any[]) => logCall('imports.link', a),
-            unlink: async (...a: any[]) =>
-              logCall('imports.unlink', a),
+            unlink: async (...a: any[]) => logCall('imports.unlink', a),
             save: (...a: any[]) => {
               logCall('imports.save', a)
               return i.startsWith('imports')

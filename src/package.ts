@@ -16,9 +16,7 @@ const readPkg = (): Package & { type: 'commonjs' | 'module' } => {
         type: res.type === 'commonjs' ? 'commonjs' : 'module',
       })
     }
-    throw new Error(
-      'Invalid package.json contents: ' + stringify(res),
-    )
+    throw new Error('Invalid package.json contents: ' + stringify(res))
   } catch (er) {
     fail('failed to read package.json', er as Error)
     process.exit(1)

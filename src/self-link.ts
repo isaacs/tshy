@@ -65,11 +65,7 @@ export const link = (pkg: Package, where: string) => {
 }
 
 export const unlink = (pkg: Package, where: string) => {
-  if (
-    !pkg.name ||
-    pkg?.tshy?.selfLink === false ||
-    linkedAlready(pkg)
-  ) {
+  if (!pkg.name || pkg?.tshy?.selfLink === false || linkedAlready(pkg)) {
     return
   }
   const dest = resolve(where, 'node_modules', pkg.name)

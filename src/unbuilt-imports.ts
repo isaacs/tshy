@@ -75,11 +75,7 @@ const getTargets = async (imports: Record<string, any>) => {
 const saveSet = new Map<string, string>()
 
 // create symlinks for the package imports in the target dir
-export const link = async (
-  pkg: Package,
-  dir: string,
-  save = false,
-) => {
+export const link = async (pkg: Package, dir: string, save = false) => {
   const { imports } = pkg
   if (!imports) return
   if (!targets) targets = await getTargets(imports)

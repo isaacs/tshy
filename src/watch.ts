@@ -39,9 +39,7 @@ export const srcNM = resolve('./src/node_modules')
 export const src = resolve('./src')
 export const rootPJ = resolve('./package.json')
 export const targets = [src, rootPJ]
-export const bin = fileURLToPath(
-  new URL('./index.js', import.meta.url),
-)
+export const bin = fileURLToPath(new URL('./index.js', import.meta.url))
 
 export default () => {
   let building = false

@@ -40,8 +40,7 @@ const getTargetForDialectCondition = <T extends string>(
       resolve('./src'),
       resolve(polyfills.get(pf)?.map.get(s) ?? s),
     )
-    const target =
-      liveDev ? rel : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
+    const target = liveDev ? rel : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
     return (
       !s || !s.startsWith('./src/') ? s
       : dialects.includes(type) ? `./dist/${dialect}/${target}`
@@ -54,8 +53,7 @@ const getTargetForDialectCondition = <T extends string>(
 export const getImpTarget = (
   s: string | TshyExport | undefined | null,
   polyfills: Map<string, PolyfillSet> = new Map(),
-) =>
-  getTargetForDialectCondition(s, 'esm', 'import', 'esm', polyfills)
+) => getTargetForDialectCondition(s, 'esm', 'import', 'esm', polyfills)
 
 export const getReqTarget = (
   s: string | TshyExport | undefined | null,
@@ -83,10 +81,7 @@ const getExports = (
   const e: Record<string, ConditionalValue> = {}
   for (const [sub, s] of Object.entries(c.exports)) {
     // external export, not built by us
-    if (
-      s !== null &&
-      (typeof s !== 'string' || !s.startsWith('./src/'))
-    ) {
+    if (s !== null && (typeof s !== 'string' || !s.startsWith('./src/'))) {
       // already been validated, just accept as-is
       e[sub] = s as ConditionalValue
       continue
@@ -183,15 +178,11 @@ const getExports = (
       exp.require =
         liveDev ?
           {
-            ...(pkgType === 'commonjs' ?
-              getSourceDialects(s, c)
-            : {}),
+            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
             default: reqTarget,
           }
         : {
-            ...(pkgType === 'commonjs' ?
-              getSourceDialects(s, c)
-            : {}),
+            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
             types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
             default: reqTarget,
           }
@@ -218,10 +209,7 @@ export const setMain = (
       fail(`could not resolve exports['.'] for tshy.main 'require'`)
       return process.exit(1)
     }
-    const types = resolveExport(pkg.exports['.'], [
-      'require',
-      'types',
-    ])
+    const types = resolveExport(pkg.exports['.'], ['require', 'types'])
     pkg.main = mod
     if (types && types !== mod) pkg.types = types
     else delete pkg.types

@@ -31,9 +31,7 @@ const spawnSync = t.captureFn((...a: any[]) => {
 })
 
 const output = () =>
-  readdirSync('.tshy-build/esm').sort((a, b) =>
-    a.localeCompare(b, 'en'),
-  )
+  readdirSync('.tshy-build/esm').sort((a, b) => a.localeCompare(b, 'en'))
 
 t.test('basic esm build', async t => {
   spawnResult = spawnSuccess
@@ -66,17 +64,14 @@ t.test('basic esm build', async t => {
     }),
   )
   let buildFailed = false
-  const { buildESM } = (await t.mockImport(
-    '../dist/esm/build-esm.js',
-    {
-      child_process: { spawnSync },
-      '../dist/esm/build-fail.js': {
-        default: () => {
-          buildFailed = true
-        },
+  const { buildESM } = (await t.mockImport('../dist/esm/build-esm.js', {
+    child_process: { spawnSync },
+    '../dist/esm/build-fail.js': {
+      default: () => {
+        buildFailed = true
       },
     },
-  )) as typeof import('../dist/esm/build-esm.js')
+  })) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, false)
   t.matchSnapshot(output())
@@ -109,17 +104,14 @@ t.test('build failure', async t => {
     }),
   )
   let buildFailed = false
-  const { buildESM } = (await t.mockImport(
-    '../dist/esm/build-esm.js',
-    {
-      child_process: { spawnSync },
-      '../dist/esm/build-fail.js': {
-        default: () => {
-          buildFailed = true
-        },
+  const { buildESM } = (await t.mockImport('../dist/esm/build-esm.js', {
+    child_process: { spawnSync },
+    '../dist/esm/build-fail.js': {
+      default: () => {
+        buildFailed = true
       },
     },
-  )) as typeof import('../dist/esm/build-esm.js')
+  })) as typeof import('../dist/esm/build-esm.js')
   buildESM()
   t.equal(buildFailed, true)
   t.matchSnapshot(output())

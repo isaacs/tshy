@@ -63,10 +63,7 @@ t.equal(cjs.getReqTarget(undefined, p), undefined)
 t.equal(cjs.getReqTarget('foo.cts', p), 'foo.cts')
 t.equal(cjs.getReqTarget('foo.mts', p), undefined)
 t.equal(cjs.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
-t.equal(
-  cjs.getReqTarget('./src/foo.cts', p),
-  './dist/commonjs/foo.cjs',
-)
+t.equal(cjs.getReqTarget('./src/foo.cts', p), './dist/commonjs/foo.cjs')
 t.equal(cjs.getReqTarget({ import: './foo.mts' }, p), undefined)
 t.equal(cjs.getReqTarget('./src/foo.mts', p), undefined)
 t.equal(esm.getReqTarget(undefined, p), undefined)
@@ -439,29 +436,17 @@ t.test('liveDev', async t => {
         t.equal(ld.getImpTarget({ require: './foo.cts' }), undefined)
         t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
         t.equal(ld.getImpTarget({ import: './foo.mts' }), './foo.mts')
-        t.equal(
-          ld.getImpTarget('./src/foo.mts'),
-          './dist/esm/foo.mts',
-        )
-        t.equal(
-          ld.getImpTarget('./src/index.ts'),
-          './dist/esm/index.ts',
-        )
+        t.equal(ld.getImpTarget('./src/foo.mts'), './dist/esm/foo.mts')
+        t.equal(ld.getImpTarget('./src/index.ts'), './dist/esm/index.ts')
         t.equal(ld.getReqTarget(undefined, p), undefined)
         t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
         t.equal(ld.getReqTarget('foo.mts', p), undefined)
-        t.equal(
-          ld.getReqTarget({ require: './foo.cts' }, p),
-          './foo.cts',
-        )
+        t.equal(ld.getReqTarget({ require: './foo.cts' }, p), './foo.cts')
         t.equal(
           ld.getReqTarget('./src/foo.cts'),
           './dist/commonjs/foo.cts',
         )
-        t.equal(
-          ld.getReqTarget({ import: './foo.mts' }, p),
-          undefined,
-        )
+        t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
         t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
         t.equal(
           ld.getReqTarget('./src/fill-cjs.cts', p),
@@ -483,23 +468,11 @@ t.test('liveDev', async t => {
           const ld = await getLiveDev(t)
           // should be the same as not having liveDev: true
           t.equal(ld.getImpTarget('foo.cts'), undefined)
-          t.equal(
-            ld.getImpTarget({ require: './foo.cts' }),
-            undefined,
-          )
+          t.equal(ld.getImpTarget({ require: './foo.cts' }), undefined)
           t.equal(ld.getImpTarget('./src/foo.cts'), undefined)
-          t.equal(
-            ld.getImpTarget({ import: './foo.mts' }),
-            './foo.mts',
-          )
-          t.equal(
-            ld.getImpTarget('./src/foo.mts'),
-            './dist/esm/foo.mjs',
-          )
-          t.equal(
-            ld.getImpTarget('./src/index.ts'),
-            './dist/esm/index.js',
-          )
+          t.equal(ld.getImpTarget({ import: './foo.mts' }), './foo.mts')
+          t.equal(ld.getImpTarget('./src/foo.mts'), './dist/esm/foo.mjs')
+          t.equal(ld.getImpTarget('./src/index.ts'), './dist/esm/index.js')
           t.equal(ld.getReqTarget(undefined, p), undefined)
           t.equal(ld.getReqTarget('foo.cts', p), 'foo.cts')
           t.equal(ld.getReqTarget('foo.mts', p), undefined)
@@ -511,10 +484,7 @@ t.test('liveDev', async t => {
             ld.getReqTarget('./src/foo.cts'),
             './dist/commonjs/foo.cjs',
           )
-          t.equal(
-            ld.getReqTarget({ import: './foo.mts' }, p),
-            undefined,
-          )
+          t.equal(ld.getReqTarget({ import: './foo.mts' }, p), undefined)
           t.equal(ld.getReqTarget('./src/foo.mts', p), undefined)
           t.equal(
             ld.getReqTarget('./src/fill-cjs.cts', p),

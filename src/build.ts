@@ -50,8 +50,7 @@ export default async () => {
     console.debug('linking package imports', pkg.imports)
     if (dialects.includes('commonjs'))
       await linkImports(pkg, 'dist/commonjs', true)
-    if (dialects.includes('esm'))
-      await linkImports(pkg, 'dist/esm', true)
+    if (dialects.includes('esm')) await linkImports(pkg, 'dist/esm', true)
     if (saveImports('dist/.tshy-link-imports.mjs')) {
       pkg.scripts = pkg.scripts || {}
       pkg.scripts.preinstall =

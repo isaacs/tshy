@@ -32,9 +32,7 @@ const validExtraDialectSet = (
       d === 'source' ||
       d === 'default'
     ) {
-      fail(
-        `tshy.${which}Dialects must not contain ${JSON.stringify(d)}`,
-      )
+      fail(`tshy.${which}Dialects must not contain ${JSON.stringify(d)}`)
       return process.exit(1)
     }
   }
@@ -62,19 +60,11 @@ export default ({
   if (esmDialects && !validExtraDialectSet(esmDialects, 'esm')) {
     return false
   }
-  if (
-    sourceDialects &&
-    !validExtraDialectSet(sourceDialects, 'source')
-  ) {
+  if (sourceDialects && !validExtraDialectSet(sourceDialects, 'source')) {
     return false
   }
   for (const [aname, bname, a, b] of [
-    [
-      'commonjsDialects',
-      'esmDialects',
-      commonjsDialects,
-      esmDialects,
-    ],
+    ['commonjsDialects', 'esmDialects', commonjsDialects, esmDialects],
     [
       'commonjsDialects',
       'sourceDialects',

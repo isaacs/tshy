@@ -16,8 +16,6 @@ const { default: writePackage } = (await t.mockImport(
 
 writePackage()
 t.strictSame(
-  JSON.parse(
-    readFileSync(resolve(t.testdirName, 'package.json'), 'utf8'),
-  ),
+  JSON.parse(readFileSync(resolve(t.testdirName, 'package.json'), 'utf8')),
   { name: 'some package' },
 )

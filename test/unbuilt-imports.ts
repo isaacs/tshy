@@ -30,9 +30,7 @@ t.test('imports linking', async t => {
         rimrafSync(dist)
       })
 
-      t.chdir(
-        fileURLToPath(new URL('./fixtures/' + i, import.meta.url)),
-      )
+      t.chdir(fileURLToPath(new URL('./fixtures/' + i, import.meta.url)))
       await t.mockImport('../dist/esm/index.js')
       const logs = t.capture(console, 'log').args
       const { test: testESM } = await import(

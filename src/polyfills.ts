@@ -33,8 +33,7 @@ const polyfills = new Map<string, PolyfillSet>([
 ])
 for (const d of commonjsDialects)
   polyfills.set(d, new PolyfillSet('commonjs', d))
-for (const d of esmDialects)
-  polyfills.set(d, new PolyfillSet('esm', d))
+for (const d of esmDialects) polyfills.set(d, new PolyfillSet('esm', d))
 
 for (const f of sources) {
   for (const pf of polyfills.values()) {

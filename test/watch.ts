@@ -46,11 +46,7 @@ const spawnOK: SpawnResult = { code: 0, signal: null }
 const spawnExitCode: SpawnResult = { code: 1, signal: null }
 let spawnResult: SpawnResult = spawnOK
 
-const mockSpawn = (
-  cmd: string,
-  args: string[],
-  options: SpawnOptions,
-) => {
+const mockSpawn = (cmd: string, args: string[], options: SpawnOptions) => {
   t.equal(cmd, process.execPath)
   t.strictSame(args, [bin])
   t.strictSame(options, { stdio: 'inherit' })
@@ -97,9 +93,7 @@ t.test('build whenever changes happen', async t => {
   )
   watch()
   if (!t.equal(rootPJ, resolve(t.testdirName, 'package.json'))) {
-    throw new Error(
-      'do not proceed, will break actual package.json file',
-    )
+    throw new Error('do not proceed, will break actual package.json file')
   }
   // immediately trigger changes to the pj and other stuff
   // this does not trigger a change, because it hasn't changed

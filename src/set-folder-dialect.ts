@@ -14,14 +14,10 @@ const writeDialectPJ = (d: string, mode?: Dialect) => {
     type: mode === 'commonjs' ? 'commonjs' : 'module',
     imports: getImports(pkg),
   }
-  writeFileSync(
-    `${d}/package.json`,
-    JSON.stringify(v, null, 2) + '\n',
-  )
+  writeFileSync(`${d}/package.json`, JSON.stringify(v, null, 2) + '\n')
 }
 
 export default (where: string, mode?: Dialect) => {
-  if (mode)
-    console.debug(chalk.cyan.dim('set dialect'), { where, mode })
+  if (mode) console.debug(chalk.cyan.dim('set dialect'), { where, mode })
   writeDialectPJ(where, mode)
 }

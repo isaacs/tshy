@@ -4,8 +4,7 @@ import t from 'tap'
 
 const node = process.execPath
 
-t.cleanSnapshot = s =>
-  s.split(node).join('{NODE}').replace(/\\/g, '/')
+t.cleanSnapshot = s => s.split(node).join('{NODE}').replace(/\\/g, '/')
 
 const spawnSuccess: SpawnSyncReturns<Buffer> = {
   status: 0,

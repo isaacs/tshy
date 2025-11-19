@@ -7,12 +7,7 @@ export const isDialect = (d: any): d is Dialect =>
 export default (
   d: any,
 ): d is Exclude<TshyConfig['dialects'], undefined> => {
-  if (
-    !!d &&
-    Array.isArray(d) &&
-    d.length &&
-    !d.some(d => !isDialect(d))
-  ) {
+  if (!!d && Array.isArray(d) && d.length && !d.some(d => !isDialect(d))) {
     return true
   }
 
