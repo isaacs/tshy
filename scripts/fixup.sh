@@ -6,6 +6,7 @@ rm -rf .tshy-build
 
 esbuild \
   --sourcemap \
+  --external:typescript \
   --platform=node \
   --tree-shaking=true \
   --outfile=dist/esm/bin-min.mjs \
