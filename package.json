@@ -5,7 +5,7 @@
   "author": "Isaac Z. Schlueter <i@izs.me> (https://izs.me)",
   "license": "BlueOak-1.0.0",
   "type": "module",
-  "bin": "./dist/esm/index.js",
+  "bin": "./dist/esm/bin-min.mjs",
   "files": [
     "dist"
   ],
@@ -51,6 +51,7 @@
   ],
   "devDependencies": {
     "@types/node": "^24.6.1",
+    "esbuild": "^0.27.2",
     "prettier": "^3.6.2",
     "tap": "^21.1.4",
     "typedoc": "^0.28.14"
