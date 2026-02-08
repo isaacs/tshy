@@ -9,7 +9,7 @@ import readTypescriptConfig from './read-typescript-config.js'
 
 export default () => {
   const config = readTypescriptConfig()
-  if (config.options.verbatimModuleSyntax) {
+  if (config.compilerOptions.verbatimModuleSyntax) {
     fail('verbatimModuleSyntax detected')
     console.error(
       `verbatimModuleSyntax is incompatible with multi-dialect builds. Either remove

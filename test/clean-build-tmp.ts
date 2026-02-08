@@ -4,8 +4,8 @@ import cleanBuildTmp from '../src/clean-build-tmp.js'
 import readTypescriptConfig from '../src/read-typescript-config.js'
 
 t.test('no incremental build, just delete it', async t => {
-  readTypescriptConfig().options.incremental = false
-  readTypescriptConfig().options.composite = false
+  readTypescriptConfig().compilerOptions.incremental = false
+  readTypescriptConfig().compilerOptions.composite = false
   t.chdir(
     t.testdir({
       '.tshy-build': {},
@@ -17,8 +17,8 @@ t.test('no incremental build, just delete it', async t => {
 })
 
 t.test('no tsbuildinfo, just delete it', async t => {
-  readTypescriptConfig().options.incremental = true
-  readTypescriptConfig().options.composite = true
+  readTypescriptConfig().compilerOptions.incremental = true
+  readTypescriptConfig().compilerOptions.composite = true
   t.chdir(
     t.testdir({
       '.tshy-build': {},
@@ -30,7 +30,7 @@ t.test('no tsbuildinfo, just delete it', async t => {
 })
 
 t.test('remove files not found in src', async t => {
-  readTypescriptConfig().options.composite = true
+  readTypescriptConfig().compilerOptions.composite = true
   t.chdir(
     t.testdir({
       '.tshy-build': {

@@ -13,6 +13,7 @@
     "chalk": "^5.6.2",
     "chokidar": "^4.0.3",
     "foreground-child": "^4.0.0",
+    "jsonc-simple-parser": "^3.0.0",
     "minimatch": "^10.0.3",
     "mkdirp": "^3.0.1",
     "polite-json": "^5.0.0",

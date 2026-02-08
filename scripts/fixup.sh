@@ -4,9 +4,8 @@ chmod 0755 .tshy-build/esm/index.js
 sync-content .tshy-build dist
 rm -rf .tshy-build
 
-esbuild \
+esbuild --minify \
   --sourcemap \
-  --external:typescript \
   --platform=node \
   --tree-shaking=true \
   --outfile=dist/esm/bin-min.mjs \

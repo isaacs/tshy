@@ -61,8 +61,8 @@ const cleanRemovedOutputs = async (path: string, root: string) => {
 export default async () => {
   const config = readTypescriptConfig()
   if (
-    config.options.incremental !== true &&
-    config.options.composite !== true
+    config.compilerOptions.incremental !== true &&
+    config.compilerOptions.composite !== true
   ) {
     return await rimraf('.tshy-build')
   }

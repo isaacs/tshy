@@ -51,7 +51,7 @@ const build = (): Record<string, any> => ({
     : join('..', config.project),
   compilerOptions: {
     target:
-      readTypescriptConfig().options.target === undefined ?
+      readTypescriptConfig().compilerOptions.target === undefined ?
         'es2022'
       : undefined,
     rootDir: '../src',

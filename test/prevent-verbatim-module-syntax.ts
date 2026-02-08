@@ -18,7 +18,7 @@ t.test('not set, no worries', t => {
 })
 
 t.test('is set, many worries', t => {
-  readTypescriptConfig().options.verbatimModuleSyntax = true
+  readTypescriptConfig().compilerOptions.verbatimModuleSyntax = true
   preventVerbatimModuleSyntax()
   t.strictSame(exits(), [[1]])
   t.matchSnapshot(
