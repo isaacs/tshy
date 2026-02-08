@@ -1,3 +1,10 @@
+# 3.2
+
+- Ship a minified bundle, so that the load time is significantly
+  faster.
+- Parse tsconfig files using a JSONC parser and some basic
+  `extends` logic, rather than pulling in all of typescript.
+
 # 3.1
 
 - Improve resilience against file locking when removing
