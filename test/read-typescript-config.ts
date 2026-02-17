@@ -45,7 +45,7 @@ t.test('project extended configs', async t => {
         config: {
           'base.json': `
           {
-            "extends": "./tsconfig.json",
+            "extends": "./tsconfig",
             // this file has some comments
             "compilerOptions": {
               "newobject": {},
@@ -60,7 +60,7 @@ t.test('project extended configs', async t => {
           }
           `,
           'tsconfig.json': JSON.stringify({
-            extends: './base.json',
+            extends: '@scope/config/base',
             compilerOptions: {
               nestedObject: { a: 1000, b: 2000, d: 3000 },
               overriddenObject: { deleteme: true },

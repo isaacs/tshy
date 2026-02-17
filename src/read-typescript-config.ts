@@ -9,7 +9,6 @@ import type { ParsedCommandLine } from 'typescript'
 import { readFileSync, statSync } from 'node:fs'
 import { walkUp } from 'walk-up-path'
 import JSON from 'jsonc-simple-parser'
-import validExclude from './valid-exclude.js'
 
 const isFile = (f: string) => {
   try {
@@ -32,7 +31,8 @@ const resolveConfig = (
   from: string = process.cwd(),
 ): string => {
   if (isAbsolute(target)) return target
-  const local = resolve(from, target)
+  let local = resolve(from, target)
+  if (!isFile(local) && isFile(local + '.json')) local += '.json'
   if (
     isFile(local) ||
     target.startsWith('.\\') ||
@@ -45,13 +45,10 @@ const resolveConfig = (
   for (const p of walkUp(from)) {
     const found = resolve(p, 'node_modules', target)
     if (isFile(found)) return found
-    const foundTsconfig = resolve(
-      p,
-      'node_modules',
-      target,
-      'tsconfig.json',
-    )
+    const pre = resolve(p, 'node_modules', target)
+    const foundTsconfig = resolve(pre, 'tsconfig.json')
     if (isFile(foundTsconfig)) return foundTsconfig
+    if (isFile(pre + '.json')) return pre + '.json'
   }
 
   throw new Error('Could not resolve tsconfig file location', {
