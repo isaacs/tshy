@@ -4,7 +4,7 @@
 // a dep on typescript directly if they don't need it otherwise.
 // However, if they DO have a direct dep on typescript, then load the
 // tsc from their local node_modules/.bin/tsc location.
-import { resolveImport } from 'resolve-import'
+import { resolveImport } from 'resolve-import/resolve-import-async'
 import { fileURLToPath } from 'url'
 import config from './config.js'
 

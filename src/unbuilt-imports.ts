@@ -4,11 +4,9 @@ import { writeFileSync } from 'fs'
 import { symlink } from 'fs/promises'
 import { mkdirp } from 'mkdirp'
 import { dirname, relative, resolve, sep } from 'path'
-import {
-  getAllConditionalValues,
-  getUniqueConditionSets,
-  resolveAllLocalImports,
-} from 'resolve-import'
+import { getAllConditionalValues } from 'resolve-import/get-all-conditional-values'
+import { getUniqueConditionSets } from 'resolve-import/get-unique-condition-sets'
+import { resolveAllLocalImports } from 'resolve-import/resolve-all-local-imports'
 import { rimraf } from 'rimraf'
 import { fileURLToPath } from 'url'
 import * as console from './console.js'

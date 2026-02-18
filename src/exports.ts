@@ -1,5 +1,5 @@
 import { relative, resolve } from 'node:path/posix'
-import {
+import type {
   ConditionalValue,
   ConditionalValueObject,
   ExportsSubpaths,
