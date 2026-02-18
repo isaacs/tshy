@@ -24,7 +24,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/esm.json",
     ],
@@ -35,7 +35,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/blah.json",
     ],
@@ -46,7 +46,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/no-overrides.json",
     ],
@@ -75,7 +75,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/esm.json",
     ],
@@ -86,7 +86,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/blah.json",
     ],
@@ -97,7 +97,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/no-overrides.json",
     ],
@@ -108,7 +108,7 @@ Array [
   Array [
     "{NODE}",
     Array [
-      "{CWD}/node_modules/typescript/bin/tsc",
+      "{CWD}/node_modules/.bin/tsc",
       "-p",
       ".tshy/esm.json",
     ],

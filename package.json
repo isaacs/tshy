@@ -10,6 +10,7 @@
     "dist"
   ],
   "dependencies": {
+    "@typescript/native-preview": "^7.0.0-dev.20260218.1",
     "chalk": "^5.6.2",
     "chokidar": "^4.0.3",
     "foreground-child": "^4.0.0",
@@ -27,7 +28,7 @@
     "preversion": "npm test",
     "postversion": "npm publish",
     "prepublishOnly": "git push origin --follow-tags",
-    "prepare": "tsc -p .tshy/esm.json && bash scripts/fixup.sh",
+    "prepare": "tsgo -p .tshy/esm.json && bash scripts/fixup.sh",
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
     "format": "prettier --write . --ignore-path ./.prettierignore --cache",
@@ -58,6 +59,7 @@
     "typedoc": "^0.28.14"
   },
   "tshy": {
+    "compiler": "tsgo",
     "dialects": [
       "esm"
     ],

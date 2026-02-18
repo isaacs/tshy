@@ -5,6 +5,7 @@ import type {
 } from 'resolve-import'
 
 export type TshyConfigMaybeGlobExports = {
+  compiler?: 'tsc' | 'tsgo'
   exports?: string | string[] | Record<string, TshyExport>
   dialects?: Dialect[]
   selfLink?: boolean

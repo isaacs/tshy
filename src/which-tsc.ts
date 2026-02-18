@@ -6,10 +6,23 @@
 // tsc from their local node_modules/.bin/tsc location.
 import { resolveImport } from 'resolve-import'
 import { fileURLToPath } from 'url'
+import config from './config.js'
 
-const resolve = async () =>
-  await resolveImport('typescript', process.cwd() + '/x').catch(() =>
-    resolveImport('typescript', import.meta.url),
+const provider = {
+  tsgo: '@typescript/native-preview',
+  tsc: 'typescript',
+} as const
+
+// use theirs if possible, otherwise use tshy's
+const resolve = async (pkg: (typeof provider)[keyof typeof provider]) =>
+  await resolveImport(pkg + '/package.json', process.cwd() + '/x').catch(
+    () => resolveImport(pkg + '/package.json', import.meta.url),
   )
 
-export default fileURLToPath(new URL('../bin/tsc', await resolve()))
+const { compiler = 'tsc' } = config
+const provPkg = provider[compiler]
+
+const pjToCompiler = (pj: string) =>
+  pj.slice(0, -1 * (provPkg + '/package.json').length) + `.bin/${compiler}`
+
+export default pjToCompiler(fileURLToPath(await resolve(provPkg)))

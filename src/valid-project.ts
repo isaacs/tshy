@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import fail from './fail.js'
 import { TshyConfig } from './types.js'
 
-export default (p: any): p is TshyConfig['project'] => {
+export default (p: unknown): p is TshyConfig['project'] => {
   if (typeof p === 'string') {
     try {
       readFileSync(resolve(p), 'utf8')

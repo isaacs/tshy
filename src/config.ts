@@ -17,6 +17,7 @@ import validExports from './valid-exports.js'
 import validExtraDialects from './valid-extra-dialects.js'
 import validImports from './valid-imports.js'
 import validProject from './valid-project.js'
+import validCompiler from './valid-compiler.js'
 
 const validBoolean = (e: Record<string, any>, name: string) => {
   const v = e[name]
@@ -39,6 +40,7 @@ const validConfig = (e: any): e is TshyConfigMaybeGlobExports =>
   (e.project === undefined || validProject(e.project)) &&
   (e.exclude === undefined || validExclude(e.exclude)) &&
   validExtraDialects(e) &&
+  validCompiler(e.compiler) &&
   validBoolean(e, 'selfLink') &&
   validBoolean(e, 'main') &&
   validBoolean(e, 'liveDev')

@@ -533,6 +533,38 @@ _If a `tshy.imports` is present (a previous iteration of this
 behavior), it will be merged into the top-level `"imports"` and
 deleted from the `tshy` section._
 
+### Setting the Compiler (Temporary Preview Beta Only!)
+
+For now, you can set the `compiler` option to either `tsc`
+(currently the default) or `tsgo` (which will presumably
+eventually become the default, but for now is experimental).
+
+For example, to opt into using `tsgo`, do this:
+
+```json
+{
+  "tshy": {
+    "compiler": "tsgo",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    }
+  }
+}
+```
+
+If you have a version of `typescript` (for `tsc`) or
+`@typescript/native-preview` (for `tsgo`) locally in your
+project, then tshy will use that to find the apporpriate
+compiler. If you do not have one of these deps in your project,
+then tshy will use the one it ships with.
+
+`tsgo` is _much_ faster, but it does come with some caveats as it
+is still in preview/beta status. When it ships fully completed,
+it will be named `tsc` and be a part of the `typescript` package,
+and tshy will update to use that instead, and so this option will
+be removed and ignored.
+
 ### Making Noise
 
 On failure, all logs will be printed.

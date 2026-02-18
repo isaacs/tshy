@@ -1,3 +1,7 @@
+# 3.3
+
+- Add `compiler` option to opt into `tsgo` in preview beta
+
 # 3.2
 
 - Ship a minified bundle, so that the load time is significantly
