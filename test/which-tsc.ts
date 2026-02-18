@@ -6,9 +6,6 @@ t.test('resolve from current project if present, default', async t => {
   t.chdir(
     t.testdir({
       node_modules: {
-        '.bin': {
-          tsc: t.fixture('symlink', '../typescript/bin/tsc'),
-        },
         typescript: {
           'package.json': JSON.stringify({
             bin: './bin/tsc',
@@ -28,7 +25,7 @@ t.test('resolve from current project if present, default', async t => {
   >('../src/which-tsc.js', {
     '../src/config.js': {},
   })
-  t.equal(tsc, resolve(t.testdirName, 'node_modules/.bin/tsc'))
+  t.equal(tsc, resolve(t.testdirName, 'node_modules/typescript/bin/tsc'))
 })
 
 t.test('resolve from current project if present, tsgo', async t => {
@@ -37,12 +34,6 @@ t.test('resolve from current project if present, tsgo', async t => {
       'package.json': JSON.stringify({}),
       src: {},
       node_modules: {
-        '.bin': {
-          tsgo: t.fixture(
-            'symlink',
-            '../@typescript/native-preview/bin/tsgo.js',
-          ),
-        },
         '@typescript': {
           'native-preview': {
             bin: {
@@ -64,7 +55,13 @@ t.test('resolve from current project if present, tsgo', async t => {
   >('../src/which-tsc.js', {
     '../src/config.js': { compiler: 'tsgo' },
   })
-  t.equal(tsc, resolve(t.testdirName, 'node_modules/.bin/tsgo'))
+  t.equal(
+    tsc,
+    resolve(
+      t.testdirName,
+      'node_modules/@typescript/native-preview/bin/tsgo.js',
+    ),
+  )
 })
 
 t.test('resolve from here', async t => {
@@ -75,7 +72,7 @@ t.test('resolve from here', async t => {
     tsc,
     resolve(
       fileURLToPath(import.meta.url),
-      '../../node_modules/.bin/tsgo',
+      '../../node_modules/@typescript/native-preview/bin/tsgo.js',
     ),
   )
 })

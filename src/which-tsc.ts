@@ -13,6 +13,11 @@ const provider = {
   tsc: 'typescript',
 } as const
 
+const pjToCompilerPath = {
+  tsgo: 'bin/tsgo.js',
+  tsc: 'bin/tsc',
+} as const
+
 // use theirs if possible, otherwise use tshy's
 const resolve = async (pkg: (typeof provider)[keyof typeof provider]) =>
   await resolveImport(pkg + '/package.json', process.cwd() + '/x').catch(
@@ -23,6 +28,6 @@ const { compiler = 'tsc' } = config
 const provPkg = provider[compiler]
 
 const pjToCompiler = (pj: string) =>
-  pj.slice(0, -1 * (provPkg + '/package.json').length) + `.bin/${compiler}`
+  pj.slice(0, -1 * 'package.json'.length) + pjToCompilerPath[compiler]
 
 export default pjToCompiler(fileURLToPath(await resolve(provPkg)))
