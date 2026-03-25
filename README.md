@@ -9,6 +9,22 @@ and CommonJS variants, [providing the full strength of
 TypeScript’s checking for both output
 formats](https://twitter.com/atcb/status/1702069237710479608).
 
+> > [!NOTICE]
+>
+> ## Upgrading from v3 to v4
+>
+> Version 4 switches from TypeScript 5 to TypeScript 6. (Note: you
+> can already preview TypeScript 7 by setting `"compiler": "tsgo"`
+> in your tshy options.)
+>
+> This may cause problems upgrading, because tshy will only
+> create a new `tsconfig.json` file if the file is missing
+> (assuming that you've put it there for a good reason), and the
+> requirements have changed slightly.
+>
+> If you get tsc errors after upgrading, try deleting your
+> `tsconfig.json` file, and re-running tshy.
+
 ## USAGE
 
 Install tshy:
