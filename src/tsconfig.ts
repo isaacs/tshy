@@ -27,6 +27,7 @@ const relativeExclude = exclude.map(e => `../${e.replace(/^\.\//, '')}`)
 
 const recommended: Record<string, any> = {
   compilerOptions: {
+    rootDir: './',
     declaration: true,
     declarationMap: true,
     esModuleInterop: true,
