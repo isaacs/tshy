@@ -1,8 +1,7 @@
 import type { Test } from 'tap'
 import t from 'tap'
 import type { Package } from '../src/types.js'
-import { resolve } from 'node:path'
-import { lstatSync, statSync } from 'node:fs'
+import { lstatSync } from 'node:fs'
 
 t.test('linkedAlready=true in nm', async t => {
   const dir = t.testdir({
