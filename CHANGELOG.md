@@ -1,3 +1,11 @@
+# 4.0
+
+- Start using TypeScript version 6. This is a breaking change
+  because it imposes new restrictions on configs and some
+  language features. If upgrading causes build failures, the
+  easiest fix is to remove your `tsconfig.json` file, so that
+  tshy will generate a new one.
+
 # 3.3
 
 - Add `compiler` option to opt into `tsgo` in preview beta
