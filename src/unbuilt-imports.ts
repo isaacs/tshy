@@ -10,7 +10,8 @@ import { resolveAllLocalImports } from 'resolve-import/resolve-all-local-imports
 import { rimraf } from 'rimraf'
 import { fileURLToPath } from 'url'
 import * as console from './console.js'
-import { Package } from './types.js'
+import type { Package } from './types.js'
+import type { Exports, Imports } from 'resolve-import'
 
 const dirsMade = new Set<string>()
 
@@ -38,15 +39,15 @@ Promise.all(links.map(([dest, src]) => symlink(src, dest).catch(e)))
 let targets: undefined | string[] = undefined
 // Get the targets that will have to be linked, because they're not
 // a target in ./src
-const getTargets = async (imports: Record<string, any>) => {
-  const conds = getAllConditionalValues(imports).filter(
-    c => !c.startsWith('./src/'),
-  )
+const getTargets = async (imports: Record<string, unknown>) => {
+  const conds = getAllConditionalValues(
+    imports as Imports | Exports,
+  ).filter(c => !c.startsWith('./src/'))
   if (!conds.some(c => c.includes('*'))) {
     // fast path
     return (targets = conds.filter(c => c.startsWith('./')))
   }
-  const sets = getUniqueConditionSets(imports)
+  const sets = getUniqueConditionSets(imports as Imports | Exports)
   const t = new Set<string>()
   const pj = resolve('package.json')
   for (const conditions of sets) {
@@ -80,7 +81,7 @@ export const link = async (pkg: Package, dir: string, save = false) => {
   if (!targets.length) return
   console.debug(`link import targets in ${dir}`, targets)
   const rel = relative(resolve(dir), process.cwd())
-  const lps: Promise<any>[] = []
+  const lps: Promise<unknown>[] = []
   for (const t of targets) {
     const l = t.replace(/^\.\//, '')
     const df = dirname(l)
@@ -117,7 +118,7 @@ export const unlink = async (pkg: Package, dir: string) => {
   if (!targets) targets = await getTargets(imports)
   /* c8 ignore stop */
   console.debug(`unlink import targets in ${dir}`, targets)
-  const lps: Promise<any>[] = []
+  const lps: Promise<unknown>[] = []
   for (const t of targets) {
     const dest = resolve(dir, t)
     lps.push(rimraf(dest))

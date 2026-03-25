@@ -1,8 +1,10 @@
 // only print the logs if it fails, or if TSHY_VERBOSE is set
+//oxlint-disable no-console
+//oxlint-disable no-explicit-any
 
 let verbose = parseInt(process.env.TSHY_VERBOSE || '0')
 
-const errors: any[][] = []
+const errors: unknown[][] = []
 export const error = (...a: any[]) => {
   if (verbose >= 1) console.error(...a)
   else errors.push(a)

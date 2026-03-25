@@ -1,5 +1,5 @@
 import t from 'tap'
-import { TshyConfig } from '../src/types.js'
+import type { TshyConfig } from '../src/types.js'
 const mockFail = {
   default: (..._: any[]) => {},
 }

@@ -1,8 +1,10 @@
 // any time the root package.json or any typescript files in src
 // are changed/added/removed, run the build
+// oxlint-disable no-console
 import chalk from 'chalk'
 import { spawn } from 'child_process'
-import { watch, ChokidarOptions } from 'chokidar'
+import type { ChokidarOptions } from 'chokidar'
+import { watch } from 'chokidar'
 import { readFileSync } from 'fs'
 import { resolve, sep } from 'path'
 import { fileURLToPath } from 'url'

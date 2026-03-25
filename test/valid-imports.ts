@@ -1,5 +1,5 @@
 import t from 'tap'
-import { Package } from '../src/types.js'
+import type { Package } from '../src/types.js'
 
 let failed: undefined | string = undefined
 

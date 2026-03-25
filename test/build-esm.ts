@@ -1,4 +1,4 @@
-import { SpawnSyncReturns } from 'child_process'
+import type { SpawnSyncReturns } from 'child_process'
 import { readdirSync } from 'fs'
 import t from 'tap'
 

@@ -1,11 +1,11 @@
 // get the package.json data for the cwd
 
 import { readFileSync } from 'fs'
-import { JSONResult, parse, stringify } from 'polite-json'
+import { parse, stringify } from 'polite-json'
 import fail from './fail.js'
-import { Package } from './types.js'
+import type { Package } from './types.js'
 
-const isPackage = (pkg: JSONResult): pkg is Package =>
+const isPackage = (pkg: unknown): pkg is Package =>
   !!pkg && typeof pkg === 'object' && !Array.isArray(pkg)
 
 const readPkg = (): Package & { type: 'commonjs' | 'module' } => {

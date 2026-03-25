@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import t from 'tap'
-import {
+import type {
   Package,
   TshyConfig,
   TshyConfigMaybeGlobExports,

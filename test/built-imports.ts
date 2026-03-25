@@ -1,6 +1,6 @@
 import t from 'tap'
 import getImports from '../src/built-imports.js'
-import { Package } from '../src/types.js'
+import type { Package } from '../src/types.js'
 
 const cases: [
   pkg: Omit<Package, 'name' | 'version'>,

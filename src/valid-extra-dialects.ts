@@ -1,6 +1,6 @@
 // validate esmDialects and commonjsDialects
 import fail from './fail.js'
-import { TshyConfig } from './types.js'
+import type { TshyConfig } from './types.js'
 
 const arrayOverlap = (
   a: string[] | undefined,

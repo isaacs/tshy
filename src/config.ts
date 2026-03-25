@@ -6,7 +6,7 @@ import * as console from './console.js'
 import fail from './fail.js'
 import pkg from './package.js'
 import sources from './sources.js'
-import {
+import type {
   Package,
   TshyConfig,
   TshyConfigMaybeGlobExports,
@@ -19,19 +19,21 @@ import validImports from './valid-imports.js'
 import validProject from './valid-project.js'
 import validCompiler from './valid-compiler.js'
 
-const validBoolean = (e: Record<string, any>, name: string) => {
+const validBoolean = (e: Record<string, unknown>, name: string) => {
   const v = e[name]
   if (v === undefined || typeof v === 'boolean') return true
   fail(`tshy.${name} must be a boolean value if specified, got: ` + v)
   return process.exit(1)
 }
 
-const isStringArray = (e: any): e is string[] =>
+const isStringArray = (e: unknown): e is string[] =>
   !!e && Array.isArray(e) && !e.some(e => typeof e !== 'string')
 
-const validConfig = (e: any): e is TshyConfigMaybeGlobExports =>
-  !!e &&
-  typeof e === 'object' &&
+const isRecord = (e: unknown): e is Record<string, unknown> =>
+  !!e && typeof e === 'object' && !Array.isArray(e)
+
+const validConfig = (e: unknown): e is TshyConfigMaybeGlobExports =>
+  isRecord(e) &&
   (e.exports === undefined ||
     typeof e.exports === 'string' ||
     isStringArray(e.exports) ||
@@ -85,7 +87,7 @@ const getConfig = (pkg: Package, sources: Set<string>): TshyConfig => {
     }
   }
   const config = { ...tshy } as TshyConfig
-  const ti = config as TshyConfig & { imports?: any }
+  const ti = config as TshyConfig & { imports?: unknown }
   if (ti.imports) {
     console.debug(
       chalk.cyan.dim('imports') + ' moving from tshy config to top level',
@@ -102,7 +104,7 @@ const getConfig = (pkg: Package, sources: Set<string>): TshyConfig => {
       './package.json': './package.json',
     }
     for (const i of sources) {
-      if (/^\.\/src\/index\.[^\.]+$/.test(i)) {
+      if (/^\.\/src\/index\.[^.]+$/.test(i)) {
         e['.'] = i
         break
       }

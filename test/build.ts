@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import t from 'tap'
 import { fileURLToPath } from 'url'
-import { Package } from '../src/types.js'
+import type { Package } from '../src/types.js'
 
 const pkg = {} as unknown as Package
 

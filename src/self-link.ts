@@ -4,7 +4,7 @@ import { mkdirpSync } from 'mkdirp'
 import { dirname, relative, resolve, sep } from 'path'
 import { rimrafSync } from 'rimraf'
 import { walkUp } from 'walk-up-path'
-import { Package } from './types.js'
+import type { Package } from './types.js'
 
 const dirsMade = new Map<string, string>()
 

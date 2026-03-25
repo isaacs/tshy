@@ -4,13 +4,13 @@ import { rimrafSync } from 'rimraf'
 import * as console from './console.js'
 import getImports from './built-imports.js'
 import pkg from './package.js'
-import { Dialect } from './types.js'
+import type { Dialect } from './types.js'
 
 const writeDialectPJ = (d: string, mode?: Dialect) => {
   if (!mode) {
     return rimrafSync(`${d}/package.json`)
   }
-  const v: { type: string; imports?: Record<string, any> } = {
+  const v: { type: string; imports?: Record<string, unknown> } = {
     type: mode === 'commonjs' ? 'commonjs' : 'module',
     imports: getImports(pkg),
   }

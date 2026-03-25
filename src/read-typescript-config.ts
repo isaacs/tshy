@@ -18,7 +18,7 @@ const isFile = (f: string) => {
   }
 }
 
-let parsedTsConfig: Record<string, any> & {
+let parsedTsConfig: Record<string, unknown> & {
   compilerOptions: ParsedCommandLine['options']
 }
 export default () => {
@@ -60,8 +60,8 @@ const resolveConfig = (
 }
 
 const applyExtends = (
-  data: Record<string, any>,
-  base: Record<string, any>,
+  data: Record<string, unknown>,
+  base: Record<string, unknown>,
 ) => {
   for (const [key, val] of Object.entries(base)) {
     if (typeof val !== 'object' || Array.isArray(val)) {
@@ -70,9 +70,13 @@ const applyExtends = (
       data[key] = val
     } else if (
       typeof data[key] === 'object' &&
+      !!data[key] &&
       !Array.isArray(data[key])
     ) {
-      data[key] = applyExtends(data[key], val)
+      data[key] = applyExtends(
+        data[key] as Record<string, unknown>,
+        val as Record<string, unknown>,
+      )
     }
   }
   return data

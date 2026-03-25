@@ -1,6 +1,6 @@
 import chalk from 'chalk'
-import { SpawnOptions } from 'child_process'
-import { WatchOptions } from 'chokidar'
+import type { SpawnOptions } from 'child_process'
+import type { WatchOptions } from 'chokidar'
 import EventEmitter from 'events'
 import t from 'tap'
 import {

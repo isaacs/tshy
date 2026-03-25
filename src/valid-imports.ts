@@ -1,5 +1,5 @@
 import fail from './fail.js'
-import { Package } from './types.js'
+import type { Package } from './types.js'
 import validExternalExport from './valid-external-export.js'
 
 // validate the package.imports field

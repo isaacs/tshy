@@ -1,4 +1,4 @@
-import { SpawnSyncReturns } from 'child_process'
+import type { SpawnSyncReturns } from 'child_process'
 import { readdirSync } from 'fs'
 import t from 'tap'
 
@@ -61,7 +61,7 @@ t.test('basic commonjs build', async t => {
           export const u = 'file:///blah/blah.blah'
         `,
         'blah-cjs.cts': `
-          import { pathToFileURL } from 'url'
+          import { pathToFileURL } from 'node:url'
           export const u = String(pathToFileURL(__filename))
         `,
       },

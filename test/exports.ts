@@ -1,7 +1,8 @@
-import { ConditionalValue, ExportsSubpaths } from 'resolve-import'
-import t, { Test } from 'tap'
+import type { ConditionalValue, ExportsSubpaths } from 'resolve-import'
+import type { Test } from 'tap'
+import t from 'tap'
 import { PolyfillSet } from '../src/polyfills.js'
-import { Package, TshyConfig } from '../src/types.js'
+import type { Package, TshyConfig } from '../src/types.js'
 
 // order is relevant in the exports objects we're snapshotting here
 t.compareOptions = { sort: false }

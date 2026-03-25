@@ -21,7 +21,7 @@
     "resolve-import": "^2.4.0",
     "rimraf": "^6.1.2",
     "sync-content": "^2.0.3",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.2",
     "walk-up-path": "^4.0.0"
   },
   "scripts": {
@@ -34,10 +34,10 @@
     "format": "prettier --write . --ignore-path ./.prettierignore --cache",
     "typedoc": "typedoc --tsconfig .tshy/esm.json ./src/*.ts",
     "test": "tap",
-    "snap": "tap"
-  },
-  "tap": {
-    "coverage-map": "map.js"
+    "snap": "tap",
+    "lint": "oxlint --fix src test",
+    "postsnap": "npm run lint",
+    "postlint": "npm run format"
   },
   "engines": {
     "node": "20 || >=22"
@@ -52,11 +52,13 @@
     "build"
   ],
   "devDependencies": {
-    "@types/node": "^24.6.1",
+    "@types/node": "^25.5.0",
     "esbuild": "^0.27.2",
-    "prettier": "^3.6.2",
-    "tap": "^21.1.4",
-    "typedoc": "^0.28.14"
+    "oxlint": "^1.57.0",
+    "oxlint-tsgolint": "^0.17.4",
+    "prettier": "^3.8.1",
+    "tap": "^21.6.2",
+    "typedoc": "^0.28.18"
   },
   "tshy": {
     "compiler": "tsgo",

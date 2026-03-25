@@ -1,4 +1,4 @@
-import { SpawnSyncReturns } from 'node:child_process'
+import type { SpawnSyncReturns } from 'node:child_process'
 import * as console from './console.js'
 import fail from './fail.js'
 import setFolderDialect from './set-folder-dialect.js'

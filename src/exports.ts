@@ -11,7 +11,7 @@ import pkg from './package.js'
 import type { PolyfillSet } from './polyfills.js'
 import polyfills from './polyfills.js'
 import { resolveExport } from './resolve-export.js'
-import { Package, TshyConfig, TshyExport } from './types.js'
+import type { Package, TshyConfig, TshyExport } from './types.js'
 const { esmDialects = [], commonjsDialects = [] } = config
 
 const liveDev =

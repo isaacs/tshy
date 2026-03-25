@@ -1,6 +1,6 @@
 // merge tshy.imports with package.json imports
 
-import { Package } from './types.js'
+import type { Package } from './types.js'
 
 // strip the ./src/ and turn ts extension into js for built imports
 // leave unbuilt imports alone, they'll be symlinked

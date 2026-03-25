@@ -1,5 +1,5 @@
 export const resolveExport = (
-  exp: any,
+  exp: unknown,
   conditions: string[],
 ): string | undefined | null => {
   if (typeof exp === 'string') return exp

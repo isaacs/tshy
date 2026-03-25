@@ -25,8 +25,9 @@ const {
 
 const relativeExclude = exclude.map(e => `../${e.replace(/^\.\//, '')}`)
 
-const recommended: Record<string, any> = {
+const recommended: Record<string, unknown> = {
   compilerOptions: {
+    types: ['node'],
     rootDir: './',
     declaration: true,
     declarationMap: true,
@@ -45,7 +46,7 @@ const recommended: Record<string, any> = {
   },
 }
 
-const build = (): Record<string, any> => ({
+const build = (): Record<string, unknown> => ({
   extends:
     config.project === undefined ?
       '../tsconfig.json'
@@ -61,7 +62,7 @@ const build = (): Record<string, any> => ({
   },
 })
 
-const commonjs = (dialect: string): Record<string, any> => {
+const commonjs = (dialect: string): Record<string, unknown> => {
   const exclude = [
     ...relativeExclude,
     '../src/**/*.mts',
@@ -89,7 +90,7 @@ const commonjs = (dialect: string): Record<string, any> => {
   }
 }
 
-const esm = (dialect: string): Record<string, any> => {
+const esm = (dialect: string): Record<string, unknown> => {
   const exclude: string[] = [...relativeExclude, '../src/package.json']
   for (const [d, pf] of polyfills) {
     if (d === dialect) continue
@@ -113,7 +114,7 @@ const esm = (dialect: string): Record<string, any> => {
 }
 
 mkdirpSync('.tshy')
-const writeConfig = (name: string, data: Record<string, any>) =>
+const writeConfig = (name: string, data: Record<string, unknown>) =>
   writeFileSync(`.tshy/${name}.json`, JSON.stringify(data, null, 2) + '\n')
 
 console.debug(chalk.cyan.dim('writing tsconfig files...'))

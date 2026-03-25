@@ -277,10 +277,14 @@ Object {
     "moduleResolution": "nodenext",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
+    "rootDir": "./",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
     "target": "es2022",
+    "types": Array [
+      "node",
+    ],
   },
 }
 `

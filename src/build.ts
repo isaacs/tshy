@@ -52,10 +52,11 @@ export default async () => {
       await linkImports(pkg, 'dist/commonjs', true)
     if (dialects.includes('esm')) await linkImports(pkg, 'dist/esm', true)
     if (saveImports('dist/.tshy-link-imports.mjs')) {
-      pkg.scripts = pkg.scripts || {}
-      pkg.scripts.preinstall =
+      const scripts = (pkg.scripts || {}) as Record<string, string>
+      scripts.preinstall =
         'node -e "import(process.argv[1]).catch(()=>{})" ' +
         'dist/.tshy-link-imports.mjs'
+      pkg.scripts = scripts
     }
   }
 

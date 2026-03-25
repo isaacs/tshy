@@ -1,6 +1,6 @@
 import { posix as path, resolve } from 'node:path'
 import t from 'tap'
-import { Package } from '../src/types.js'
+import type { Package } from '../src/types.js'
 
 let mkdirpMade: undefined | string = undefined
 const mkdirp = {

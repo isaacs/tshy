@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "types": [
+      "node"
+    ],
+    "rootDir": "./",
     "jsx": "react",
     "declaration": true,
     "declarationMap": true,

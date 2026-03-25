@@ -1,7 +1,7 @@
 import fail from './fail.js'
-import { TshyConfig } from './types.js'
+import type { TshyConfig } from './types.js'
 export default (
-  d: any,
+  d: unknown,
 ): d is Exclude<TshyConfig['exclude'], undefined> => {
   if (
     !!d &&

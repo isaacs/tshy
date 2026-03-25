@@ -42,5 +42,5 @@ export type Package = {
   exports?: ExportsSubpaths
   tshy?: TshyConfigMaybeGlobExports
   imports?: Imports
-  [k: string]: any
+  [k: string]: unknown
 }

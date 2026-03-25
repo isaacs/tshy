@@ -1,12 +1,15 @@
 import addDot from './add-dot.js'
 import fail from './fail.js'
-import { TshyConfig } from './types.js'
+import type { TshyConfig } from './types.js'
 import validExternalExport from './valid-external-export.js'
 
+const isRecord = (e: unknown): e is Record<string, unknown> =>
+  !!e && typeof e === 'object' && !Array.isArray(e)
+
 export default (
-  e: any,
+  e: unknown,
 ): e is Exclude<TshyConfig['exports'], undefined> => {
-  if (!e || typeof e !== 'object' || Array.isArray(e)) return false
+  if (!isRecord(e)) return false
   for (const [sub, exp] of Object.entries(e)) {
     if (sub !== '.' && !sub.startsWith('./')) {
       fail(`tshy.exports key must be "." or start with "./", got: ${sub}`)
