@@ -3,6 +3,7 @@
   "categories": {},
   "options": {},
   "rules": {
+    "no-empty-file": "error",
     "no-unsafe-finally": "off",
     "no-param-reassign": "off",
     "no-dupe-keys": "error",
@@ -111,13 +112,18 @@
     {
       "files": [
         "**/*.test.ts",
+        "**/*.test.mts",
+        "**/*.test.cts",
         "**/*.test.tsx",
         "**/*.test.js",
+        "**/*.test.cjs",
+        "**/*.test.mjs",
         "**/*.test.jsx",
         "**/test/**",
         "**/tests/**"
       ],
       "rules": {
+        "no-empty-file": "error",
         "guard-for-in": "off",
         "no-param-reassign": "off",
         "no-unused-vars": "off",

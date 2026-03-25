@@ -15,7 +15,7 @@ const dirsMade = new Map<string, string>()
 // will break nx's change detection logic with an ELOOP error.
 let inNM: boolean | undefined = undefined
 
-const linkedAlready = (pkg: Package) => {
+export const linkedAlready = (pkg: Package) => {
   if (inNM !== undefined) {
     return inNM
   }

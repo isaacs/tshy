@@ -31,7 +31,7 @@
     "prepare": "tsgo -p .tshy/esm.json && bash scripts/fixup.sh",
     "pretest": "npm run prepare",
     "presnap": "npm run prepare",
-    "format": "prettier --write . --ignore-path ./.prettierignore --cache",
+    "format": "prettier --write .",
     "typedoc": "typedoc --tsconfig .tshy/esm.json ./src/*.ts",
     "test": "tap",
     "snap": "tap",
