@@ -358,11 +358,12 @@ t.test('extra dialects', async t => {
                 '../dist/esm/sources.js': {
                   default: new Set([
                     './src/index.ts',
-                    './src/index-blah.cts',
+                    './src/index-blah.ts',
                     './src/index-cjs.cts',
                     './src/index-deno.mts',
                     './src/foo.ts',
                     './src/foo-blah.cts',
+                    './src/foo-esm.mts',
                   ]),
                 },
               },

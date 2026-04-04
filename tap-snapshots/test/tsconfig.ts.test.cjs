@@ -17,6 +17,27 @@ Object {
 }
 `
 
+exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > .tshy/commonjs-webpack.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "outDir": "../.tshy-build/commonjs/webpack",
+  },
+  "exclude": Array [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
+  ],
+  "extends": "./build.json",
+  "include": Array [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json",
+  ],
+}
+`
+
 exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > .tshy/commonjs.json 1`] = `
 Object {
   "compilerOptions": Object {
@@ -37,10 +58,10 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > .tshy/deno.json 1`] = `
+exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > .tshy/esm-deno.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build/deno",
+    "outDir": "../.tshy-build/esm/deno",
   },
   "exclude": Array [
     "../src/package.json",
@@ -76,27 +97,6 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > .tshy/webpack.json 1`] = `
-Object {
-  "compilerOptions": Object {
-    "outDir": "../.tshy-build/webpack",
-  },
-  "exclude": Array [
-    "../src/**/*.mts",
-    "../src/package.json",
-    "../src/index-cjs.cts",
-    "../src/index-deno.mts",
-  ],
-  "extends": "./build.json",
-  "include": Array [
-    "../src/**/*.ts",
-    "../src/**/*.cts",
-    "../src/**/*.tsx",
-    "../src/**/*.json",
-  ],
-}
-`
-
 exports[`test/tsconfig.ts > TAP > with custom project tsconfig name > custom.json 1`] = `
 Object {
   "compilerOptions": Object {
@@ -126,6 +126,28 @@ Object {
     "rootDir": "../src",
   },
   "extends": "../tsconfig.json",
+}
+`
+
+exports[`test/tsconfig.ts > TAP > with tsconfig.json file > .tshy/commonjs-webpack.json 1`] = `
+Object {
+  "compilerOptions": Object {
+    "outDir": "../.tshy-build/commonjs/webpack",
+  },
+  "exclude": Array [
+    "../src/**/*.test.ts",
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/index-cjs.cts",
+    "../src/index-deno.mts",
+  ],
+  "extends": "./build.json",
+  "include": Array [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json",
+  ],
 }
 `
 
@@ -171,10 +193,10 @@ Object {
 }
 `
 
-exports[`test/tsconfig.ts > TAP > with tsconfig.json file > .tshy/deno.json 1`] = `
+exports[`test/tsconfig.ts > TAP > with tsconfig.json file > .tshy/esm-deno.json 1`] = `
 Object {
   "compilerOptions": Object {
-    "outDir": "../.tshy-build/deno",
+    "outDir": "../.tshy-build/esm/deno",
   },
   "exclude": Array [
     "../src/**/*.test.ts",
@@ -227,28 +249,6 @@ Object {
   "include": Array [
     "../src/**/*.ts",
     "../src/**/*.mts",
-    "../src/**/*.tsx",
-    "../src/**/*.json",
-  ],
-}
-`
-
-exports[`test/tsconfig.ts > TAP > with tsconfig.json file > .tshy/webpack.json 1`] = `
-Object {
-  "compilerOptions": Object {
-    "outDir": "../.tshy-build/webpack",
-  },
-  "exclude": Array [
-    "../src/**/*.test.ts",
-    "../src/**/*.mts",
-    "../src/package.json",
-    "../src/index-cjs.cts",
-    "../src/index-deno.mts",
-  ],
-  "extends": "./build.json",
-  "include": Array [
-    "../src/**/*.ts",
-    "../src/**/*.cts",
     "../src/**/*.tsx",
     "../src/**/*.json",
   ],

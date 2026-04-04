@@ -15,22 +15,23 @@ const { commonjsDialects = [] } = config
 // don't actually do a build, just link files into places.
 export const buildLiveCommonJS = () => {
   for (const d of ['commonjs', ...commonjsDialects]) {
-    const pf = polyfills.get(d === 'commonjs' ? 'cjs' : d)
-    console.debug(chalk.cyan.dim('linking ' + d))
+    const pfn = d === 'commonjs' ? 'cjs' : `commonjs-${d}`
+    const dist = d === 'commonjs' ? 'commonjs' : `commonjs/${d}`
+    const pf = polyfills.get(pfn)
+    console.debug(chalk.cyan.dim('linking ' + dist))
     for (const s of sources) {
       const source = s.substring('./src/'.length)
-      const target = resolve(`.tshy-build/${d}/${source}`)
+      const target = resolve(`.tshy-build/${dist}/${source}`)
       mkdirSync(dirname(target), { recursive: true })
       linkSync(s, target)
     }
-    setFolderDialect('.tshy-build/' + d, 'commonjs')
     for (const [override, orig] of pf?.map.entries() ?? []) {
       const stemFrom = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(override)),
       ).replace(/\.cts$/, '')
       const stemTo = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
       ifExist.unlink(`${stemTo}.js.map`)
@@ -40,4 +41,5 @@ export const buildLiveCommonJS = () => {
     }
     console.error(chalk.cyan.bold('linked commonjs'))
   }
+  setFolderDialect('.tshy-build/commonjs', 'commonjs')
 }

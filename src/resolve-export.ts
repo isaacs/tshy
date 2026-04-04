@@ -12,7 +12,7 @@ export const resolveExport = (
     }
     return undefined
   }
-  const conds = [...conditions, 'node', 'default']
+  const conds = [...conditions, 'default']
   for (const [c, e] of Object.entries(exp)) {
     if (conds.includes(c)) {
       const u = resolveExport(e, conditions)

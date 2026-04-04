@@ -9,12 +9,17 @@ exports[`test/polyfills.ts > TAP > must match snapshot 1`] = `
 Map(3) {
   'cjs' => [
     'cjs',
+    'commonjs',
     Map(2) {
       './src/foo-cjs.cts' => './src/foo.ts',
       './src/jsx-cjs.cts' => './src/jsx.tsx'
     }
   ],
-  'blah' => [ 'blah', Map(1) { './src/foo-blah.cts' => './src/foo.ts' } ],
-  'deno' => [ 'deno', Map(1) { './src/foo-deno.mts' => './src/foo.ts' } ]
+  'commonjs-blah' => [
+    'blah',
+    'commonjs',
+    Map(1) { './src/foo-blah.cts' => './src/foo.ts' }
+  ],
+  'esm-deno' => [ 'deno', 'esm', Map(1) { './src/foo-deno.mts' => './src/foo.ts' } ]
 }
 `

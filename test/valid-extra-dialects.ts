@@ -6,6 +6,15 @@ const mockFail = {
 const fails = t.capture(mockFail, 'default').args
 const exits = t.capture(process, 'exit').args
 
+t.chdir(
+  t.testdir({
+    src: {
+      folderinsrc: {},
+      'fileinsrc.ts': '',
+    },
+  }),
+)
+
 const { default: validExtraDialects } = (await t.mockImport(
   '../src/valid-extra-dialects.js',
   {
@@ -17,16 +26,20 @@ const cases: [config: TshyConfig, ok: boolean][] = [
   [{}, true],
   [{ commonjsDialects: ['blah'] }, true],
   [{ esmDialects: ['blah'] }, true],
-  [{ esmDialects: ['blah'], commonjsDialects: ['blah'] }, false],
+  [
+    { esmDialects: ['src/fileinsrc.ts'], commonjsDialects: ['blah'] },
+    false,
+  ],
+  [{ esmDialects: ['folderinsrc'], commonjsDialects: ['blah'] }, false],
   [{ esmDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
   [{ sourceDialects: ['blah'], commonjsDialects: ['blah'] }, false],
+  [{ sourceDialects: ['blah'], esmDialects: ['blah'] }, false],
   [{ sourceDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
   [{ esmDialects: ['blah'], sourceDialects: ['blah'] }, false],
   [{ esmDialects: ['blah'], sourceDialects: ['bloo'] }, true],
   [{ esmDialects: ['default'] }, false],
   [{ esmDialects: ['import'] }, false],
   [{ esmDialects: ['require'] }, false],
-  [{ esmDialects: ['node'] }, false],
   [{ esmDialects: ['commonjs'] }, false],
   [{ esmDialects: ['cjs'] }, false],
   [{ esmDialects: ['source'] }, false],

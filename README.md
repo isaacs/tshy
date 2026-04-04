@@ -11,11 +11,12 @@ formats](https://twitter.com/atcb/status/1702069237710479608).
 
 > > [!NOTICE]
 >
-> ## Upgrading from v3 to v4
+> ## Upgrading from v3 to v4 and v5
 >
-> Version 4 switches from TypeScript 5 to TypeScript 6. (Note: you
-> can already preview TypeScript 7 by setting `"compiler": "tsgo"`
-> in your tshy options.)
+> Version 4 switches from TypeScript 5 to TypeScript 6 by
+> default. (Note: you can already preview TypeScript 7 by setting
+> `"compiler": "tsgo"` in your tshy options, or any other version
+> by specify `typescript` as a `devDependency` in your project.)
 >
 > This may cause problems upgrading, because tshy will only
 > create a new `tsconfig.json` file if the file is missing
@@ -279,6 +280,10 @@ CommonJS and `./dist/esm` for ESM.
 
 There is very little configuration for this, but a lot of things
 _can_ be configured.
+
+### How to Configure Tshy
+
+Set options in the `tshy` field in `package.json`.
 
 ### `exports`
 
@@ -770,7 +775,9 @@ builds entirely, you can add an `exclude` `string[]` field to the
 If you have any other dialects that you'd like to support, you
 can list them as either `commonjsDialects` or `esmDialects`,
 depending on whether you want them to be built as CommonJS or
-ESM.
+ESM. As of version 4.1, it is possible to have a dialect in both
+types, and it'll build to both `dist/commonjs/${name}` and
+`dist/esm/${name}`, as appropriate.
 
 Note that each added dialect you create will result in another
 build in the `./dist` folder, so you may wish to use sparingly if
@@ -796,23 +803,23 @@ Will result in:
 {
   "exports": {
     ".": {
-      "deno": {
-        "types": "./dist/deno/index.d.ts",
-        "default": "./dist/deno/index.js"
-      },
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "webpack": {
-        "types": "./dist/webpack/index.d.ts",
-        "default": "./dist/webpack/index.js"
-      },
       "require": {
+        "webpack": {
+          "types": "./dist/commonjs/webpack/index.d.ts",
+          "default": "./dist/commonjs/webpack/index.js"
+        },
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       },
       "import": {
+        "deno": {
+          "types": "./dist/esm/deno/index.d.ts",
+          "default": "./dist/esm/deno/index.js"
+        },
+        "browser": {
+          "types": "./dist/esm/browser/index.d.ts",
+          "default": "./dist/esm/browser/index.js"
+        },
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       }
@@ -836,39 +843,6 @@ src/index-cjs.cts      # cjs variant for default commonjs
 src/index-browser.mts  # esm variant for the browser
 src/index-deno.mts     # esm variant for deno
 src/index-webpack.cts  # cjs variant for webpack
-```
-
-If dialect overrides are used, then the `"source"` export
-condition will refer to the original source for the override. For
-example:
-
-```json
-{
-  "exports": {
-    ".": {
-      "deno": {
-        "types": "./dist/deno/index.d.ts",
-        "default": "./dist/deno/index.js"
-      },
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "webpack": {
-        "types": "./dist/webpack/index.d.ts",
-        "default": "./dist/webpack/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      }
-    }
-  }
-}
 ```
 
 Note that the `commonjs` override uses the abbreviated `cjs`

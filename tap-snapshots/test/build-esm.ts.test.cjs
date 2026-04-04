@@ -7,6 +7,19 @@
 'use strict'
 exports[`test/build-esm.ts > TAP > basic esm build > must match snapshot 1`] = `
 Array [
+  Array [
+    "blah",
+    Array [
+      "blah-blah.d.mts.map",
+      "blah-blah.mjs.map",
+      "blah.d.ts",
+      "blah.js",
+      "index.d.ts",
+      "index.d.ts.map",
+      "index.js",
+      "index.js.map",
+    ],
+  ],
   "blah.d.ts",
   "blah.d.ts.map",
   "blah.js",
@@ -15,6 +28,19 @@ Array [
   "index.d.ts.map",
   "index.js",
   "index.js.map",
+  Array [
+    "no-overrides",
+    Array [
+      "blah.d.ts",
+      "blah.d.ts.map",
+      "blah.js",
+      "blah.js.map",
+      "index.d.ts",
+      "index.d.ts.map",
+      "index.js",
+      "index.js.map",
+    ],
+  ],
   "package.json",
 ]
 `
@@ -37,7 +63,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/blah.json",
+      ".tshy/esm-blah.json",
     ],
     Object {
       "stdio": "inherit",
@@ -48,7 +74,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/no-overrides.json",
+      ".tshy/esm-no-overrides.json",
     ],
     Object {
       "stdio": "inherit",
@@ -88,7 +114,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/blah.json",
+      ".tshy/esm-blah.json",
     ],
     Object {
       "stdio": "inherit",
@@ -99,7 +125,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/no-overrides.json",
+      ".tshy/esm-no-overrides.json",
     ],
     Object {
       "stdio": "inherit",

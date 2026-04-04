@@ -62,18 +62,22 @@ const build = (): Record<string, unknown> => ({
   },
 })
 
-const commonjs = (dialect: string): Record<string, unknown> => {
+const commonjs = (
+  dialect: string,
+  dist: string,
+): Record<string, unknown> => {
   const exclude = [
     ...relativeExclude,
     '../src/**/*.mts',
     '../src/package.json',
   ]
-  for (const [d, pf] of polyfills) {
-    if (d === dialect) continue
+  for (const pf of polyfills.values()) {
+    if (pf.name === dialect && pf.type === 'commonjs') continue
     for (const f of pf.map.keys()) {
       exclude.push(`../${join(f)}`)
     }
   }
+  console.error('excluded:', exclude)
   return {
     extends: './build.json',
     include: [
@@ -84,16 +88,15 @@ const commonjs = (dialect: string): Record<string, unknown> => {
     ],
     exclude,
     compilerOptions: {
-      outDir:
-        '../.tshy-build/' + (dialect === 'cjs' ? 'commonjs' : dialect),
+      outDir: '../.tshy-build/' + dist,
     },
   }
 }
 
-const esm = (dialect: string): Record<string, unknown> => {
+const esm = (dialect: string, dist: string): Record<string, unknown> => {
   const exclude: string[] = [...relativeExclude, '../src/package.json']
-  for (const [d, pf] of polyfills) {
-    if (d === dialect) continue
+  for (const pf of polyfills.values()) {
+    if (pf.name === dialect && pf.type === 'esm') continue
     for (const f of pf.map.keys()) {
       exclude.push(`../${f.replace(/^\.\//, '')}`)
     }
@@ -108,7 +111,7 @@ const esm = (dialect: string): Record<string, unknown> => {
     ],
     exclude,
     compilerOptions: {
-      outDir: '../.tshy-build/' + dialect,
+      outDir: '../.tshy-build/' + dist,
     },
   }
 }
@@ -130,14 +133,14 @@ for (const f of readdirSync('.tshy')) {
 }
 writeConfig('build', build())
 if (dialects.includes('commonjs')) {
-  writeConfig('commonjs', commonjs('cjs'))
+  writeConfig('commonjs', commonjs('cjs', 'commonjs'))
   for (const d of commonjsDialects) {
-    writeConfig(d, commonjs(d))
+    writeConfig(`commonjs-${d}`, commonjs(d, `commonjs/${d}`))
   }
 }
 if (dialects.includes('esm')) {
-  writeConfig('esm', esm('esm'))
+  writeConfig('esm', esm('esm', 'esm'))
   for (const d of esmDialects) {
-    writeConfig(d, esm(d))
+    writeConfig(`esm-${d}`, esm(d, `esm/${d}`))
   }
 }

@@ -7,10 +7,28 @@
 'use strict'
 exports[`test/build-live-commonjs.ts > TAP > commonjs live dev build > must match snapshot 1`] = `
 Array [
+  Array [
+    "blah",
+    Array [
+      "blah-blah.cts",
+      "blah-cjs.cts",
+      "blah.ts",
+      "index.ts",
+    ],
+  ],
   "blah-blah.cts",
   "blah-cjs.cts",
   "blah.ts",
   "index.ts",
+  Array [
+    "no-overrides",
+    Array [
+      "blah-blah.cts",
+      "blah-cjs.cts",
+      "blah.ts",
+      "index.ts",
+    ],
+  ],
   "package.json",
 ]
 `

@@ -9,7 +9,7 @@ exports[`test/exports.ts > TAP > extra dialects > commonjs > extras=false type=c
 Object {
   ".": Object {
     "require": Object {
-      "my-source": "./src/index.ts",
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
@@ -28,6 +28,7 @@ exports[`test/exports.ts > TAP > extra dialects > commonjs > extras=false type=m
 Object {
   ".": Object {
     "require": Object {
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
@@ -44,22 +45,24 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > commonjs > extras=true type=commonjs > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "require": Object {
-      "my-source": "./src/index.ts",
+      "blah": Object {
+        "my-source": "./src/index-blah.ts",
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
-    "blah": Object {
-      "types": "./dist/blah/foo.d.ts",
-      "default": "./dist/blah/foo.js",
-    },
     "require": Object {
+      "blah": Object {
+        "my-source": "./src/foo-blah.cts",
+        "types": "./dist/commonjs/blah/foo.d.ts",
+        "default": "./dist/commonjs/blah/foo.js",
+      },
       "my-source": "./src/foo.ts",
       "types": "./dist/commonjs/foo.d.ts",
       "default": "./dist/commonjs/foo.js",
@@ -71,23 +74,23 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > commonjs > extras=true type=module > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "blah": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
-    "blah": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/blah/foo.d.ts",
-      "default": "./dist/blah/foo.js",
-    },
     "require": Object {
+      "blah": Object {
+        "my-source": "./src/foo-blah.cts",
+        "types": "./dist/commonjs/blah/foo.d.ts",
+        "default": "./dist/commonjs/blah/foo.js",
+      },
       "types": "./dist/commonjs/foo.d.ts",
       "default": "./dist/commonjs/foo.js",
     },
@@ -105,6 +108,7 @@ Object {
   },
   "./foo": Object {
     "import": Object {
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -123,7 +127,7 @@ Object {
   },
   "./foo": Object {
     "import": Object {
-      "my-source": "./src/foo.ts",
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -134,33 +138,31 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > esm > extras=true type=commonjs > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "no-overrides": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/no-overrides/index.d.ts",
-      "default": "./dist/no-overrides/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "my-source": "./src/index-deno.mts",
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
+      "no-overrides": Object {
+        "types": "./dist/esm/no-overrides/index.d.ts",
+        "default": "./dist/esm/no-overrides/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
   },
   "./foo": Object {
-    "deno": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/deno/foo.d.ts",
-      "default": "./dist/deno/foo.js",
-    },
-    "no-overrides": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/no-overrides/foo.d.ts",
-      "default": "./dist/no-overrides/foo.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.d.ts",
+        "default": "./dist/esm/deno/foo.js",
+      },
+      "no-overrides": Object {
+        "types": "./dist/esm/no-overrides/foo.d.ts",
+        "default": "./dist/esm/no-overrides/foo.js",
+      },
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -171,31 +173,35 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > esm > extras=true type=module > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "no-overrides": Object {
-      "types": "./dist/no-overrides/index.d.ts",
-      "default": "./dist/no-overrides/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "my-source": "./src/index-deno.mts",
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
+      "no-overrides": Object {
+        "my-source": "./src/index.ts",
+        "types": "./dist/esm/no-overrides/index.d.ts",
+        "default": "./dist/esm/no-overrides/index.js",
+      },
       "my-source": "./src/index.ts",
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
   },
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.d.ts",
-      "default": "./dist/deno/foo.js",
-    },
-    "no-overrides": Object {
-      "types": "./dist/no-overrides/foo.d.ts",
-      "default": "./dist/no-overrides/foo.js",
-    },
     "import": Object {
-      "my-source": "./src/foo.ts",
+      "deno": Object {
+        "my-source": "./src/foo.ts",
+        "types": "./dist/esm/deno/foo.d.ts",
+        "default": "./dist/esm/deno/foo.js",
+      },
+      "no-overrides": Object {
+        "my-source": "./src/foo.ts",
+        "types": "./dist/esm/no-overrides/foo.d.ts",
+        "default": "./dist/esm/no-overrides/foo.js",
+      },
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -211,13 +217,14 @@ Object {
       "default": "./dist/esm/index.js",
     },
     "require": Object {
-      "my-source": "./src/index.ts",
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
     "import": Object {
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -239,13 +246,14 @@ Object {
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
     "import": Object {
-      "my-source": "./src/foo.ts",
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
@@ -260,50 +268,50 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > undefined > extras=true type=commonjs > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "no-overrides": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/no-overrides/index.d.ts",
-      "default": "./dist/no-overrides/index.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "my-source": "./src/index-deno.mts",
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
+      "no-overrides": Object {
+        "types": "./dist/esm/no-overrides/index.d.ts",
+        "default": "./dist/esm/no-overrides/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
-      "my-source": "./src/index.ts",
+      "blah": Object {
+        "my-source": "./src/index-blah.ts",
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
-    "deno": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/deno/foo.d.ts",
-      "default": "./dist/deno/foo.js",
-    },
-    "no-overrides": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/no-overrides/foo.d.ts",
-      "default": "./dist/no-overrides/foo.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/foo.d.ts",
-      "default": "./dist/blah/foo.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.d.ts",
+        "default": "./dist/esm/deno/foo.js",
+      },
+      "no-overrides": Object {
+        "types": "./dist/esm/no-overrides/foo.d.ts",
+        "default": "./dist/esm/no-overrides/foo.js",
+      },
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
     "require": Object {
+      "blah": Object {
+        "my-source": "./src/foo-blah.cts",
+        "types": "./dist/commonjs/blah/foo.d.ts",
+        "default": "./dist/commonjs/blah/foo.js",
+      },
       "my-source": "./src/foo.ts",
       "types": "./dist/commonjs/foo.d.ts",
       "default": "./dist/commonjs/foo.js",
@@ -315,49 +323,53 @@ Object {
 exports[`test/exports.ts > TAP > extra dialects > undefined > extras=true type=module > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "no-overrides": Object {
-      "types": "./dist/no-overrides/index.d.ts",
-      "default": "./dist/no-overrides/index.js",
-    },
-    "blah": Object {
-      "my-source": "./src/index.ts",
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "my-source": "./src/index-deno.mts",
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
+      "no-overrides": Object {
+        "my-source": "./src/index.ts",
+        "types": "./dist/esm/no-overrides/index.d.ts",
+        "default": "./dist/esm/no-overrides/index.js",
+      },
       "my-source": "./src/index.ts",
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
+      "my-source": "./src/index-cjs.cts",
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.d.ts",
-      "default": "./dist/deno/foo.js",
-    },
-    "no-overrides": Object {
-      "types": "./dist/no-overrides/foo.d.ts",
-      "default": "./dist/no-overrides/foo.js",
-    },
-    "blah": Object {
-      "my-source": "./src/foo.ts",
-      "types": "./dist/blah/foo.d.ts",
-      "default": "./dist/blah/foo.js",
-    },
     "import": Object {
-      "my-source": "./src/foo.ts",
+      "deno": Object {
+        "my-source": "./src/foo.ts",
+        "types": "./dist/esm/deno/foo.d.ts",
+        "default": "./dist/esm/deno/foo.js",
+      },
+      "no-overrides": Object {
+        "my-source": "./src/foo.ts",
+        "types": "./dist/esm/no-overrides/foo.d.ts",
+        "default": "./dist/esm/no-overrides/foo.js",
+      },
+      "my-source": "./src/foo-esm.mts",
       "types": "./dist/esm/foo.d.ts",
       "default": "./dist/esm/foo.js",
     },
     "require": Object {
+      "blah": Object {
+        "my-source": "./src/foo-blah.cts",
+        "types": "./dist/commonjs/blah/foo.d.ts",
+        "default": "./dist/commonjs/blah/foo.js",
+      },
       "types": "./dist/commonjs/foo.d.ts",
       "default": "./dist/commonjs/foo.js",
     },
@@ -368,47 +380,47 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > commonjs > no envs > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "default": "./dist/deno/index.ts",
-    },
-    "blah": Object {
-      "default": "./dist/blah/index.ts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/index.ts",
+      },
       "default": "./dist/esm/index.ts",
     },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/index.ts",
+      },
       "default": "./dist/commonjs/index.ts",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "default": "./dist/deno/foo.mts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/foo.mts",
+      },
       "default": "./dist/esm/foo.mts",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "default": "./dist/blah/foo.cts",
-    },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/foo.cts",
+      },
       "default": "./dist/commonjs/foo.cts",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "default": "./dist/deno/fill.ts",
-    },
-    "blah": Object {
-      "default": "./dist/blah/fill.ts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/fill.ts",
+      },
       "default": "./dist/esm/fill.ts",
     },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/fill.ts",
+      },
       "default": "./dist/commonjs/fill.ts",
     },
   },
@@ -418,58 +430,58 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > commonjs > pack > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.mjs",
-      "default": "./dist/deno/foo.mjs",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.mjs",
+        "default": "./dist/esm/deno/foo.mjs",
+      },
       "types": "./dist/esm/foo.d.mts",
       "default": "./dist/esm/foo.mjs",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "types": "./dist/blah/foo.cjs",
-      "default": "./dist/blah/foo.cjs",
-    },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/foo.cjs",
+        "default": "./dist/commonjs/blah/foo.cjs",
+      },
       "types": "./dist/commonjs/foo.d.cts",
       "default": "./dist/commonjs/foo.cjs",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "types": "./dist/deno/fill.d.ts",
-      "default": "./dist/deno/fill.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/fill.d.ts",
-      "default": "./dist/blah/fill.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/fill.d.ts",
+        "default": "./dist/esm/deno/fill.js",
+      },
       "types": "./dist/esm/fill.d.ts",
       "default": "./dist/esm/fill.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/fill.d.ts",
+        "default": "./dist/commonjs/blah/fill.js",
+      },
       "types": "./dist/commonjs/fill.d.ts",
       "default": "./dist/commonjs/fill.js",
     },
@@ -480,58 +492,58 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > commonjs > publish > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.mjs",
-      "default": "./dist/deno/foo.mjs",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.mjs",
+        "default": "./dist/esm/deno/foo.mjs",
+      },
       "types": "./dist/esm/foo.d.mts",
       "default": "./dist/esm/foo.mjs",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "types": "./dist/blah/foo.cjs",
-      "default": "./dist/blah/foo.cjs",
-    },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/foo.cjs",
+        "default": "./dist/commonjs/blah/foo.cjs",
+      },
       "types": "./dist/commonjs/foo.d.cts",
       "default": "./dist/commonjs/foo.cjs",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "types": "./dist/deno/fill.d.ts",
-      "default": "./dist/deno/fill.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/fill.d.ts",
-      "default": "./dist/blah/fill.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/fill.d.ts",
+        "default": "./dist/esm/deno/fill.js",
+      },
       "types": "./dist/esm/fill.d.ts",
       "default": "./dist/esm/fill.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/fill.d.ts",
+        "default": "./dist/commonjs/blah/fill.js",
+      },
       "types": "./dist/commonjs/fill.d.ts",
       "default": "./dist/commonjs/fill.js",
     },
@@ -542,47 +554,47 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > module > no envs > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "default": "./dist/deno/index.ts",
-    },
-    "blah": Object {
-      "default": "./dist/blah/index.ts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/index.ts",
+      },
       "default": "./dist/esm/index.ts",
     },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/index.ts",
+      },
       "default": "./dist/commonjs/index.ts",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "default": "./dist/deno/foo.mts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/foo.mts",
+      },
       "default": "./dist/esm/foo.mts",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "default": "./dist/blah/foo.cts",
-    },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/foo.cts",
+      },
       "default": "./dist/commonjs/foo.cts",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "default": "./dist/deno/fill.ts",
-    },
-    "blah": Object {
-      "default": "./dist/blah/fill.ts",
-    },
     "import": Object {
+      "deno": Object {
+        "default": "./dist/esm/deno/fill.ts",
+      },
       "default": "./dist/esm/fill.ts",
     },
     "require": Object {
+      "blah": Object {
+        "default": "./dist/commonjs/blah/fill.ts",
+      },
       "default": "./dist/commonjs/fill.ts",
     },
   },
@@ -592,58 +604,58 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > module > pack > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.mjs",
-      "default": "./dist/deno/foo.mjs",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.mjs",
+        "default": "./dist/esm/deno/foo.mjs",
+      },
       "types": "./dist/esm/foo.d.mts",
       "default": "./dist/esm/foo.mjs",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "types": "./dist/blah/foo.cjs",
-      "default": "./dist/blah/foo.cjs",
-    },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/foo.cjs",
+        "default": "./dist/commonjs/blah/foo.cjs",
+      },
       "types": "./dist/commonjs/foo.d.cts",
       "default": "./dist/commonjs/foo.cjs",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "types": "./dist/deno/fill.d.ts",
-      "default": "./dist/deno/fill.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/fill.d.ts",
-      "default": "./dist/blah/fill.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/fill.d.ts",
+        "default": "./dist/esm/deno/fill.js",
+      },
       "types": "./dist/esm/fill.d.ts",
       "default": "./dist/esm/fill.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/fill.d.ts",
+        "default": "./dist/commonjs/blah/fill.js",
+      },
       "types": "./dist/commonjs/fill.d.ts",
       "default": "./dist/commonjs/fill.js",
     },
@@ -654,58 +666,58 @@ Object {
 exports[`test/exports.ts > TAP > liveDev > module > publish > must match snapshot 1`] = `
 Object {
   ".": Object {
-    "deno": Object {
-      "types": "./dist/deno/index.d.ts",
-      "default": "./dist/deno/index.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/index.d.ts",
-      "default": "./dist/blah/index.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/index.d.ts",
+        "default": "./dist/esm/deno/index.js",
+      },
       "types": "./dist/esm/index.d.ts",
       "default": "./dist/esm/index.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/index.d.ts",
+        "default": "./dist/commonjs/blah/index.js",
+      },
       "types": "./dist/commonjs/index.d.ts",
       "default": "./dist/commonjs/index.js",
     },
   },
   "./package.json": "./package.json",
   "./foo": Object {
-    "deno": Object {
-      "types": "./dist/deno/foo.mjs",
-      "default": "./dist/deno/foo.mjs",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/foo.mjs",
+        "default": "./dist/esm/deno/foo.mjs",
+      },
       "types": "./dist/esm/foo.d.mts",
       "default": "./dist/esm/foo.mjs",
     },
   },
   "./foo-cjs": Object {
-    "blah": Object {
-      "types": "./dist/blah/foo.cjs",
-      "default": "./dist/blah/foo.cjs",
-    },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/foo.cjs",
+        "default": "./dist/commonjs/blah/foo.cjs",
+      },
       "types": "./dist/commonjs/foo.d.cts",
       "default": "./dist/commonjs/foo.cjs",
     },
   },
   "./fill": Object {
-    "deno": Object {
-      "types": "./dist/deno/fill.d.ts",
-      "default": "./dist/deno/fill.js",
-    },
-    "blah": Object {
-      "types": "./dist/blah/fill.d.ts",
-      "default": "./dist/blah/fill.js",
-    },
     "import": Object {
+      "deno": Object {
+        "types": "./dist/esm/deno/fill.d.ts",
+        "default": "./dist/esm/deno/fill.js",
+      },
       "types": "./dist/esm/fill.d.ts",
       "default": "./dist/esm/fill.js",
     },
     "require": Object {
+      "blah": Object {
+        "types": "./dist/commonjs/blah/fill.d.ts",
+        "default": "./dist/commonjs/blah/fill.js",
+      },
       "types": "./dist/commonjs/fill.d.ts",
       "default": "./dist/commonjs/fill.js",
     },

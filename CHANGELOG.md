@@ -1,3 +1,18 @@
+# 4.1
+
+- Allow a custom dialect to exist in both `esmDialects` and
+  `commonjsDialects`
+- Support overriding for default `esm` as well as other dialects,
+  by using `-esm.mts` as the suffix.
+- Support overrides for both the CommonJS and ESM forms of a
+  custom dialect at the same time, using the `-${name}.ts`
+  filename suffix.
+- Change the arrangement of output in the `dist` folder and
+  configurations in the `.tshy` folder, to facilitate dialect
+  export conditions that have both CommonJS and ESM forms.
+- Support `node` as a custom dialect, so that overrides can be
+  created to target Node specifically.
+
 # 4.0
 
 - Start using TypeScript version 6. This is a breaking change

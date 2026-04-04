@@ -30,8 +30,15 @@ const spawnSync = t.captureFn((...a: any[]) => {
   return spawnResult
 })
 
-const output = () =>
-  readdirSync('.tshy-build/esm').sort((a, b) => a.localeCompare(b, 'en'))
+type Out = string | Out[]
+const output = (dir = '.tshy-build/esm'): Out[] => {
+  return readdirSync(dir, { withFileTypes: true })
+    .sort(({ name: a }, { name: b }) => a.localeCompare(b, 'en'))
+    .map(
+      (f): Out =>
+        f.isDirectory() ? [f.name, output(`${dir}/${f.name}`)] : f.name,
+    )
+}
 
 t.test('basic esm build', async t => {
   spawnResult = spawnSuccess

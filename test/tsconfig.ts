@@ -62,8 +62,8 @@ t.test('with tsconfig.json file', async t => {
     '.tshy/build.json',
     '.tshy/commonjs.json',
     '.tshy/esm.json',
-    '.tshy/deno.json',
-    '.tshy/webpack.json',
+    '.tshy/esm-deno.json',
+    '.tshy/commonjs-webpack.json',
   ]) {
     t.matchSnapshot(JSON.parse(readFileSync(resolve(dir, f), 'utf8')), f)
   }
@@ -94,8 +94,8 @@ t.test('with custom project tsconfig name', async t => {
     '.tshy/build.json',
     '.tshy/commonjs.json',
     '.tshy/esm.json',
-    '.tshy/deno.json',
-    '.tshy/webpack.json',
+    '.tshy/esm-deno.json',
+    '.tshy/commonjs-webpack.json',
   ]) {
     t.matchSnapshot(JSON.parse(readFileSync(resolve(dir, f), 'utf8')), f)
   }

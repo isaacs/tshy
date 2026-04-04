@@ -18,8 +18,6 @@ const cases: [exp: any, m: C | C[], expect: string | null | undefined][] =
     [{ import: 'x.js' }, 'require', undefined],
     [[{ import: 'x.js' }], 'import', 'x.js'],
     [[{ import: 'x.js' }], 'require', undefined],
-    [{ node: 'x.js' }, 'import', 'x.js'],
-    [{ node: 'x.js' }, 'require', 'x.js'],
     [{ default: 'x.js' }, 'import', 'x.js'],
     [{ default: 'x.js' }, 'require', 'x.js'],
     [[{ require: 'r.js' }, 'd.js'], 'require', 'r.js'],

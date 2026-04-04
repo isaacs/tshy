@@ -1,8 +1,15 @@
 import { readdirSync } from 'fs'
 import t from 'tap'
 
-const output = () =>
-  readdirSync('.tshy-build/esm').sort((a, b) => a.localeCompare(b, 'en'))
+type Out = string | Out[]
+const output = (dir = '.tshy-build/esm'): Out[] => {
+  return readdirSync(dir, { withFileTypes: true })
+    .sort(({ name: a }, { name: b }) => a.localeCompare(b, 'en'))
+    .map(
+      (f): Out =>
+        f.isDirectory() ? [f.name, output(`${dir}/${f.name}`)] : f.name,
+    )
+}
 
 t.test('esm live dev build', async t => {
   t.chdir(

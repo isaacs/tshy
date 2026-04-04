@@ -32,10 +32,15 @@ const spawnSync = t.captureFn((...a: any[]) => {
   return spawnResult
 })
 
-const output = () =>
-  readdirSync('.tshy-build/commonjs').sort((a, b) =>
-    a.localeCompare(b, 'en'),
-  )
+type Out = string | Out[]
+const output = (dir = '.tshy-build/commonjs'): Out[] => {
+  return readdirSync(dir, { withFileTypes: true })
+    .sort(({ name: a }, { name: b }) => a.localeCompare(b, 'en'))
+    .map(
+      (f): Out =>
+        f.isDirectory() ? [f.name, output(`${dir}/${f.name}`)] : f.name,
+    )
+}
 
 t.test('basic commonjs build', async t => {
   spawnResult = spawnSuccess
@@ -81,8 +86,8 @@ t.test('basic commonjs build', async t => {
   )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, false)
-  t.matchSnapshot(output())
-  t.matchSnapshot(spawnSync.args())
+  t.matchSnapshot(output(), 'output')
+  t.matchSnapshot(spawnSync.args(), 'spawnSync args')
 })
 
 t.test('build failure', async t => {
@@ -124,6 +129,6 @@ t.test('build failure', async t => {
   )) as typeof import('../dist/esm/build-commonjs.js')
   buildCommonJS()
   t.equal(buildFailed, true)
-  t.matchSnapshot(output())
-  t.matchSnapshot(spawnSync.args())
+  t.matchSnapshot(output(), 'output')
+  t.matchSnapshot(spawnSync.args(), 'spawnSync args')
 })

@@ -2,7 +2,7 @@
 //oxlint-disable no-console
 //oxlint-disable no-explicit-any
 
-let verbose = parseInt(process.env.TSHY_VERBOSE || '0')
+const verbose = parseInt(process.env.TSHY_VERBOSE || '0')
 
 const errors: unknown[][] = []
 export const error = (...a: any[]) => {

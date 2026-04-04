@@ -1,4 +1,5 @@
 // validate esmDialects and commonjsDialects
+import { readdirSync } from 'node:fs'
 import fail from './fail.js'
 import type { TshyConfig } from './types.js'
 
@@ -17,9 +18,21 @@ const validExtraDialectSet = (
   e: string[],
   which: 'commonjs' | 'esm' | 'source',
 ) => {
+  const srcContents = readdirSync('src')
+
   for (const d of e) {
     if (typeof d !== 'string') {
-      fail(`${which} must be an array of strings, got: ${d}`)
+      fail(`tshy.${which}Dialects must be an array of strings, got: ${d}`)
+      return process.exit(1)
+    }
+    if (srcContents.includes(d)) {
+      fail(
+        `tshy.${which}Dialects contains a src entry, not allowed: '${d}'`,
+      )
+      return process.exit(1)
+    }
+    if (d.includes('/') || d.includes('\\')) {
+      fail(`tshy.${which}Dialects entries may not contain slashes: '${d}'`)
       return process.exit(1)
     }
     if (
@@ -28,11 +41,11 @@ const validExtraDialectSet = (
       d === 'esm' ||
       d === 'require' ||
       d === 'import' ||
-      d === 'node' ||
       d === 'source' ||
+      d === 'types' ||
       d === 'default'
     ) {
-      fail(`tshy.${which}Dialects must not contain ${JSON.stringify(d)}`)
+      fail(`tshy.${which}Dialects must not contain '${d}'`)
       return process.exit(1)
     }
   }
@@ -63,21 +76,16 @@ export default ({
   if (sourceDialects && !validExtraDialectSet(sourceDialects, 'source')) {
     return false
   }
-  for (const [aname, bname, a, b] of [
-    ['commonjsDialects', 'esmDialects', commonjsDialects, esmDialects],
-    [
-      'commonjsDialects',
-      'sourceDialects',
-      commonjsDialects,
-      sourceDialects,
-    ],
-    ['esmDialects', 'sourceDialects', esmDialects, sourceDialects],
-  ] as const) {
-    const overlap = arrayOverlap(a, b)
-    if (!overlap) continue
+  const srcCjs = arrayOverlap(sourceDialects, commonjsDialects)
+  if (srcCjs) {
     fail(
-      `${aname} and ${bname} must be unique, found ${overlap} in both lists`,
+      `tshy.commonjsDialects overlap with tshy.sourceDialects: ${srcCjs}`,
     )
+    return process.exit(1)
+  }
+  const srcEsm = arrayOverlap(sourceDialects, esmDialects)
+  if (srcEsm) {
+    fail(`tshy.esmDialects overlap with tshy.sourceDialects: ${srcEsm}`)
     return process.exit(1)
   }
   return true

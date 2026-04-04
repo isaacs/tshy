@@ -8,15 +8,7 @@
 exports[`test/valid-extra-dialects.ts > TAP > {"commonjsDialects":[123]} > failure message 1`] = `
 Array [
   Array [
-    "commonjs must be an array of strings, got: 123",
-  ],
-]
-`
-
-exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["blah"],"commonjsDialects":["blah"]} > failure message 1`] = `
-Array [
-  Array [
-    "commonjsDialects and esmDialects must be unique, found blah in both lists",
+    "tshy.commonjsDialects must be an array of strings, got: 123",
   ],
 ]
 `
@@ -24,7 +16,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["blah"],"sourceDialects":["blah"]} > failure message 1`] = `
 Array [
   Array [
-    "esmDialects and sourceDialects must be unique, found blah in both lists",
+    "tshy.esmDialects overlap with tshy.sourceDialects: blah",
   ],
 ]
 `
@@ -32,7 +24,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["cjs"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"cjs\\"",
+    "tshy.esmDialects must not contain 'cjs'",
   ],
 ]
 `
@@ -40,7 +32,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["commonjs"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"commonjs\\"",
+    "tshy.esmDialects must not contain 'commonjs'",
   ],
 ]
 `
@@ -48,7 +40,15 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["default"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"default\\"",
+    "tshy.esmDialects must not contain 'default'",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["folderinsrc"],"commonjsDialects":["blah"]} > failure message 1`] = `
+Array [
+  Array [
+    "tshy.esmDialects contains a src entry, not allowed: 'folderinsrc'",
   ],
 ]
 `
@@ -56,15 +56,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["import"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"import\\"",
-  ],
-]
-`
-
-exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["node"]} > failure message 1`] = `
-Array [
-  Array [
-    "tshy.esmDialects must not contain \\"node\\"",
+    "tshy.esmDialects must not contain 'import'",
   ],
 ]
 `
@@ -72,7 +64,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["require"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"require\\"",
+    "tshy.esmDialects must not contain 'require'",
   ],
 ]
 `
@@ -80,7 +72,15 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["source"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.esmDialects must not contain \\"source\\"",
+    "tshy.esmDialects must not contain 'source'",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":["src/fileinsrc.ts"],"commonjsDialects":["blah"]} > failure message 1`] = `
+Array [
+  Array [
+    "tshy.esmDialects entries may not contain slashes: 'src/fileinsrc.ts'",
   ],
 ]
 `
@@ -88,7 +88,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"esmDialects":[123]} > failure message 1`] = `
 Array [
   Array [
-    "esm must be an array of strings, got: 123",
+    "tshy.esmDialects must be an array of strings, got: 123",
   ],
 ]
 `
@@ -96,7 +96,15 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"sourceDialects":["blah"],"commonjsDialects":["blah"]} > failure message 1`] = `
 Array [
   Array [
-    "commonjsDialects and sourceDialects must be unique, found blah in both lists",
+    "tshy.commonjsDialects overlap with tshy.sourceDialects: blah",
+  ],
+]
+`
+
+exports[`test/valid-extra-dialects.ts > TAP > {"sourceDialects":["blah"],"esmDialects":["blah"]} > failure message 1`] = `
+Array [
+  Array [
+    "tshy.esmDialects overlap with tshy.sourceDialects: blah",
   ],
 ]
 `
@@ -104,7 +112,7 @@ Array [
 exports[`test/valid-extra-dialects.ts > TAP > {"sourceDialects":["source"]} > failure message 1`] = `
 Array [
   Array [
-    "tshy.sourceDialects must not contain \\"source\\"",
+    "tshy.sourceDialects must not contain 'source'",
   ],
 ]
 `

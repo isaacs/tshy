@@ -9,6 +9,7 @@ import polyfills from './polyfills.js'
 import setFolderDialect from './set-folder-dialect.js'
 import './tsconfig.js'
 import tsc from './which-tsc.js'
+import { mkdirSync } from 'node:fs'
 
 const node = process.execPath
 const { esmDialects = [] } = config
@@ -16,23 +17,25 @@ const { esmDialects = [] } = config
 export const buildESM = () => {
   setFolderDialect('src', 'esm')
   for (const d of ['esm', ...esmDialects]) {
-    const pf = polyfills.get(d)
-    console.debug(chalk.cyan.dim('building ' + d))
-    const res = spawnSync(node, [tsc, '-p', `.tshy/${d}.json`], {
+    const pfn = d === 'esm' ? d : `esm-${d}`
+    const pf = polyfills.get(pfn)
+    console.debug(chalk.cyan.dim('building ' + pfn))
+    const res = spawnSync(node, [tsc, '-p', `.tshy/${pfn}.json`], {
       stdio: 'inherit',
     })
     if (res.status || res.signal) {
       setFolderDialect('src')
       return buildFail(res)
     }
-    setFolderDialect('.tshy-build/' + d, 'esm')
+    const dist = d === 'esm' ? d : `esm/${d}`
+    mkdirSync(`.tshy-build/${dist}`, { recursive: true })
     for (const [override, orig] of pf?.map.entries() ?? []) {
       const stemFrom = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(override)),
       ).replace(/\.mts$/, '')
       const stemTo = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
       ifExist.unlink(`${stemTo}.js.map`)
@@ -40,7 +43,8 @@ export const buildESM = () => {
       ifExist.rename(`${stemFrom}.mjs`, `${stemTo}.js`)
       ifExist.rename(`${stemFrom}.d.mts`, `${stemTo}.d.ts`)
     }
-    console.error(chalk.cyan.bold('built ' + d))
+    setFolderDialect('.tshy-build/esm', 'esm')
+    console.error(chalk.cyan.bold('built ' + dist))
   }
   setFolderDialect('src')
 }

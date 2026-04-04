@@ -7,10 +7,28 @@
 'use strict'
 exports[`test/build-live-esm.ts > TAP > esm live dev build > must match snapshot 1`] = `
 Array [
+  Array [
+    "blah",
+    Array [
+      "blah-blah.mts",
+      "blah-cjs.cts",
+      "blah.ts",
+      "index.ts",
+    ],
+  ],
   "blah-blah.mts",
   "blah-cjs.cts",
   "blah.ts",
   "index.ts",
+  Array [
+    "no-overrides",
+    Array [
+      "blah-blah.mts",
+      "blah-cjs.cts",
+      "blah.ts",
+      "index.ts",
+    ],
+  ],
   "package.json",
 ]
 `

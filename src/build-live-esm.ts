@@ -13,22 +13,23 @@ const { esmDialects = [] } = config
 
 export const buildLiveESM = () => {
   for (const d of ['esm', ...esmDialects]) {
-    const pf = polyfills.get(d)
-    console.debug(chalk.cyan.dim('linking ' + d))
+    const pfn = d === 'esm' ? 'esm' : `esm-${d}`
+    const dist = d === 'esm' ? 'esm' : `esm/${d}`
+    const pf = polyfills.get(pfn)
+    console.debug(chalk.cyan.dim('linking ' + dist))
     for (const s of sources) {
       const source = s.substring('./src/'.length)
-      const target = resolve(`.tshy-build/${d}/${source}`)
+      const target = resolve(`.tshy-build/${dist}/${source}`)
       mkdirSync(dirname(target), { recursive: true })
       linkSync(s, target)
     }
-    setFolderDialect('.tshy-build/' + d, 'esm')
     for (const [override, orig] of pf?.map.entries() ?? []) {
       const stemFrom = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(override)),
       ).replace(/\.mts$/, '')
       const stemTo = resolve(
-        `.tshy-build/${d}`,
+        `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
       ifExist.unlink(`${stemTo}.js.map`)
@@ -38,4 +39,5 @@ export const buildLiveESM = () => {
     }
     console.error(chalk.cyan.bold('linked ' + d))
   }
+  setFolderDialect('.tshy-build/esm', 'esm')
 }

@@ -5,8 +5,21 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/build-commonjs.ts > TAP > basic commonjs build > must match snapshot 1`] = `
+exports[`test/build-commonjs.ts > TAP > basic commonjs build > output 1`] = `
 Array [
+  Array [
+    "blah",
+    Array [
+      "blah-blah.cjs.map",
+      "blah-blah.d.cts.map",
+      "blah.d.ts",
+      "blah.js",
+      "index.d.ts",
+      "index.d.ts.map",
+      "index.js",
+      "index.js.map",
+    ],
+  ],
   "blah-cjs.cjs.map",
   "blah-cjs.d.cts.map",
   "blah.d.ts",
@@ -15,11 +28,24 @@ Array [
   "index.d.ts.map",
   "index.js",
   "index.js.map",
+  Array [
+    "no-overrides",
+    Array [
+      "blah.d.ts",
+      "blah.d.ts.map",
+      "blah.js",
+      "blah.js.map",
+      "index.d.ts",
+      "index.d.ts.map",
+      "index.js",
+      "index.js.map",
+    ],
+  ],
   "package.json",
 ]
 `
 
-exports[`test/build-commonjs.ts > TAP > basic commonjs build > must match snapshot 2`] = `
+exports[`test/build-commonjs.ts > TAP > basic commonjs build > spawnSync args 1`] = `
 Array [
   Array [
     "{NODE}",
@@ -37,7 +63,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/blah.json",
+      ".tshy/commonjs-blah.json",
     ],
     Object {
       "stdio": "inherit",
@@ -48,7 +74,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/no-overrides.json",
+      ".tshy/commonjs-no-overrides.json",
     ],
     Object {
       "stdio": "inherit",
@@ -57,7 +83,7 @@ Array [
 ]
 `
 
-exports[`test/build-commonjs.ts > TAP > build failure > must match snapshot 1`] = `
+exports[`test/build-commonjs.ts > TAP > build failure > output 1`] = `
 Array [
   "blah-cjs.cjs",
   "blah-cjs.cjs.map",
@@ -74,7 +100,7 @@ Array [
 ]
 `
 
-exports[`test/build-commonjs.ts > TAP > build failure > must match snapshot 2`] = `
+exports[`test/build-commonjs.ts > TAP > build failure > spawnSync args 1`] = `
 Array [
   Array [
     "{NODE}",
@@ -92,7 +118,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/blah.json",
+      ".tshy/commonjs-blah.json",
     ],
     Object {
       "stdio": "inherit",
@@ -103,7 +129,7 @@ Array [
     Array [
       "{CWD}/node_modules/typescript/bin/tsc",
       "-p",
-      ".tshy/no-overrides.json",
+      ".tshy/commonjs-no-overrides.json",
     ],
     Object {
       "stdio": "inherit",

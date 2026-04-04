@@ -41,9 +41,13 @@ const getTargetForDialectCondition = <T extends string>(
       resolve(polyfills.get(pf)?.map.get(s) ?? s),
     )
     const target = liveDev ? rel : rel.replace(/\.([mc]?)tsx?$/, '.$1js')
+    const dt =
+      dialect === 'commonjs' || dialect === 'esm' ?
+        dialect
+      : `${type}/${dialect}`
     return (
       !s || !s.startsWith('./src/') ? s
-      : dialects.includes(type) ? `./dist/${dialect}/${target}`
+      : dialects.includes(type) ? `./dist/${dt}/${target}`
       : undefined
     )
   }
@@ -101,7 +105,7 @@ const getExports = (
     const exp: ConditionalValueObject = (e[sub] = {})
     if (impTarget) {
       for (const d of esmDialects) {
-        const source = s && (polyfills.get(d)?.map.get(s) ?? s)
+        const source = s && (polyfills.get('esm-' + d)?.rmap.get(s) ?? s)
 
         const target = getTargetForDialectCondition(
           s,
@@ -111,28 +115,24 @@ const getExports = (
           polyfills,
         )
         if (target) {
-          exp[d] =
-            liveDev ?
-              {
-                ...(pkgType === 'commonjs' ?
-                  getSourceDialects(source, c)
-                : {}),
-                default: target,
-              }
-            : {
-                ...(pkgType === 'commonjs' ?
-                  getSourceDialects(source, c)
-                : {}),
-                types: target.replace(/\.js$/, '.d.ts'),
-                default: target,
-              }
+          const imp = (exp.import ??= {}) as ConditionalValueObject
+          const src =
+            pkgType === 'module' || source.endsWith('.mts') ?
+              getSourceDialects(source, c)
+            : undefined
+          const types =
+            liveDev ? undefined : (
+              { types: target.replace(/\.js$/, '.d.ts') }
+            )
+          imp[d] = { ...src, ...types, default: target }
         }
       }
     }
 
     if (reqTarget) {
       for (const d of commonjsDialects) {
-        const source = s && (polyfills.get(d)?.map.get(s) ?? s)
+        const source =
+          s && (polyfills.get('commonjs-' + d)?.rmap.get(s) ?? s)
         const target = getTargetForDialectCondition(
           s,
           d,
@@ -141,51 +141,55 @@ const getExports = (
           polyfills,
         )
         if (target) {
-          exp[d] =
-            liveDev ?
-              {
-                ...(pkgType === 'module' ?
-                  getSourceDialects(source, c)
-                : {}),
-                default: target,
-              }
-            : {
-                ...(pkgType === 'module' ?
-                  getSourceDialects(source, c)
-                : {}),
-                types: target.replace(/\.js$/, '.d.ts'),
-                default: target,
-              }
+          const req = (exp.require ??= {}) as ConditionalValueObject
+          const src =
+            pkgType === 'commonjs' || source.endsWith('.cts') ?
+              getSourceDialects(source, c)
+            : undefined
+          const types =
+            liveDev ? undefined : (
+              { types: target.replace(/\.js$/, '.d.ts') }
+            )
+          req[d] = { ...src, ...types, default: target }
         }
       }
     }
 
     // put the default import/require after all the other special ones.
     if (impTarget) {
-      exp.import =
-        liveDev ?
-          {
-            ...(pkgType === 'module' ? getSourceDialects(s, c) : {}),
-            default: impTarget,
-          }
-        : {
-            ...(pkgType === 'module' ? getSourceDialects(s, c) : {}),
-            types: impTarget.replace(/\.(m?)js$/, '.d.$1ts'),
-            default: impTarget,
-          }
+      const source = s && (polyfills.get('esm')?.rmap.get(s) ?? s)
+      const src =
+        pkgType === 'module' || source.endsWith('.mts') ?
+          getSourceDialects(source, c)
+        : undefined
+      const types =
+        liveDev ? undefined : (
+          { types: impTarget.replace(/\.(m?)js$/, '.d.$1ts') }
+        )
+      exp.import = {
+        ...(exp.import as ConditionalValueObject),
+        ...src,
+        ...types,
+        default: impTarget,
+      }
     }
     if (reqTarget) {
-      exp.require =
-        liveDev ?
-          {
-            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
-            default: reqTarget,
-          }
-        : {
-            ...(pkgType === 'commonjs' ? getSourceDialects(s, c) : {}),
-            types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts'),
-            default: reqTarget,
-          }
+      const source = s && (polyfills.get('cjs')?.rmap.get(s) ?? s)
+      const src =
+        pkgType === 'commonjs' || source.endsWith('.cts') ?
+          getSourceDialects(source, c)
+        : undefined
+      const types =
+        liveDev ? undefined : (
+          { types: reqTarget.replace(/\.(c?)js$/, '.d.$1ts') }
+        )
+
+      exp.require = {
+        ...(exp.require as ConditionalValueObject),
+        ...src,
+        ...types,
+        default: reqTarget,
+      }
     }
   }
   return e
@@ -193,7 +197,7 @@ const getExports = (
 
 const getSourceDialects = (source: string, c: TshyConfig) => {
   const { sourceDialects } = c
-  if (!sourceDialects) return {}
+  if (!sourceDialects) return undefined
   return Object.fromEntries(sourceDialects.map(s => [s, source]))
 }
 
@@ -202,7 +206,7 @@ export const setMain = (
   pkg: Package & { exports: ExportsSubpaths },
 ) => {
   pkg.type = pkg.type === 'commonjs' ? 'commonjs' : 'module'
-  const mod = resolveExport(pkg.exports['.'], ['require'])
+  const mod = resolveExport(pkg.exports['.'], ['require', 'default'])
   const main = c?.main ?? !!mod
   if (main) {
     if (!mod) {
@@ -220,7 +224,7 @@ export const setMain = (
   }
 
   // Set the package module to exports["."]
-  const importMod = resolveExport(pkg.exports['.'], ['import'])
+  const importMod = resolveExport(pkg.exports['.'], ['import', 'default'])
   const module = c?.module ?? !!importMod
   if (module) {
     if (!importMod) {
