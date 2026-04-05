@@ -12,7 +12,7 @@ const dir = t.testdir({
   'package.json': JSON.stringify({
     tshy: {
       exclude: ['./src/**/*.test.ts'],
-      esmDialects: ['deno'],
+      esmDialects: ['deno', 'webpack'],
       commonjsDialects: ['webpack'],
     },
   }),
@@ -20,7 +20,7 @@ const dir = t.testdir({
     'index.ts': '',
     'index-cjs.cts': '',
     'index-deno.mts': '',
-    'index-webpack.mts': '',
+    'index-webpack.ts': '',
   },
 })
 t.chdir(dir)

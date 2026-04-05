@@ -40,7 +40,7 @@ export const buildCommonJS = () => {
       const stemFrom = resolve(
         `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(override)),
-      ).replace(/\.cts$/, '')
+      ).replace(/\.c?ts$/, '')
       const stemTo = resolve(
         `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(orig)),
@@ -49,6 +49,8 @@ export const buildCommonJS = () => {
       const stemToDtsPath = `${stemTo}.d.ts.map`
       ifExist.unlink(stemToPath)
       ifExist.unlink(stemToDtsPath)
+      ifExist.rename(`${stemFrom}.js`, `${stemTo}.js`)
+      ifExist.rename(`${stemFrom}.d.ts`, `${stemTo}.d.ts`)
       ifExist.rename(`${stemFrom}.cjs`, `${stemTo}.js`)
       ifExist.rename(`${stemFrom}.d.cts`, `${stemTo}.d.ts`)
     }

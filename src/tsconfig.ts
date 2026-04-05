@@ -74,6 +74,7 @@ const commonjs = (
   for (const pf of polyfills.values()) {
     if (pf.name === dialect && pf.type === 'commonjs') continue
     for (const f of pf.map.keys()) {
+      if (pf.name === dialect && f.endsWith('.ts')) continue
       exclude.push(`../${join(f)}`)
     }
   }
@@ -86,7 +87,7 @@ const commonjs = (
       '../src/**/*.tsx',
       '../src/**/*.json',
     ],
-    exclude,
+    exclude: [...new Set(exclude)],
     compilerOptions: {
       outDir: '../.tshy-build/' + dist,
     },
@@ -98,6 +99,7 @@ const esm = (dialect: string, dist: string): Record<string, unknown> => {
   for (const pf of polyfills.values()) {
     if (pf.name === dialect && pf.type === 'esm') continue
     for (const f of pf.map.keys()) {
+      if (pf.name === dialect && f.endsWith('.ts')) continue
       exclude.push(`../${f.replace(/^\.\//, '')}`)
     }
   }
@@ -109,7 +111,7 @@ const esm = (dialect: string, dist: string): Record<string, unknown> => {
       '../src/**/*.tsx',
       '../src/**/*.json',
     ],
-    exclude,
+    exclude: [...new Set(exclude)],
     compilerOptions: {
       outDir: '../.tshy-build/' + dist,
     },

@@ -46,6 +46,7 @@ Object {
   "exclude": Array [
     "../src/**/*.mts",
     "../src/package.json",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -66,6 +67,7 @@ Object {
   "exclude": Array [
     "../src/package.json",
     "../src/index-cjs.cts",
+    "../src/index-webpack.ts",
   ],
   "extends": "./build.json",
   "include": Array [
@@ -85,6 +87,7 @@ Object {
   "exclude": Array [
     "../src/package.json",
     "../src/index-cjs.cts",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -160,6 +163,7 @@ Object {
     "../src/**/*.test.ts",
     "../src/**/*.mts",
     "../src/package.json",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -181,6 +185,7 @@ Object {
     "../src/**/*.test.ts",
     "../src/**/*.mts",
     "../src/package.json",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -202,6 +207,7 @@ Object {
     "../src/**/*.test.ts",
     "../src/package.json",
     "../src/index-cjs.cts",
+    "../src/index-webpack.ts",
   ],
   "extends": "./build.json",
   "include": Array [
@@ -222,6 +228,7 @@ Object {
     "../src/**/*.test.ts",
     "../src/package.json",
     "../src/index-cjs.cts",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",
@@ -243,6 +250,7 @@ Object {
     "../src/**/*.test.ts",
     "../src/package.json",
     "../src/index-cjs.cts",
+    "../src/index-webpack.ts",
     "../src/index-deno.mts",
   ],
   "extends": "./build.json",

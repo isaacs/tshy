@@ -30,16 +30,19 @@ export const buildESM = () => {
     const dist = d === 'esm' ? d : `esm/${d}`
     mkdirSync(`.tshy-build/${dist}`, { recursive: true })
     for (const [override, orig] of pf?.map.entries() ?? []) {
+      console.error('polyfill', { override, orig })
       const stemFrom = resolve(
         `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(override)),
-      ).replace(/\.mts$/, '')
+      ).replace(/\.m?ts$/, '')
       const stemTo = resolve(
         `.tshy-build/${dist}`,
         relative(resolve('src'), resolve(orig)),
       ).replace(/\.tsx?$/, '')
       ifExist.unlink(`${stemTo}.js.map`)
       ifExist.unlink(`${stemTo}.d.ts.map`)
+      ifExist.rename(`${stemFrom}.js`, `${stemTo}.js`)
+      ifExist.rename(`${stemFrom}.d.ts`, `${stemTo}.d.ts`)
       ifExist.rename(`${stemFrom}.mjs`, `${stemTo}.js`)
       ifExist.rename(`${stemFrom}.d.mts`, `${stemTo}.d.ts`)
     }
