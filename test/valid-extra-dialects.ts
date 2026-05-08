@@ -33,6 +33,7 @@ const cases: [config: TshyConfig, ok: boolean][] = [
   [{ esmDialects: ['folderinsrc'], commonjsDialects: ['blah'] }, false],
   [{ esmDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
   [{ sourceDialects: ['blah'], commonjsDialects: ['blah'] }, false],
+  [{ sourceDialects: ['@blah/source'], commonjsDialects: ['blah'] }, true],
   [{ sourceDialects: ['blah'], esmDialects: ['blah'] }, false],
   [{ sourceDialects: ['blah'], commonjsDialects: ['bloo'] }, true],
   [{ esmDialects: ['blah'], sourceDialects: ['blah'] }, false],

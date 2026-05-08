@@ -31,7 +31,7 @@ const validExtraDialectSet = (
       )
       return process.exit(1)
     }
-    if (d.includes('/') || d.includes('\\')) {
+    if ((d.includes('/') || d.includes('\\')) && which !== 'source') {
       fail(`tshy.${which}Dialects entries may not contain slashes: '${d}'`)
       return process.exit(1)
     }
