@@ -3,6 +3,7 @@ import { writeFileSync } from 'fs'
 import { rimrafSync } from 'rimraf'
 import * as console from './console.js'
 import getImports from './built-imports.js'
+import getSideEffects from './built-side-effects.js'
 import pkg from './package.js'
 import type { Dialect } from './types.js'
 
@@ -10,8 +11,13 @@ const writeDialectPJ = (d: string, mode?: Dialect) => {
   if (!mode) {
     return rimrafSync(`${d}/package.json`)
   }
-  const v: { type: string; imports?: Record<string, unknown> } = {
+  const v: {
+    type: string
+    sideEffects?: boolean | string[]
+    imports?: Record<string, unknown>
+  } = {
     type: mode === 'commonjs' ? 'commonjs' : 'module',
+    sideEffects: getSideEffects(pkg),
     imports: getImports(pkg),
   }
   writeFileSync(`${d}/package.json`, JSON.stringify(v, null, 2) + '\n')

@@ -38,6 +38,7 @@ export type Package = {
   main?: string
   types?: string
   type?: 'module' | 'commonjs'
+  sideEffects?: boolean | string[]
   bin?: string | Record<string, string>
   exports?: ExportsSubpaths
   tshy?: TshyConfigMaybeGlobExports
