@@ -52,13 +52,14 @@
     "build"
   ],
   "devDependencies": {
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.9.2",
     "esbuild": "^0.27.2",
-    "oxlint": "^1.57.0",
-    "oxlint-tsgolint": "^0.17.4",
-    "prettier": "^3.8.1",
-    "tap": "^21.6.2",
-    "typedoc": "^0.28.18"
+    "oxlint": "^1.69.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "prettier": "^3.8.3",
+    "tap": "^21.7.4",
+    "tshy": "^4.1.2",
+    "typedoc": "^0.28.19"
   },
   "tshy": {
     "compiler": "tsgo",
@@ -68,7 +69,8 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
-    }
+    },
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
